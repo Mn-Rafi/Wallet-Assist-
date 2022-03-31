@@ -97,7 +97,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           ],
                         ),
                         CustomContainerForImage(
-                            imagePath: profileDetails[0].imageUrl.toString()),
+                            imagePath: profileDetails[0].imageUrl?.toString()),
                       ],
                     ),
                     SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
@@ -15,7 +16,7 @@ class CustomTextFieldTwo extends StatelessWidget {
     required this.prefixIcon,
     this.keyboardType = TextInputType.number,
     required this.onChanged,
-    this.initialValue='',
+    this.initialValue = '',
   }) : super(key: key);
 
   @override
@@ -52,6 +53,8 @@ class CustomTextFieldTwo extends StatelessWidget {
   }
 }
 
+RegExp numberReg = RegExp(r'^(?:[+0]9)?[0-9]{10}$');
+
 class CustomTextFieldFour extends StatelessWidget {
   String? labelText;
   Icon prefixIcon;
@@ -69,6 +72,9 @@ class CustomTextFieldFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
+      ],
       validator: (value) {
         if (value != null && value.isEmpty) {
           return 'Enter a valid amount';

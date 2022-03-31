@@ -12,21 +12,28 @@ import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/customs/custom_widgets.dart';
 
 class CustomContainerForImageProfile extends StatelessWidget {
-  String imagePath;
+  String? imagePath;
 
   CustomContainerForImageProfile({Key? key, required this.imagePath})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100.w,
-      height: 100.w,
-      decoration: BoxDecoration(
+    return SizedBox(
+        width: 150.w,
+        height: 170.w,
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-              image: FileImage(File(imagePath.toString())), fit: BoxFit.cover)),
-    );
+          child: imagePath != null
+              ? Image(
+                  image: FileImage(File(imagePath!)),
+                  fit: BoxFit.cover,
+                )
+              : Image(
+                  image: Image.asset('images/incomeGreen.jpg').image,
+                  fit: BoxFit.cover,
+                ),
+        ));
   }
 }
 
@@ -115,7 +122,7 @@ class EditProfile extends StatelessWidget {
 
 class EditProfileDetails extends StatefulWidget {
   String initialName;
-  String initialUrl;
+  String? initialUrl;
   String initialBalance;
 
   EditProfileDetails({
@@ -133,16 +140,15 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
   final formKey = GlobalKey<FormState>();
   XFile? _imageFile;
   String? userName;
-  
-  chooseImage() async {
+
+  chooseImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: source);
 
     setState(() {
       _imageFile = image;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -188,13 +194,37 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                       ),
                       customSpaceOne,
                       GestureDetector(
-                        onTap: () => chooseImage(),
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              actionsAlignment: MainAxisAlignment.center,
+                                  actions: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        TextButton.icon(
+                                            onPressed: () {
+                                                chooseImage(ImageSource.camera);
+                                                Navigator.pop(ctx);},
+                                            icon: const Icon(Icons.camera),
+                                            label: const Text('Take Photo')),
+                                        TextButton.icon(
+                                            onPressed: () {
+                                                chooseImage(ImageSource.gallery);
+                                                Navigator.pop(ctx);},
+                                            icon: const Icon(Icons.filter_sharp),
+                                            label:
+                                                const Text('Choose from device')),
+                                      ],
+                                    ),
+                                  ],
+                                )),
                         child: _imageFile != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image(
-                                  height: 150.h,
-                                  width: 120.w,
+                                    height: 150.h,
+                                    width: 120.w,
                                     fit: BoxFit.cover,
                                     image: FileImage(
                                       File(
@@ -204,15 +234,22 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image(
-                                  height: 150.h,
-                                  width: 120.w,
-                                    fit: BoxFit.cover,
-                                    image: FileImage(
-                                      File(
-                                        widget.initialUrl,
+                                child: widget.initialUrl != null
+                                    ? Image(
+                                        height: 150.h,
+                                        width: 120.w,
+                                        fit: BoxFit.cover,
+                                        image: FileImage(
+                                          File(
+                                            widget.initialUrl!,
+                                          ),
+                                        ))
+                                    : Image(
+                                        image: Image.asset(
+                                                'images/incomeGreen.jpg')
+                                            .image,
+                                        fit: BoxFit.cover,
                                       ),
-                                    )),
                               ),
                       ),
                     ],
@@ -230,9 +267,13 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                       Hive.box<ProfileDetails>('profiledetails').putAt(
                         0,
                         ProfileDetails(
-                            nameofUser: userName == null ? widget.initialName: userName!,
+                            nameofUser: userName == null
+                                ? widget.initialName
+                                : userName!,
                             initialWalletBalance: widget.initialBalance,
-                            imageUrl: _imageFile == null ? widget.initialUrl : _imageFile?.path),
+                            imageUrl: _imageFile == null
+                                ? widget.initialUrl
+                                : _imageFile?.path),
                       );
                       Navigator.pop(context);
                     }

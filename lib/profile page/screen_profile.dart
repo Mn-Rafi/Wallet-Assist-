@@ -42,7 +42,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomContainerForImageProfile(
-                          imagePath: profileDetails[0].imageUrl.toString()),
+                          imagePath: profileDetails[0].imageUrl?.toString()),
                       Text(
                         profileDetails[0].nameofUser.toString(),
                         style: customTextStyleOne(fontSize: 22),
@@ -56,7 +56,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                         profileDetails[0].initialWalletBalance,
                                     initialName: profileDetails[0].nameofUser,
                                     initialUrl:
-                                        profileDetails[0].imageUrl.toString(),
+                                        profileDetails[0].imageUrl?.toString(),
                                   )),
                           child: Row(
                             children: [

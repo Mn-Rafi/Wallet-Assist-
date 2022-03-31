@@ -5,20 +5,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomContainerForImage extends StatelessWidget {
-  String imagePath;
+  String? imagePath;
 
   CustomContainerForImage({Key? key, required this.imagePath})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 50.w,
-      height: 50.w,
-      decoration: BoxDecoration(
+      height: 60.w,
+      child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          image:
-              DecorationImage(image: FileImage(File(imagePath.toString())), fit: BoxFit.cover)),
+          child: imagePath != null
+              ? Image(
+                  image: FileImage(File(imagePath!)),
+                  fit: BoxFit.cover,
+                )
+              : Image(
+                  image: Image.asset('images/incomeGreen.jpg').image,
+                  fit: BoxFit.cover,
+                )),
     );
   }
 }

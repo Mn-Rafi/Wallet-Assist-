@@ -23,9 +23,9 @@ class _ScreenProfileState extends State<ScreenProfile> {
   String initialBalance = '0';
   String userName = '';
 
-  chooseImage() async {
+  chooseImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: source);
 
     setState(() {
       _imageFile = image;
@@ -90,7 +90,25 @@ class _ScreenProfileState extends State<ScreenProfile> {
                       ),
                       customSpaceOne,
                       GestureDetector(
-                        onTap: () => chooseImage(),
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                                  actions: [
+                                    TextButton.icon(
+                                        onPressed: () {
+                                            chooseImage(ImageSource.camera);
+                                            Navigator.pop(ctx);},
+                                        icon: const Icon(Icons.camera),
+                                        label: const Text('Take Photo')),
+                                    TextButton.icon(
+                                        onPressed: () {
+                                            chooseImage(ImageSource.gallery);
+                                            Navigator.pop(ctx);},
+                                        icon: const Icon(Icons.filter_sharp),
+                                        label:
+                                            const Text('Choose from device')),
+                                  ],
+                                )),
                         child: AddImageContainerOne(
                           imagePath: _imageFile,
                         ),
