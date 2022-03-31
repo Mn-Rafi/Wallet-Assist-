@@ -53,6 +53,54 @@ class CustomTextFieldTwo extends StatelessWidget {
   }
 }
 
+
+class CustomTextFieldForDate extends StatelessWidget {
+  String? hint;
+  Icon prefixIcon;
+  Function() onTap;
+
+  CustomTextFieldForDate({
+    Key? key,
+    this.hint,
+    required this.prefixIcon,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      onTap: onTap,
+      validator: (value) {
+        if (value != null && value.length < 3) {
+          return 'Enter atleast 3 characters';
+        } else {
+          return null;
+        }
+      },
+      readOnly: true,
+      cursorWidth: 1,
+      cursorColor: firstGrey,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: prefixIcon,
+        hintText: hint,
+        labelStyle: customTextStyleOne(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+}
+
+
+
 RegExp numberReg = RegExp(r'^(?:[+0]9)?[0-9]{10}$');
 
 class CustomTextFieldFour extends StatelessWidget {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
+import 'package:money_manager_app/customs/datepicker.dart';
 
 var incomeCategories = [
   'Salary',
@@ -46,11 +47,17 @@ class CustomAddCatogory extends StatefulWidget {
   State<CustomAddCatogory> createState() => _CustomAddCatogoryState();
 }
 
+DateTime date = DateTime.now();
+
 class _CustomAddCatogoryState extends State<CustomAddCatogory> {
   late String dropdownvalue = widget.dropDownValue;
 
   @override
   Widget build(BuildContext context) {
+    String getText() {
+      return '${date.day}-${date.month}-${date.year}';
+    }
+
     return Form(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -123,22 +130,21 @@ class _CustomAddCatogoryState extends State<CustomAddCatogory> {
                   SizedBox(
                       width: 160.w,
                       child: CustomTextFieldTwo(
-                        onChanged: ((p0) {
-                          
-                        }),
+                        onChanged: ((p0) {}),
                         prefixIcon: Icon(Icons.currency_rupee),
                         labelText: 'Amount',
                       )),
                   SizedBox(
-                      width: 160.w,
-                      child: CustomTextFieldTwo(onChanged: (p0) {
-                        
+                    width: 160.w,
+                    child: CustomTextFieldForDate(
+                      onTap: () {
+                        pickdate(context);
+                        print("HAI RAFI $date");
                       },
-
-                        keyboardType: TextInputType.datetime,
-                        prefixIcon: const Icon(Icons.calendar_month),
-                        labelText: 'Date',
-                      )),
+                      prefixIcon: const Icon(Icons.calendar_month),
+                      hint: getText(),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -183,5 +189,23 @@ class _CustomAddCatogoryState extends State<CustomAddCatogory> {
         ),
       ),
     );
+  }
+
+  Future pickdate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+
+    if (newDate == null) {
+      return;
+    } else {
+      setState(() {
+        date = newDate;
+      });
+    }
   }
 }

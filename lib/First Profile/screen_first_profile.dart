@@ -93,20 +93,30 @@ class _ScreenProfileState extends State<ScreenProfile> {
                         onTap: () => showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(
+                                  actionsAlignment: MainAxisAlignment.center,
                                   actions: [
-                                    TextButton.icon(
-                                        onPressed: () {
-                                            chooseImage(ImageSource.camera);
-                                            Navigator.pop(ctx);},
-                                        icon: const Icon(Icons.camera),
-                                        label: const Text('Take Photo')),
-                                    TextButton.icon(
-                                        onPressed: () {
-                                            chooseImage(ImageSource.gallery);
-                                            Navigator.pop(ctx);},
-                                        icon: const Icon(Icons.filter_sharp),
-                                        label:
-                                            const Text('Choose from device')),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        TextButton.icon(
+                                            onPressed: () {
+                                              chooseImage(ImageSource.camera);
+                                              Navigator.pop(ctx);
+                                            },
+                                            icon: const Icon(Icons.camera),
+                                            label: const Text('Take Photo')),
+                                        TextButton.icon(
+                                            onPressed: () {
+                                              chooseImage(ImageSource.gallery);
+                                              Navigator.pop(ctx);
+                                            },
+                                            icon:
+                                                const Icon(Icons.filter_sharp),
+                                            label: const Text(
+                                                'Choose from device')),
+                                      ],
+                                    ),
                                   ],
                                 )),
                         child: AddImageContainerOne(

@@ -5,7 +5,6 @@ import 'package:money_manager_app/add%20transaction%20page/screen_addtransaction
 import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:money_manager_app/profile%20page/screen_profile.dart';
 import 'package:money_manager_app/statistics%20page/screen_statistics.dart';
-import 'package:showcaseview/showcaseview.dart';
 
 class ScreenHome extends StatelessWidget {
   ScreenHome({Key? key}) : super(key: key);

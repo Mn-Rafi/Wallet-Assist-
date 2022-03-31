@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
-import 'package:money_manager_app/customs/custom_widgets.dart';
 
 class CustomContainerForImageProfile extends StatelessWidget {
   String? imagePath;
@@ -197,24 +195,28 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                         onTap: () => showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(
-                              actionsAlignment: MainAxisAlignment.center,
+                                  actionsAlignment: MainAxisAlignment.center,
                                   actions: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         TextButton.icon(
                                             onPressed: () {
-                                                chooseImage(ImageSource.camera);
-                                                Navigator.pop(ctx);},
+                                              chooseImage(ImageSource.camera);
+                                              Navigator.pop(ctx);
+                                            },
                                             icon: const Icon(Icons.camera),
                                             label: const Text('Take Photo')),
                                         TextButton.icon(
                                             onPressed: () {
-                                                chooseImage(ImageSource.gallery);
-                                                Navigator.pop(ctx);},
-                                            icon: const Icon(Icons.filter_sharp),
-                                            label:
-                                                const Text('Choose from device')),
+                                              chooseImage(ImageSource.gallery);
+                                              Navigator.pop(ctx);
+                                            },
+                                            icon:
+                                                const Icon(Icons.filter_sharp),
+                                            label: const Text(
+                                                'Choose from device')),
                                       ],
                                     ),
                                   ],

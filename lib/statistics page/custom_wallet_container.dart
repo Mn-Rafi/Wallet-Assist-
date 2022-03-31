@@ -6,9 +6,9 @@ import 'package:money_manager_app/homePage/Income/income_detailed_page.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
 
 class CustomWalletContainer extends StatefulWidget {
-  ScrollController controller;
-  double initialWallletAmount;
-  CustomWalletContainer({
+  final ScrollController controller;
+  final double initialWallletAmount;
+  const CustomWalletContainer({
     Key? key,
     required this.controller,
     required this.initialWallletAmount,
