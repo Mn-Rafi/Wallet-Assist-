@@ -7,10 +7,11 @@ import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_
 
 class CustomWalletContainer extends StatefulWidget {
   ScrollController controller;
-
+  double initialWallletAmount;
   CustomWalletContainer({
     Key? key,
     required this.controller,
+    required this.initialWallletAmount,
   }) : super(key: key);
 
   @override
@@ -61,7 +62,7 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                     ),
                     CustomTotalWalletContainer(
                       titleColor: const Color.fromARGB(255, 0, 0, 0),
-                      totalWalletAmount: 44390,
+                      totalWalletAmount: widget.initialWallletAmount,
                       lastTransactionAmount: 499,
                     ),
                     SizedBox(

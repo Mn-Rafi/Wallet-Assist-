@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
 import 'package:money_manager_app/statistics%20page/custom_wallet_container.dart';
 import 'package:money_manager_app/statistics%20page/widgets_and_classes.dart';
@@ -157,25 +159,24 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                 child: TabBarView(controller: _tabController, children: [
                   SfCircularChart(
                       legend: Legend(
-                        textStyle: customTextStyleOne(),
+                          textStyle: customTextStyleOne(),
                           isVisible: true,
                           overflowMode: LegendItemOverflowMode.wrap),
                       tooltipBehavior: _tooltipBehavior,
                       series: <CircularSeries>[
                         PieSeries<IncomeData, String>(
-
                             dataSource: _chartIncomeData,
                             xValueMapper: (IncomeData data, _) => data.catogory,
                             yValueMapper: (IncomeData data, _) => data.amount,
                             dataLabelSettings: DataLabelSettings(
-                              textStyle: customTextStyleOne(),
+                                textStyle: customTextStyleOne(),
                                 isVisible: true,
                                 labelPosition: ChartDataLabelPosition.outside),
                             enableTooltip: true)
                       ]),
                   SfCircularChart(
                       legend: Legend(
-                        textStyle: customTextStyleOne(),
+                          textStyle: customTextStyleOne(),
                           isVisible: true,
                           overflowMode: LegendItemOverflowMode.wrap),
                       tooltipBehavior: _tooltipBehavior,
@@ -186,7 +187,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                 data.catogory,
                             yValueMapper: (ExpenseData data, _) => data.amount,
                             dataLabelSettings: DataLabelSettings(
-                              textStyle: customTextStyleOne(),
+                                textStyle: customTextStyleOne(),
                                 isVisible: true,
                                 labelPosition: ChartDataLabelPosition.outside),
                             enableTooltip: true)
@@ -198,13 +199,20 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
               )
             ],
           ),
-          DraggableScrollableSheet(
-              initialChildSize: childSize,
-              maxChildSize: 0.8,
-              minChildSize: 0.2,
-              builder: (context, controller) => CustomWalletContainer(
-                    controller: controller,
-                  ))
+          ValueListenableBuilder(
+              valueListenable:
+                  Hive.box<ProfileDetails>('profiledetails').listenable(),
+              builder: (context, Box<ProfileDetails> box, widget) {
+                List<ProfileDetails> profileDetails = box.values.toList();
+                return DraggableScrollableSheet(
+                    initialChildSize: childSize,
+                    maxChildSize: 0.8,
+                    minChildSize: 0.2,
+                    builder: (context, controller) => CustomWalletContainer(
+                      initialWallletAmount: double.parse(profileDetails[0].initialWalletBalance),
+                          controller: controller,
+                        ));
+              })
         ],
       ),
     );
