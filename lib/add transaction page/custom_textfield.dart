@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:money_manager_app/First%20Profile/first_profile_widgets.dart';
 
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
@@ -29,6 +30,7 @@ class CustomTextFieldTwo extends StatelessWidget {
           return null;
         }
       },
+      textCapitalization: TextCapitalization.words,
       initialValue: initialValue,
       onChanged: onChanged,
       keyboardType: keyboardType,

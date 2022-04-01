@@ -27,6 +27,7 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
         color: walletPink,
       ),
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           controller: widget.controller,
           itemCount: 1,

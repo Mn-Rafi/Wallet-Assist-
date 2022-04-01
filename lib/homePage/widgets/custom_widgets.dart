@@ -23,7 +23,7 @@ class CustomContainerForImage extends StatelessWidget {
                   fit: BoxFit.cover,
                 )
               : Image(
-                  image: Image.asset('images/incomeGreen.jpg').image,
+                  image: Image.asset('images/userAlt.png',).image,
                   fit: BoxFit.cover,
                 )),
     );

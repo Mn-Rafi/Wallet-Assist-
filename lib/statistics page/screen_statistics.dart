@@ -165,14 +165,16 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                       tooltipBehavior: _tooltipBehavior,
                       series: <CircularSeries>[
                         PieSeries<IncomeData, String>(
-                            dataSource: _chartIncomeData,
-                            xValueMapper: (IncomeData data, _) => data.catogory,
-                            yValueMapper: (IncomeData data, _) => data.amount,
-                            dataLabelSettings: DataLabelSettings(
-                                textStyle: customTextStyleOne(),
-                                isVisible: true,
-                                labelPosition: ChartDataLabelPosition.outside),
-                            enableTooltip: true)
+                          explode: true,
+                          dataSource: _chartIncomeData,
+                          xValueMapper: (IncomeData data, _) => data.catogory,
+                          yValueMapper: (IncomeData data, _) => data.amount,
+                          dataLabelSettings: DataLabelSettings(
+                              textStyle: customTextStyleOne(),
+                              isVisible: true,
+                              labelPosition: ChartDataLabelPosition.outside),
+                          enableTooltip: true,
+                        )
                       ]),
                   SfCircularChart(
                       legend: Legend(
@@ -182,15 +184,16 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                       tooltipBehavior: _tooltipBehavior,
                       series: <CircularSeries>[
                         PieSeries<ExpenseData, String>(
-                            dataSource: _chartExpenseData,
-                            xValueMapper: (ExpenseData data, _) =>
-                                data.catogory,
-                            yValueMapper: (ExpenseData data, _) => data.amount,
-                            dataLabelSettings: DataLabelSettings(
-                                textStyle: customTextStyleOne(),
-                                isVisible: true,
-                                labelPosition: ChartDataLabelPosition.outside),
-                            enableTooltip: true)
+                          explode: true,
+                          dataSource: _chartExpenseData,
+                          xValueMapper: (ExpenseData data, _) => data.catogory,
+                          yValueMapper: (ExpenseData data, _) => data.amount,
+                          dataLabelSettings: DataLabelSettings(
+                              textStyle: customTextStyleOne(),
+                              isVisible: true,
+                              labelPosition: ChartDataLabelPosition.outside),
+                          enableTooltip: true,
+                        )
                       ]),
                 ]),
               ),
@@ -209,7 +212,8 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                     maxChildSize: 0.8,
                     minChildSize: 0.2,
                     builder: (context, controller) => CustomWalletContainer(
-                      initialWallletAmount: double.parse(profileDetails[0].initialWalletBalance),
+                          initialWallletAmount: double.parse(
+                              profileDetails[0].initialWalletBalance),
                           controller: controller,
                         ));
               })
