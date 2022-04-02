@@ -5,15 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomContainerForImage extends StatelessWidget {
-  String? imagePath;
+  final String? imagePath;
 
-  CustomContainerForImage({Key? key, required this.imagePath})
+  const CustomContainerForImage({Key? key, required this.imagePath})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 50.w,
+      width: 60.w,
       height: 60.w,
       child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
@@ -31,11 +31,11 @@ class CustomContainerForImage extends StatelessWidget {
 }
 
 class CustomContainerForCatogories extends StatelessWidget {
-  Color backgroundColor;
-  String imagePath;
-  String title;
+  final Color backgroundColor;
+  final String imagePath;
+  final String title;
 
-  CustomContainerForCatogories(
+  const CustomContainerForCatogories(
       {Key? key,
       required this.backgroundColor,
       required this.imagePath,
@@ -70,7 +70,7 @@ class CustomContainerForCatogories extends StatelessWidget {
 Container customTextFieldContainer(String searchInput) {
   return Container(
     decoration: BoxDecoration(
-      color: Color.fromARGB(255, 233, 233, 233),
+      color: const Color.fromARGB(255, 233, 233, 233),
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: Padding(

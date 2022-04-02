@@ -46,7 +46,7 @@ class AddImageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120.w,
-      height: 120.h,
+      height: 120.w,
       decoration: customBoxDecoration,
       child: const Icon(
         Icons.add,
@@ -57,7 +57,7 @@ class AddImageContainer extends StatelessWidget {
 }
 
 class AddImageContainerOne extends StatelessWidget {
-  XFile? imagePath;
+  String? imagePath;
   AddImageContainerOne({Key? key, this.imagePath})
       : super(key: key);
 
@@ -65,7 +65,7 @@ class AddImageContainerOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120.w,
-      height: 120.h,
+      height: 120.w,
       decoration: customBoxDecoration,
       child: imagePath != null
           ? ClipRRect(
@@ -74,7 +74,7 @@ class AddImageContainerOne extends StatelessWidget {
                 fit: BoxFit.cover,
                 image: FileImage(
                   File(
-                    imagePath!.path,
+                    imagePath!,
                   ),
                 )),
           )

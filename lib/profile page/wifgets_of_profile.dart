@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
@@ -19,7 +20,7 @@ class CustomContainerForImageProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: 150.w,
-        height: 170.w,
+        height: 150.w,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: imagePath != null
@@ -138,10 +139,36 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
   final formKey = GlobalKey<FormState>();
   XFile? _imageFile;
   String? userName;
+  String? imagePath;
 
   chooseImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: source);
+
+    if (image != null) {
+      File? croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+        ],
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.green[700],
+          toolbarWidgetColor: Colors.white,
+          activeControlsWidgetColor: Colors.green[700],
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        iosUiSettings: const IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ),
+      );
+      if (croppedFile != null) {
+        setState(() {
+          imagePath = croppedFile.path;
+        });
+      }
+    }
 
     setState(() {
       _imageFile = image;
@@ -221,16 +248,16 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                                     ),
                                   ],
                                 )),
-                        child: _imageFile != null
+                        child: imagePath != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image(
-                                    height: 150.h,
-                                    width: 120.w,
+                                    height: 150.w,
+                                    width: 150.w,
                                     fit: BoxFit.cover,
                                     image: FileImage(
                                       File(
-                                        _imageFile!.path,
+                                        imagePath!,
                                       ),
                                     )),
                               )
@@ -238,8 +265,8 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                                 borderRadius: BorderRadius.circular(10),
                                 child: widget.initialUrl != null
                                     ? Image(
-                                        height: 150.h,
-                                        width: 120.w,
+                                        height: 150.w,
+                                        width: 150.w,
                                         fit: BoxFit.cover,
                                         image: FileImage(
                                           File(
@@ -247,8 +274,7 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                                           ),
                                         ))
                                     : Image(
-                                        image: Image.asset(
-                                                'images/userAlt.png')
+                                        image: Image.asset('images/userAlt.png')
                                             .image,
                                         fit: BoxFit.cover,
                                       ),
@@ -275,7 +301,7 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                             initialWalletBalance: widget.initialBalance,
                             imageUrl: _imageFile == null
                                 ? widget.initialUrl
-                                : _imageFile?.path),
+                                : imagePath),
                       );
                       Navigator.pop(context);
                     }

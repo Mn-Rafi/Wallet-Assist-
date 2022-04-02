@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
@@ -19,6 +22,7 @@ class ScreenProfile extends StatefulWidget {
 class _ScreenProfileState extends State<ScreenProfile> {
   final formKey = GlobalKey<FormState>();
   XFile? _imageFile;
+  String? imagePath;
 
   String initialBalance = '0';
   String userName = '';
@@ -26,6 +30,31 @@ class _ScreenProfileState extends State<ScreenProfile> {
   chooseImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: source);
+
+    if (image != null) {
+      File? croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+        ],
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.green[700],
+          toolbarWidgetColor: Colors.white,
+          activeControlsWidgetColor: Colors.green[700],
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        iosUiSettings: const IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ),
+      );
+      if (croppedFile != null) {
+        setState(() {
+          imagePath = croppedFile.path;
+        });
+      }
+    }
 
     setState(() {
       _imageFile = image;
@@ -120,7 +149,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                                   ],
                                 )),
                         child: AddImageContainerOne(
-                          imagePath: _imageFile,
+                          imagePath: imagePath,
                         ),
                       )
                     ],
@@ -140,7 +169,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                           ProfileDetails(
                               nameofUser: userName,
                               initialWalletBalance: initialBalance,
-                              imageUrl: _imageFile?.path));
+                              imageUrl: imagePath));
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (ctx) => ScreenHome(),
