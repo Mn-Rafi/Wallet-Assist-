@@ -5,8 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 

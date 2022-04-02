@@ -159,7 +159,7 @@ class CustomTextFieldThree extends StatelessWidget {
   final TextInputType keyboardType;
   final String initialValue;
 
-  const CustomTextFieldThree({
+  CustomTextFieldThree({
     Key? key,
     this.labelText,
     required this.prefixIcon,

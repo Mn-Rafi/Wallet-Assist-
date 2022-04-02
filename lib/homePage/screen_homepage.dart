@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:money_manager_app/MainScreen/widgets/grid_container.dart';
@@ -115,7 +115,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ScreenIncome())),
-                          child: Hero(
+                          child: const Hero(
                             tag: 'income',
                             child: CustomContainerForCatogories(
                                 backgroundColor: incomeGreen,
@@ -127,7 +127,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ScreenExpense())),
-                          child: Hero(
+                          child: const Hero(
                             tag: 'expense',
                             child: CustomContainerForCatogories(
                                 backgroundColor: expenseBlue,

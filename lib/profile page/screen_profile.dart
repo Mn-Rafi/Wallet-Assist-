@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/profile%20page/wifgets_of_profile.dart';
 

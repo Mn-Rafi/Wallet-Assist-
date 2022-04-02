@@ -19,7 +19,7 @@ class RegularPaymentAdd extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CustomTextFieldThree(
+            CustomTextFieldThree(
               labelText: 'Title of the payment',
               keyboardType: TextInputType.name,
               prefixIcon: Icon(
@@ -29,7 +29,7 @@ class RegularPaymentAdd extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            const CustomTextFieldThree(
+            CustomTextFieldThree(
               labelText: 'Upcoming date',
               keyboardType: TextInputType.datetime,
               prefixIcon: Icon(

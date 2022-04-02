@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/Splash Screen/screen_splash.dart';
-
-import 'Hive/profileHiveClass/profilehiveclass.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -12,7 +11,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter<ProfileDetails>(ProfileDetailsAdapter());
+  Hive.registerAdapter<Categories>(CategoriesAdapter());
   await Hive.openBox<ProfileDetails>('profiledetails');
+  await Hive.openBox<Categories>('categories');
   runApp(const MyApp());
 }
 

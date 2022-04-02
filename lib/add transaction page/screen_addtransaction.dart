@@ -53,11 +53,11 @@ class _ScreenTransactionState extends State<ScreenTransaction>
             child: TabBarView(controller: _tabController, children: [
               Container(
                 color: incomeGreen,
-                child: CustomAddCatogory(categoryList: incomeCategories, dropDownValue: 'Salary',),
+                child: CustomAddCatogoryIncome(categoryList: incomeCategories, dropDownValue: 'Salary',),
               ),
               Container(
                 color: expenseBlue,
-                child: CustomAddCatogory(categoryList: expenseCategories, dropDownValue: 'Food',),
+                child: CustomAddCatogoryExpense(categoryList: expenseCategories, dropDownValue: 'Food',),
               ),
             ]),
           )

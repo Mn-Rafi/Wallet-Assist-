@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:money_manager_app/Hive/profileHiveClass/profilehiveclass.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
 import 'package:money_manager_app/statistics%20page/custom_wallet_container.dart';
 import 'package:money_manager_app/statistics%20page/widgets_and_classes.dart';
