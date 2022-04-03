@@ -36,7 +36,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
     if (isViewd != 0 && isViewdFirstProfile != 0) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const ScreenOnboarding()));
+          MaterialPageRoute(builder: (context) => ScreenOnboarding()));
     } else if (isViewd == 0 && isViewdFirstProfile != 0) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const ScreenProfile()));
@@ -46,23 +46,40 @@ class _ScreenSplashState extends State<ScreenSplash> {
     }
   }
 
+  DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'images/App_Logo.gif',
-              width: 100.w,
-            ),
-            const Text(
-              'Wallet Assist',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (timeBackButton == null ||
+            now.difference(timeBackButton!) > const Duration(seconds: 2)) {
+          timeBackButton = now;
+          const snackBar = SnackBar(
+            content: Text('Double tap to exit'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return Future.value(false);
+        }
+        ScaffoldMessenger.of(context).clearSnackBars();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'images/App_Logo.gif',
+                width: 100.w,
+              ),
+              const Text(
+                'Wallet Assist',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
 
@@ -34,4 +35,17 @@ class CustomCatogoryList extends StatelessWidget {
       ),
     );
   }
+}
+List<List<Transactions>> incomeorExpense(List<Transactions> list) {
+  List<Transactions> incomeList = [];
+  List<Transactions> expenseList = [];
+  List<List<Transactions>> transactionsList = [incomeList, expenseList];
+  for (int i = 0; i < list.length; i++) {
+    if (list[i].type == true) {
+      incomeList.add(list[i]);
+    } else {
+      expenseList.add(list[i]);
+    }
+  }
+  return transactionsList;
 }

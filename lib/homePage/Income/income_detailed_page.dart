@@ -9,6 +9,7 @@ class IncomeDisplay extends StatelessWidget {
   double incomeAmount;
   String dateofIncome;
   String notesaboutIncome;
+  String category;
 
   IncomeDisplay({
     Key? key,
@@ -16,6 +17,7 @@ class IncomeDisplay extends StatelessWidget {
     required this.incomeAmount,
     required this.dateofIncome,
     required this.notesaboutIncome,
+    required this.category
   }) : super(key: key);
 
   @override
@@ -38,7 +40,7 @@ class IncomeDisplay extends StatelessWidget {
               height: 20.h,
             ),
             Text(
-              'Income/$nameofCatagory',
+              '$category/$nameofCatagory',
               style: customTextStyleOne(color: secondGrey, fontSize: 17.sp),
             ),
             Text(

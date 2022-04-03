@@ -136,7 +136,6 @@ class EditProfileDetails extends StatefulWidget {
 
 class _EditProfileDetailsState extends State<EditProfileDetails> {
   final formKey = GlobalKey<FormState>();
-  XFile? _imageFile;
   String? userName;
   String? imagePath;
 
@@ -147,20 +146,15 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
     if (image != null) {
       File? croppedFile = await ImageCropper().cropImage(
         sourcePath: image.path,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Cropper',
-          toolbarColor: Colors.green[700],
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        androidUiSettings: const AndroidUiSettings(
+          toolbarTitle: 'crop',
+          toolbarColor: walletPink,
           toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: Colors.green[700],
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
+          activeControlsWidgetColor: walletPink,
         ),
         iosUiSettings: const IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ),
+            minimumAspectRatio: 1.0, aspectRatioLockEnabled: true),
       );
       if (croppedFile != null) {
         setState(() {
@@ -168,10 +162,6 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
         });
       }
     }
-
-    setState(() {
-      _imageFile = image;
-    });
   }
 
   @override
@@ -298,9 +288,7 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                                 ? widget.initialName
                                 : userName!,
                             initialWalletBalance: widget.initialBalance,
-                            imageUrl: _imageFile == null
-                                ? widget.initialUrl
-                                : imagePath),
+                            imageUrl: imagePath ?? widget.initialUrl),
                       );
                       Navigator.pop(context);
                     }

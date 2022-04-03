@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:money_manager_app/First%20Profile/first_profile_widgets.dart';
 
+import 'package:money_manager_app/First%20Profile/first_profile_widgets.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomTextFieldTwo extends StatelessWidget {
@@ -55,7 +55,6 @@ class CustomTextFieldTwo extends StatelessWidget {
   }
 }
 
-
 class CustomTextFieldForDate extends StatelessWidget {
   String? hint;
   Icon prefixIcon;
@@ -72,13 +71,6 @@ class CustomTextFieldForDate extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onTap: onTap,
-      validator: (value) {
-        if (value != null && value.length < 3) {
-          return 'Enter atleast 3 characters';
-        } else {
-          return null;
-        }
-      },
       readOnly: true,
       cursorWidth: 1,
       cursorColor: firstGrey,
@@ -101,17 +93,15 @@ class CustomTextFieldForDate extends StatelessWidget {
   }
 }
 
-
-
 RegExp numberReg = RegExp(r'^(?:[+0]9)?[0-9]{10}$');
 
 class CustomTextFieldFour extends StatelessWidget {
-  String? labelText;
-  Icon prefixIcon;
-  TextInputType keyboardType;
-  Function(String) onChanged;
+  final String? labelText;
+  final Icon prefixIcon;
+  final TextInputType keyboardType;
+  final Function(String) onChanged;
 
-  CustomTextFieldFour({
+  const CustomTextFieldFour({
     Key? key,
     this.labelText,
     required this.prefixIcon,
@@ -132,6 +122,7 @@ class CustomTextFieldFour extends StatelessWidget {
           return null;
         }
       },
+      maxLength: 9,
       onChanged: onChanged,
       keyboardType: keyboardType,
       cursorWidth: 1,
@@ -143,9 +134,11 @@ class CustomTextFieldFour extends StatelessWidget {
         labelText: labelText,
         labelStyle: customTextStyleOne(),
         focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),

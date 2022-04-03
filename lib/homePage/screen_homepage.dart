@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,164 +43,250 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
     super.initState();
   }
 
+  DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        foregroundColor: firstBlack,
-        actions: [
-          IconButton(
-            padding: const EdgeInsets.only(right: 25),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const RegularPayment(),
-            )),
-            icon: const Icon(FontAwesomeIcons.calendarPlus),
-            color: firstBlack,
-          )
-        ],
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Home',
-          style: customTextStyleOne(fontSize: 20.w),
-        ),
-        centerTitle: true,
-      ),
-      body: ValueListenableBuilder(
-          valueListenable:
-              Hive.box<ProfileDetails>('profiledetails').listenable(),
-          builder: (context, Box<ProfileDetails> box, widget) {
-            List<ProfileDetails> profileDetails = box.values.toList();
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (timeBackButton == null ||
+            now.difference(timeBackButton!) > const Duration(seconds: 2)) {
+          timeBackButton = now;
+          final snackBar = SnackBar(
+            duration: const Duration(seconds: 1),
+            content: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 0.2, color: Colors.black),
+                  borderRadius: BorderRadius.circular(20)),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
               child: Padding(
-                padding: EdgeInsets.only(
-                    left: 25.0.w, top: 30.w, right: 25.0.w, bottom: 100.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Hi ${profileDetails[0].nameofUser.toString()} 👋',
-                              style: customTextStyleOne(fontSize: 22.sp),
-                            ),
-                            Text(
-                              welcome,
-                              style: TextStyle(fontSize: 18.sp),
-                            ),
-                          ],
-                        ),
-                        CustomContainerForImage(
-                            imagePath: profileDetails[0].imageUrl?.toString()),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    Text('Catogories',
-                        style: customTextStyleOne(fontSize: 20.sp)),
-                    SizedBox(
-                      height: 17.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ScreenIncome())),
-                          child: const Hero(
-                            tag: 'income',
-                            child: CustomContainerForCatogories(
-                                backgroundColor: incomeGreen,
-                                imagePath: 'images/income.png',
-                                title: 'Income'),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ScreenExpense())),
-                          child: const Hero(
-                            tag: 'expense',
-                            child: CustomContainerForCatogories(
-                                backgroundColor: expenseBlue,
-                                imagePath: 'images/expense.png',
-                                title: 'Expense'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 40,
-                            child: myField,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (myIcon.icon == Icons.search) {
-                                myIcon = const Icon(Icons.clear);
-                                myField = customTextFieldContainer(searchInput);
-                              } else {
-                                setState(() {
-                                  searchInput = '';
-                                });
-                                myIcon = const Icon(Icons.search);
-                                myField = customHeading('Latest Transactions');
-                              }
-                            });
-                          },
-                          child: myIcon,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 2.8.h,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10.w,
-                          crossAxisSpacing: 10.w),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (ctx) => IncomeDisplay(
-                                    incomeAmount: 60000,
-                                    nameofCatagory: 'Salary',
-                                    dateofIncome: '14/03/2022',
-                                    notesaboutIncome:
-                                        'Today, we went outside for our dinner. It was my Birthday party. So me and my friends ate CHicken Manthi from Hotel Raaz Edachira.',
-                                  )),
-                          child: CustomGridContainer(index: index),
-                        );
-                      },
-                      itemCount: 50,
-                    )
-                  ],
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  'double tap to exit',
+                  textAlign: TextAlign.center,
+                  style: customTextStyleOne(color: firstBlack),
                 ),
               ),
-            );
-          }),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 10000,
+            behavior: SnackBarBehavior.floating,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return Future.value(false);
+        }
+        ScaffoldMessenger.of(context).clearSnackBars();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: firstBlack,
+          actions: [
+            IconButton(
+              padding: const EdgeInsets.only(right: 25),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const RegularPayment(),
+              )),
+              icon: const Icon(FontAwesomeIcons.calendarPlus),
+              color: firstBlack,
+            )
+          ],
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Home',
+            style: customTextStyleOne(fontSize: 20.w),
+          ),
+          centerTitle: true,
+        ),
+        body: ValueListenableBuilder(
+            valueListenable:
+                Hive.box<ProfileDetails>('profiledetails').listenable(),
+            builder: (context, Box<ProfileDetails> box, widget) {
+              List<ProfileDetails> profileDetails = box.values.toList();
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 25.0.w, top: 30.w, right: 25.0.w, bottom: 100.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hi ${profileDetails[0].nameofUser.toString()} 👋',
+                                style: customTextStyleOne(fontSize: 22.sp),
+                              ),
+                              Text(
+                                welcome,
+                                style: TextStyle(fontSize: 18.sp),
+                              ),
+                            ],
+                          ),
+                          CustomContainerForImage(
+                              imagePath:
+                                  profileDetails[0].imageUrl?.toString()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      Text('Catogories',
+                          style: customTextStyleOne(fontSize: 20.sp)),
+                      SizedBox(
+                        height: 17.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenIncome())),
+                            child: const Hero(
+                              tag: 'income',
+                              child: CustomContainerForCatogories(
+                                  backgroundColor: incomeGreen,
+                                  imagePath: 'images/income.png',
+                                  title: 'Income'),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenExpense())),
+                            child: const Hero(
+                              tag: 'expense',
+                              child: CustomContainerForCatogories(
+                                  backgroundColor: expenseBlue,
+                                  imagePath: 'images/expense.png',
+                                  title: 'Expense'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 40,
+                              child: myField,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (myIcon.icon == Icons.search) {
+                                  myIcon = const Icon(Icons.clear);
+                                  myField =
+                                      customTextFieldContainer(searchInput);
+                                } else {
+                                  setState(() {
+                                    searchInput = '';
+                                  });
+                                  myIcon = const Icon(Icons.search);
+                                  myField =
+                                      customHeading('Latest Transactions');
+                                }
+                              });
+                            },
+                            child: myIcon,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      ValueListenableBuilder(
+                          valueListenable:
+                              Hive.box<Transactions>('transactions')
+                                  .listenable(),
+                          builder: (context, Box<Transactions> box, _) {
+                            List<Transactions> transactionList =
+                                box.values.toList();
+                            return transactionList.isEmpty
+                                ? Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 60.0),
+                                      child: Text(
+                                        'No Transactions Found 🙂',
+                                        style: customTextStyleOne(
+                                            fontSize: 18, color: firstGrey),
+                                      ),
+                                    ),
+                                  )
+                                : GridView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 2.8.w,
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 10.w,
+                                      crossAxisSpacing: 10.w,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () => showDialog(
+                                            context: context,
+                                            builder: (ctx) => IncomeDisplay(
+                                                category:
+                                                    transactionList[index]
+                                                                .amount >=
+                                                            0
+                                                        ? 'Income'
+                                                        : 'Expense',
+                                                incomeAmount:
+                                                    transactionList[index]
+                                                                .amount >=
+                                                            0
+                                                        ? transactionList[index]
+                                                            .amount
+                                                        : -transactionList[index]
+                                                            .amount,
+                                                nameofCatagory:
+                                                    transactionList[index]
+                                                        .categoryName,
+                                                dateofIncome:
+                                                    transactionList[index]
+                                                        .dateofTransaction,
+                                                notesaboutIncome:
+                                                    transactionList[index]
+                                                        .notes)),
+                                        child: CustomGridContainer(
+                                            amount: transactionList[index]
+                                                        .amount >=
+                                                    0
+                                                ? transactionList[index].amount
+                                                : -transactionList[index]
+                                                    .amount,
+                                            categoryName: transactionList[index]
+                                                .categoryName),
+                                      );
+                                    },
+                                    itemCount: transactionList.length,
+                                  );
+                          })
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
     );
   }
 }

@@ -78,8 +78,8 @@ class CustomTotalIncomeContainer extends StatelessWidget {
 }
 
 class CustomTotalWalletContainer extends StatelessWidget {
-  double totalWalletAmount;
-  double lastTransactionAmount;
+  String totalWalletAmount;
+  String lastTransactionAmount;
   Color titleColor;
 
   CustomTotalWalletContainer({
@@ -110,11 +110,11 @@ class CustomTotalWalletContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '₹$totalWalletAmount',
+                  totalWalletAmount,
                   style: customTextStyleOne(fontSize: 25),
                 ),
                 Text(
-                  '+₹$lastTransactionAmount',
+                  lastTransactionAmount,
                   style: customTextStyleOne(fontSize: 16),
                 ),
               ],

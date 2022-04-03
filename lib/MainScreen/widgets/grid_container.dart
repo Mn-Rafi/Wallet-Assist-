@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomGridContainer extends StatefulWidget {
-  int index;
+  String categoryName;
+  double amount;
   CustomGridContainer({
     Key? key,
-    required this.index,
+    required this.categoryName,
+    required this.amount,
   }) : super(key: key);
 
   @override
@@ -52,7 +54,7 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
                 SizedBox(
                   width: 110.w,
                   child: Text(
-                    listohCatoDemo[widget.index],
+                    widget.categoryName,
                     overflow: TextOverflow.ellipsis,
                     style: customTextStyleOne(
                       color: secondGrey,
@@ -61,12 +63,12 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
                   ),
                 ),
                 SizedBox(
-                  width:110.w,
+                    width: 110.w,
                     child: Text(
-                  "₹50000.00",
-                  overflow: TextOverflow.ellipsis,
-                  style: customTextStyleOne(fontSize: 18.sp),
-                )),
+                      '₹'+widget.amount.toString(),
+                      overflow: TextOverflow.ellipsis,
+                      style: customTextStyleOne(fontSize: 18.sp),
+                    )),
               ],
             ),
           )
@@ -76,8 +78,7 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
   }
 }
 
-
-List<String> listohCatoDemo =[
+List<String> listohCatoDemo = [
   'Salary',
   'Gift',
   'Share Profit',
@@ -88,7 +89,7 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-  'Salary',
+      'Salary',
   'Gift',
   'Share Profit',
   'Interest',
@@ -98,7 +99,7 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-  'Salary',
+      'Salary',
   'Gift',
   'Share Profit',
   'Interest',
@@ -108,7 +109,7 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-  'Salary',
+      'Salary',
   'Gift',
   'Share Profit',
   'Interest',
@@ -118,7 +119,7 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-  'Salary',
+      'Salary',
   'Gift',
   'Share Profit',
   'Interest',
@@ -128,7 +129,7 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-  'Salary',
+      'Salary',
   'Gift',
   'Share Profit',
   'Interest',
@@ -138,7 +139,7 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-  'Salary',
+      'Salary',
   'Gift',
   'Share Profit',
   'Interest',
@@ -148,5 +149,4 @@ List<String> listohCatoDemo =[
   'Rental Income',
   'Divident income',
   'Others'
-
 ];

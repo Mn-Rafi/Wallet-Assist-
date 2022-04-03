@@ -12,8 +12,10 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<ProfileDetails>(ProfileDetailsAdapter());
   Hive.registerAdapter<Categories>(CategoriesAdapter());
+  Hive.registerAdapter<Transactions>(TransactionsAdapter());
   await Hive.openBox<ProfileDetails>('profiledetails');
   await Hive.openBox<Categories>('categories');
+  await Hive.openBox<Transactions>('transactions');
   runApp(const MyApp());
 }
 

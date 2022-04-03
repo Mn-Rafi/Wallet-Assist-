@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-part 'database.g.dart';
 
+part 'database.g.dart';
 
 @HiveType(typeId: 0)
 class ProfileDetails extends HiveObject {
@@ -29,4 +29,30 @@ class Categories extends HiveObject {
   final bool type;
 
   Categories({required this.category, required this.type});
+}
+
+@HiveType(typeId: 2)
+class Transactions extends HiveObject {
+  @HiveField(0)
+  final String categoryName;
+
+  @HiveField(1)
+  final double amount;
+
+  @HiveField(2)
+  final String dateofTransaction;
+
+  @HiveField(3)
+  final String notes;
+
+  @HiveField(4)
+  final bool type;
+
+  Transactions({
+    required this.categoryName,
+    required this.amount,
+    required this.dateofTransaction,
+    required this.notes,
+    required this.type
+  });
 }

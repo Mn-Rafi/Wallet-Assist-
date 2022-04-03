@@ -98,7 +98,7 @@ class CustomExpenseContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '₹$totalExpenseAmount',
+                  '₹${-totalExpenseAmount}',
                   style: customTextStyleOne(fontSize: 25),
                 ),
                 Text(

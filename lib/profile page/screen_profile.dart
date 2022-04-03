@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
+import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
+import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:money_manager_app/profile%20page/wifgets_of_profile.dart';
 
 class ScreenProfileDetails extends StatefulWidget {
@@ -14,10 +16,42 @@ class ScreenProfileDetails extends StatefulWidget {
 
 class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
   bool notificationValue = false;
-
+  DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (timeBackButton == null ||
+            now.difference(timeBackButton!) >= const Duration(seconds: 2)) {
+          timeBackButton = now;
+          final snackBar = SnackBar(
+            duration: const Duration(seconds: 1),
+            content: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 0.2, color: Colors.black),
+                  borderRadius: BorderRadius.circular(20)),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  'double tap to exit',
+                  textAlign: TextAlign.center,
+                  style: customTextStyleOne(color: firstBlack),
+                ),
+              ),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 10000,
+            behavior: SnackBarBehavior.floating,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return false;
+        }
+        ScaffoldMessenger.of(context).clearSnackBars();
+        return true;
+      },
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -29,7 +63,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
           centerTitle: true,
         ),
         body: Container(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           child: ValueListenableBuilder(
               valueListenable:
                   Hive.box<ProfileDetails>('profiledetails').listenable(),

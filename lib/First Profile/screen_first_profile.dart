@@ -21,7 +21,6 @@ class ScreenProfile extends StatefulWidget {
 
 class _ScreenProfileState extends State<ScreenProfile> {
   final formKey = GlobalKey<FormState>();
-  XFile? _imageFile;
   String? imagePath;
 
   String initialBalance = '0';
@@ -34,20 +33,15 @@ class _ScreenProfileState extends State<ScreenProfile> {
     if (image != null) {
       File? croppedFile = await ImageCropper().cropImage(
         sourcePath: image.path,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Cropper',
-          toolbarColor: Colors.green[700],
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        androidUiSettings: const AndroidUiSettings(
+          toolbarTitle: 'crop',
+          toolbarColor: walletPink,
           toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: Colors.green[700],
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
+          activeControlsWidgetColor: walletPink,
         ),
         iosUiSettings: const IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ),
+            minimumAspectRatio: 1.0, aspectRatioLockEnabled: true),
       );
       if (croppedFile != null) {
         setState(() {
@@ -55,10 +49,6 @@ class _ScreenProfileState extends State<ScreenProfile> {
         });
       }
     }
-
-    setState(() {
-      _imageFile = image;
-    });
   }
 
   _storeOnboardingInfo() async {
@@ -67,126 +57,162 @@ class _ScreenProfileState extends State<ScreenProfile> {
     await prefs.setInt('onFirstProfile', isViewedFirstProfile);
   }
 
+  DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Create Profile',
-          style: customTextStyleOne(fontSize: 20),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      customSpaceTwo,
-                      CustomTextFieldTwo(
-                          onChanged: (value) {
-                            setState(() {
-                              userName = value;
-                            });
-                          },
-                          keyboardType: TextInputType.name,
-                          labelText: 'Enter your name',
-                          prefixIcon: const Icon(Icons.person_pin_outlined)),
-                      customSpaceTwo,
-                      CustomTextFieldFour(
-                          onChanged: (value) {
-                            setState(() {
-                              initialBalance = value;
-                            });
-                          },
-                          labelText: 'Current Wallet Balance',
-                          prefixIcon: const Icon(Icons.currency_rupee)),
-                      customSpaceTwo,
-                      Text(
-                        'Add a profile photo',
-                        style: customTextStyleOne(
-                          fontSize: 18,
-                        ),
-                      ),
-                      customSpaceOne,
-                      GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                                  actionsAlignment: MainAxisAlignment.center,
-                                  actions: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        TextButton.icon(
-                                            onPressed: () {
-                                              chooseImage(ImageSource.camera);
-                                              Navigator.pop(ctx);
-                                            },
-                                            icon: const Icon(Icons.camera),
-                                            label: const Text('Take Photo')),
-                                        TextButton.icon(
-                                            onPressed: () {
-                                              chooseImage(ImageSource.gallery);
-                                              Navigator.pop(ctx);
-                                            },
-                                            icon:
-                                                const Icon(Icons.filter_sharp),
-                                            label: const Text(
-                                                'Choose from device')),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                        child: AddImageContainerOne(
-                          imagePath: imagePath,
-                        ),
-                      )
-                    ],
-                  ),
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (timeBackButton == null ||
+            now.difference(timeBackButton!) > const Duration(seconds: 2)) {
+          timeBackButton = now;
+          final snackBar = SnackBar(
+            duration: const Duration(seconds: 1),
+            content: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 0.2, color: Colors.black),
+                  borderRadius: BorderRadius.circular(20)),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  'double tap to exit',
+                  textAlign: TextAlign.center,
+                  style: customTextStyleOne(color: firstBlack),
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    final isValidForm = formKey.currentState!.validate();
-                    if (isValidForm) {
-                      _storeOnboardingInfo();
-                      Hive.box<ProfileDetails>('profiledetails').add(
-                          ProfileDetails(
-                              nameofUser: userName,
-                              initialWalletBalance: initialBalance,
-                              imageUrl: imagePath));
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (ctx) => ScreenHome(),
+            backgroundColor: Colors.transparent,
+            elevation: 10000,
+            behavior: SnackBarBehavior.floating,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return Future.value(false);
+        }
+        ScaffoldMessenger.of(context).clearSnackBars();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Create Profile',
+            style: customTextStyleOne(fontSize: 20),
+          ),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        customSpaceTwo,
+                        CustomTextFieldTwo(
+                            onChanged: (value) {
+                              setState(() {
+                                userName = value;
+                              });
+                            },
+                            keyboardType: TextInputType.name,
+                            labelText: 'Enter your name',
+                            prefixIcon: const Icon(Icons.person_pin_outlined)),
+                        customSpaceTwo,
+                        CustomTextFieldFour(
+                            onChanged: (value) {
+                              setState(() {
+                                initialBalance = value;
+                              });
+                            },
+                            labelText: 'Current Wallet Balance',
+                            prefixIcon: const Icon(Icons.currency_rupee)),
+                        customSpaceTwo,
+                        Text(
+                          'Add a profile photo',
+                          style: customTextStyleOne(
+                            fontSize: 18,
+                          ),
                         ),
-                      );
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: 48.h,
-                    decoration: customBoxDecoration,
-                    child: arrowForwardIcon,
+                        customSpaceOne,
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                    actionsAlignment: MainAxisAlignment.center,
+                                    actions: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextButton.icon(
+                                              onPressed: () {
+                                                chooseImage(ImageSource.camera);
+                                                Navigator.pop(ctx);
+                                              },
+                                              icon: const Icon(Icons.camera),
+                                              label: const Text('Take Photo')),
+                                          TextButton.icon(
+                                              onPressed: () {
+                                                chooseImage(
+                                                    ImageSource.gallery);
+                                                Navigator.pop(ctx);
+                                              },
+                                              icon: const Icon(
+                                                  Icons.filter_sharp),
+                                              label: const Text(
+                                                  'Choose from device')),
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                          child: AddImageContainerOne(
+                            imagePath: imagePath,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            )
-          ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      final isValidForm = formKey.currentState!.validate();
+                      if (isValidForm) {
+                        _storeOnboardingInfo();
+                        Hive.box<ProfileDetails>('profiledetails').add(
+                            ProfileDetails(
+                                nameofUser: userName,
+                                initialWalletBalance: initialBalance,
+                                imageUrl: imagePath));
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (ctx) => const ScreenHome(),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      height: 48.h,
+                      decoration: customBoxDecoration,
+                      child: arrowForwardIcon,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -42,7 +42,7 @@ class ExpenseDisplay extends StatelessWidget {
               style: customTextStyleOne(color: secondGrey, fontSize: 17.sp),
             ),
             Text(
-              '₹$expenseAmount',
+              '₹${-expenseAmount}',
               style: customTextStyleOne(fontSize: 30.sp),
             ),
             SizedBox(
