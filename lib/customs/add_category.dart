@@ -92,15 +92,33 @@ bool dublicate(List<Categories> list, String value) {
   }
 }
 
+int findIndex(String category) {
+  int index = 0;
+  List<Categories> list = Hive.box<Categories>('categories').values.toList();
+  for (int i = 0; i < list.length; i++) {
+    if (list[i].category.toLowerCase().trim().toString() ==
+        category.toLowerCase().trim().toString()) {
+      index = i;
+      break;
+    }
+  }
+  return index;
+}
+
 class EditIncomeCategory extends StatefulWidget {
   final int index;
   final String initialValue;
   final bool type;
+  final List<Transactions> transactionList;
+  final List<Categories> typeTransactonList;
+
   const EditIncomeCategory({
     Key? key,
     required this.index,
     required this.initialValue,
     required this.type,
+    required this.transactionList,
+    required this.typeTransactonList,
   }) : super(key: key);
 
   @override
@@ -160,16 +178,21 @@ class _EditIncomeCategory extends State<EditIncomeCategory> {
                   dublicate(Hive.box<Categories>('categories').values.toList(),
                       newCategory)) {
                 if (newCategory == '') {
-                  await Hive.box<Categories>('categories').putAt(
-                      widget.index,
-                      Categories(
-                          category: widget.initialValue, type: widget.type));
                 } else {
-                  await Hive.box<Categories>('categories').putAt(widget.index,
+                  await Hive.box<Categories>('categories').putAt(
+                      findIndex(widget.initialValue),
                       Categories(category: newCategory, type: widget.type));
+
+                  for (int i = 0; i < widget.transactionList.length; i++) {
+                    if (widget.transactionList[i].categoryName ==
+                        widget.initialValue) {
+                      widget.transactionList[i].categoryName = newCategory;
+                    }
+                  }
                 }
+
                 Navigator.pop(context);
-              } else {}
+              }
             })
           ],
         ),

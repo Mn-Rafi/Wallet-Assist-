@@ -34,13 +34,13 @@ class Categories extends HiveObject {
 @HiveType(typeId: 2)
 class Transactions extends HiveObject {
   @HiveField(0)
-  final String categoryName;
+  String categoryName;
 
   @HiveField(1)
   final double amount;
 
   @HiveField(2)
-  final String dateofTransaction;
+  final DateTime dateofTransaction;
 
   @HiveField(3)
   final String notes;
@@ -48,11 +48,14 @@ class Transactions extends HiveObject {
   @HiveField(4)
   final bool type;
 
-  Transactions({
-    required this.categoryName,
-    required this.amount,
-    required this.dateofTransaction,
-    required this.notes,
-    required this.type
-  });
+  @HiveField(5)
+  final Categories categoryCat;
+
+  Transactions(
+      {required this.categoryName,
+      required this.categoryCat,
+      required this.amount,
+      required this.dateofTransaction,
+      required this.notes,
+      required this.type});
 }

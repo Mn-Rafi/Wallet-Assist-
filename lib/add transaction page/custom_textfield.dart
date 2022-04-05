@@ -97,12 +97,14 @@ RegExp numberReg = RegExp(r'^(?:[+0]9)?[0-9]{10}$');
 
 class CustomTextFieldFour extends StatelessWidget {
   final String? labelText;
+  final double initialValue;
   final Icon prefixIcon;
   final TextInputType keyboardType;
   final Function(String) onChanged;
 
   const CustomTextFieldFour({
     Key? key,
+    this.initialValue = 0,
     this.labelText,
     required this.prefixIcon,
     this.keyboardType = TextInputType.number,
@@ -112,6 +114,7 @@ class CustomTextFieldFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue !=0 ? '$initialValue' : '',
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
       ],

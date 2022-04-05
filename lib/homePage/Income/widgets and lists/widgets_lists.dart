@@ -129,7 +129,7 @@ class CustomTotalWalletContainer extends StatelessWidget {
 class CustomIncomeContainer extends StatelessWidget {
   String headText;
   double totalIncomeAmount;
-  String incomeDate;
+  DateTime incomeDate;
 
   CustomIncomeContainer({
     Key? key,
@@ -163,7 +163,7 @@ class CustomIncomeContainer extends StatelessWidget {
                   style: customTextStyleOne(fontSize: 25),
                 ),
                 Text(
-                  incomeDate,
+                  getText(),
                   style: customTextStyleOne(fontSize: 16),
                 ),
               ],
@@ -172,6 +172,10 @@ class CustomIncomeContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getText() {
+    return '${incomeDate.day}-${incomeDate.month}-${incomeDate.year}';
   }
 }
 

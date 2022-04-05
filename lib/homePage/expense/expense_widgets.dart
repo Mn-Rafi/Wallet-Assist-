@@ -68,7 +68,7 @@ class CustomTotalExpenseContainer extends StatelessWidget {
 class CustomExpenseContainer extends StatelessWidget {
   String headText;
   double totalExpenseAmount;
-  String expenseDate;
+  DateTime expenseDate;
 
   CustomExpenseContainer({
     Key? key,
@@ -102,7 +102,7 @@ class CustomExpenseContainer extends StatelessWidget {
                   style: customTextStyleOne(fontSize: 25),
                 ),
                 Text(
-                  expenseDate,
+                  getText(),
                   style: customTextStyleOne(fontSize: 16),
                 ),
               ],
@@ -112,11 +112,15 @@ class CustomExpenseContainer extends StatelessWidget {
       ),
     );
   }
+
+  String getText() {
+    return '${expenseDate.day}-${expenseDate.month}-${expenseDate.year}';
+  }
 }
 
 List<PopupMenuEntry<dynamic>> popUpMenuActions = [
   PopupMenuItem(
-    onTap: (){},
+    onTap: () {},
     child: GestureDetector(child: Text('Edit')),
   ),
   PopupMenuItem(child: Text('Delete')),

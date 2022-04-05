@@ -86,7 +86,6 @@ class _ScreenTransactionState extends State<ScreenTransaction>
             Expanded(
               child: TabBarView(controller: _tabController, children: [
                 Container(
-                  color: incomeGreen,
                   child: const CustomAddCatogoryIncome(
                       type: true,
                       addFunction: AddCategory(),
@@ -94,9 +93,8 @@ class _ScreenTransactionState extends State<ScreenTransaction>
                       listHint: 'income categories'),
                 ),
                 Container(
-                  color: expenseBlue,
                   child: const CustomAddCatogoryIncome(
-                    type: false,
+                      type: false,
                       addFunction: AddExpenseCategory(),
                       index: 1,
                       listHint: 'expense categories'),

@@ -127,6 +127,8 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                                   builder:
                                                                       (context) =>
                                                                           EditIncomeCategory(
+                                                                            typeTransactonList: incomeCategories,
+                                                                            transactionList: transactionList,
                                                                     type: true,
                                                                     index:
                                                                         index,
@@ -223,6 +225,8 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                                         () => showDialog(
                                                                               context: context,
                                                                               builder: (context) => EditIncomeCategory(
+                                                                                typeTransactonList: expenseCategories,
+                                                                                transactionList: transactionList,
                                                                                 type: false,
                                                                                 index: index,
                                                                                 initialValue: expenseCategories[index].category,

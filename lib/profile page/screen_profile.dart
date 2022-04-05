@@ -141,6 +141,16 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         leadingIcon: Icon(Icons.info, size: 22.w),
                         title: 'About me',
                       ),
+                      GestureDetector(
+                        onTap: (){
+                          Hive.box<Transactions>('transactions').clear();
+                          Hive.box<Categories>('categories').clear();
+                        },
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(Icons.info, size: 22.w),
+                          title: 'Clear All',
+                        ),
+                      ),
                     ],
                   ),
                 );

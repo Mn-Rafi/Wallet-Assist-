@@ -194,12 +194,15 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                   onTap: () => showDialog(
                                       context: context,
                                       builder: (ctx) => ExpenseDisplay(
+                                          category: transactionList[index]
+                                              .categoryName,
+                                          index: transactionList[index].key,
                                           dateofExpense: transactionList[index]
                                               .dateofTransaction,
                                           expenseAmount:
                                               transactionList[index].amount,
                                           nameofCatagory: transactionList[index]
-                                              .categoryName,
+                                              .categoryCat,
                                           notesaboutExpense:
                                               transactionList[index].notes)),
                                   child: CustomExpenseContainer(

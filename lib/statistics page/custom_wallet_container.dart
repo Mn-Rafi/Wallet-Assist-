@@ -108,11 +108,12 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                               : CustomTotalWalletContainer(
                                   titleColor:
                                       const Color.fromARGB(255, 0, 0, 0),
-                                  totalWalletAmount: widget.initialWallletAmount +
-                                          getTotalExpense() >= 0 ?
-                                      '₹${widget.initialWallletAmount+
-                                          getTotalExpense()}' : '-₹${-(widget.initialWallletAmount+
-                                          getTotalExpense())}',
+                                  totalWalletAmount: widget
+                                                  .initialWallletAmount +
+                                              getTotalExpense() >=
+                                          0
+                                      ? '₹${widget.initialWallletAmount + getTotalExpense()}'
+                                      : '-₹${-(widget.initialWallletAmount + getTotalExpense())}',
                                   lastTransactionAmount:
                                       transactions.last.amount >= 0
                                           ? '+₹${transactions.last.amount}'
@@ -149,12 +150,12 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                                               0
                                           ? '+₹${transactions[index].amount}'
                                           : '-₹${-transactions[index].amount}',
-                                      transactionAmount:
-                                      widget.initialWallletAmount +
-                                          getUpto(index) >= 0 ?
-                                      '₹${widget.initialWallletAmount+
-                                          getUpto(index)}' : '-₹${-(widget.initialWallletAmount+
-                                          getUpto(index))}',
+                                      transactionAmount: widget
+                                                      .initialWallletAmount +
+                                                  getUpto(index) >=
+                                              0
+                                          ? '₹${widget.initialWallletAmount + getUpto(index)}'
+                                          : '-₹${-(widget.initialWallletAmount + getUpto(index))}',
                                       transactionDate:
                                           transactions[index].dateofTransaction,
                                     );
@@ -179,7 +180,7 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
 
 class CustomWalletTransactionContainer extends StatelessWidget {
   String transactionAmount;
-  String transactionDate;
+  DateTime transactionDate;
   String previousTransactionAmaount;
 
   CustomWalletTransactionContainer({
@@ -210,7 +211,7 @@ class CustomWalletTransactionContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  transactionDate,
+                  getText(),
                   style: customTextStyleOne(color: secondGrey, fontSize: 15),
                 ),
                 Text(
@@ -223,5 +224,9 @@ class CustomWalletTransactionContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getText() {
+    return '${transactionDate.day}-${transactionDate.month}-${transactionDate.year}';
   }
 }

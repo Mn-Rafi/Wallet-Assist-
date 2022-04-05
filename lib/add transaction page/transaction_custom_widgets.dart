@@ -60,7 +60,8 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(50)),
+                    border: Border.all(width: 0.2),
+                    borderRadius: BorderRadius.circular(20)),
                 child: ValueListenableBuilder(
                     valueListenable:
                         Hive.box<Categories>('categories').listenable(),
@@ -186,9 +187,10 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                     final isValidForm = formKey.currentState!.validate();
                     if (isValidForm && dropdownvalue != null) {
                       Hive.box<Transactions>('transactions').add(Transactions(
+                          categoryCat: dropdownvalue!,
                           categoryName: dropdownvalue!.category,
                           amount: widget.type == true ? amount! : -amount!,
-                          dateofTransaction: getText(),
+                          dateofTransaction: date,
                           notes: notes,
                           type: widget.type));
 
@@ -230,7 +232,7 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
       context: context,
       initialDate: initialDate,
       firstDate: DateTime(DateTime.now().year - 5),
-      lastDate: DateTime(DateTime.now().year + 5),
+      lastDate: DateTime.now(),
     );
 
     if (newDate == null) {

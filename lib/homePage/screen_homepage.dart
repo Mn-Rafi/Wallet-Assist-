@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
+import 'package:money_manager_app/homePage/expense/expense_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:money_manager_app/MainScreen/widgets/grid_container.dart';
@@ -150,7 +151,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           GestureDetector(
                             onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => ScreenIncome())),
+                                    builder: (context) => const ScreenIncome())),
                             child: const Hero(
                               tag: 'income',
                               child: CustomContainerForCatogories(
@@ -162,7 +163,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           GestureDetector(
                             onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => ScreenExpense())),
+                                    builder: (context) => const ScreenExpense())),
                             child: const Hero(
                               tag: 'expense',
                               child: CustomContainerForCatogories(
@@ -243,39 +244,53 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                                       return GestureDetector(
                                         onTap: () => showDialog(
                                             context: context,
-                                            builder: (ctx) => IncomeDisplay(
-                                                category:
-                                                    transactionList[index]
-                                                                .amount >=
-                                                            0
-                                                        ? 'Income'
-                                                        : 'Expense',
-                                                incomeAmount:
-                                                    transactionList[index]
-                                                                .amount >=
-                                                            0
-                                                        ? transactionList[index]
-                                                            .amount
-                                                        : -transactionList[index]
-                                                            .amount,
-                                                nameofCatagory:
-                                                    transactionList[index]
+                                            builder: (ctx) => transactionList[index].amount > 0
+                                                ? IncomeDisplay(
+                                                    category: transactionList[index]
                                                         .categoryName,
-                                                dateofIncome:
-                                                    transactionList[index]
-                                                        .dateofTransaction,
-                                                notesaboutIncome:
-                                                    transactionList[index]
-                                                        .notes)),
+                                                    index: transactionList[index]
+                                                        .key,
+                                                    incomeAmount:
+                                                        transactionList[index]
+                                                            .amount,
+                                                    nameofCatagory:
+                                                        transactionList[index]
+                                                            .categoryCat,
+                                                    dateofIncome:
+                                                        transactionList[index]
+                                                            .dateofTransaction,
+                                                    notesaboutIncome:
+                                                        transactionList[index]
+                                                            .notes)
+                                                : ExpenseDisplay(
+                                                    category: transactionList[index]
+                                                        .categoryName,
+                                                    index: transactionList[index].key,
+                                                    dateofExpense: transactionList[index].dateofTransaction,
+                                                    expenseAmount: transactionList[index].amount,
+                                                    nameofCatagory: transactionList[index].categoryCat,
+                                                    notesaboutExpense: transactionList[index].notes)),
                                         child: CustomGridContainer(
+                                            imagePath: transactionList[index]
+                                                        .amount >=
+                                                    0
+                                                ? 'images/incomeGreen.jpg'
+                                                : 'images/expenseBlue.jpg',
                                             amount: transactionList[index]
                                                         .amount >=
                                                     0
                                                 ? transactionList[index].amount
                                                 : -transactionList[index]
                                                     .amount,
-                                            categoryName: transactionList[index]
-                                                .categoryName),
+                                            categoryName:
+                                                transactionList[index].amount >=
+                                                        0
+                                                    ? 'Inc/' +
+                                                        transactionList[index]
+                                                            .categoryName
+                                                    : 'Exp/' +
+                                                        transactionList[index]
+                                                            .categoryName),
                                       );
                                     },
                                     itemCount: transactionList.length,

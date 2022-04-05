@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
+import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/homePage/expense/expense_widgets.dart';
+import 'package:money_manager_app/homePage/widgets/custom_widgets.dart';
 
 class ExpenseDisplay extends StatelessWidget {
-  String nameofCatagory;
+  String category;
+  Categories nameofCatagory;
   double expenseAmount;
-  String dateofExpense;
+  DateTime dateofExpense;
   String notesaboutExpense;
+  int index;
 
   ExpenseDisplay({
     Key? key,
+    required this.category,
     required this.nameofCatagory,
     required this.expenseAmount,
     required this.dateofExpense,
     required this.notesaboutExpense,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -31,14 +40,84 @@ class ExpenseDisplay extends StatelessWidget {
                 CloseButton(
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                PopupMenuButton(itemBuilder: (context) => popUpMenuActions),
+                PopupMenuButton(
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                            onTap: () {
+                              Future.delayed(
+                                  const Duration(seconds: 0),
+                                  () => showDialog(
+                                      context: context,
+                                      builder: (ctx) => CustomEditTransaction(
+                                            bgColor: expenseBlue,
+                                            amount: -expenseAmount,
+                                            notes: notesaboutExpense,
+                                            dropdownValue: nameofCatagory,
+                                            dateOfTransaction: dateofExpense,
+                                            dropInt: 1,
+                                            type: false,
+                                            addFunction:
+                                                const AddExpenseCategory(),
+                                            index: index,
+                                            listHint: nameofCatagory.category,
+                                          )));
+                            },
+                            child: const Text('Edit'),
+                          ),
+                          PopupMenuItem(
+                              onTap: () {
+                                Future.delayed(
+                                    const Duration(seconds: 0),
+                                    () => showDialog(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                              title: Text(
+                                                'Your transaction details will be deleted permenently. Do you really want to continue?',
+                                                style: customTextStyleOne(
+                                                    fontSize: 15),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    List<Transactions>
+                                                        transactionList =
+                                                        incomeorExpense(Hive.box<
+                                                                    Transactions>(
+                                                                'transactions')
+                                                            .values
+                                                            .toList())[1];
+                                                    transactionList[index]
+                                                        .delete();
+
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(
+                                                    'Yes',
+                                                    style: customTextStyleOne(),
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(
+                                                    'No',
+                                                    style: customTextStyleOne(),
+                                                  ),
+                                                )
+                                              ],
+                                            )));
+                              },
+                              child: const Text('Delete')),
+                        ]),
               ],
             ),
             SizedBox(
               height: 20.h,
             ),
             Text(
-              'Expense/$nameofCatagory',
+              'Expense/$category',
               style: customTextStyleOne(color: secondGrey, fontSize: 17.sp),
             ),
             Text(
@@ -53,7 +132,7 @@ class ExpenseDisplay extends StatelessWidget {
               style: customTextStyleOne(color: secondGrey, fontSize: 17.sp),
             ),
             Text(
-              dateofExpense,
+              getText(),
               style: customTextStyleOne(fontSize: 23.sp),
             ),
             SizedBox(
@@ -71,5 +150,9 @@ class ExpenseDisplay extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getText() {
+    return '${dateofExpense.day}-${dateofExpense.month}-${dateofExpense.year}';
   }
 }

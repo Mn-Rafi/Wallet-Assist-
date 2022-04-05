@@ -95,8 +95,9 @@ class TransactionsAdapter extends TypeAdapter<Transactions> {
     };
     return Transactions(
       categoryName: fields[0] as String,
+      categoryCat: fields[5] as Categories,
       amount: fields[1] as double,
-      dateofTransaction: fields[2] as String,
+      dateofTransaction: fields[2] as DateTime,
       notes: fields[3] as String,
       type: fields[4] as bool,
     );
@@ -105,7 +106,7 @@ class TransactionsAdapter extends TypeAdapter<Transactions> {
   @override
   void write(BinaryWriter writer, Transactions obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.categoryName)
       ..writeByte(1)
@@ -115,7 +116,9 @@ class TransactionsAdapter extends TypeAdapter<Transactions> {
       ..writeByte(3)
       ..write(obj.notes)
       ..writeByte(4)
-      ..write(obj.type);
+      ..write(obj.type)
+      ..writeByte(5)
+      ..write(obj.categoryCat);
   }
 
   @override

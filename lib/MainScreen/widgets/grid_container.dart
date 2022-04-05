@@ -6,10 +6,12 @@ import 'package:money_manager_app/customs/custom_text_and_color.dart';
 class CustomGridContainer extends StatefulWidget {
   String categoryName;
   double amount;
+  String imagePath;
   CustomGridContainer({
     Key? key,
     required this.categoryName,
     required this.amount,
+    required this.imagePath,
   }) : super(key: key);
 
   @override
@@ -37,9 +39,9 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
               height: 30.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.w),
-                image: const DecorationImage(
+                image: DecorationImage(
                   image: AssetImage(
-                    'images/incomeGreen.jpg',
+                    widget.imagePath,
                   ),
                 ),
               ),

@@ -27,8 +27,8 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-    _chartIncomeData = getIncomeChartData();
-    _chartExpenseData = getExpenseChartData();
+    _chartIncomeData = getIncomeDate();
+    _chartExpenseData = getExpenseDate();
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -36,6 +36,22 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
   DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
+    List<Transactions> transactionList =
+        Hive.box<Transactions>('transactions').values.toList();
+    bool isCategoryEmpty(bool val) {
+      int count = 0;
+      for (int i = 0; i < transactionList.length; i++) {
+        if (transactionList[i].type == val) {
+          count++;
+        }
+      }
+      if (count > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     return WillPopScope(
       onWillPop: () async {
         DateTime now = DateTime.now();
@@ -192,45 +208,66 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                 ),
                 Expanded(
                   child: TabBarView(controller: _tabController, children: [
-                    SfCircularChart(
-                        legend: Legend(
-                            textStyle: customTextStyleOne(),
-                            isVisible: true,
-                            overflowMode: LegendItemOverflowMode.wrap),
-                        tooltipBehavior: _tooltipBehavior,
-                        series: <CircularSeries>[
-                          PieSeries<IncomeData, String>(
-                            explode: true,
-                            dataSource: _chartIncomeData,
-                            xValueMapper: (IncomeData data, _) => data.catogory,
-                            yValueMapper: (IncomeData data, _) => data.amount,
-                            dataLabelSettings: DataLabelSettings(
+                    transactionList.isEmpty || !isCategoryEmpty(true)
+                        ? Center(
+                            child: Text(
+                              'No Income Transactions Found',
+                              style: customTextStyleOne(),
+                            ),
+                          )
+                        : SfCircularChart(
+                            legend: Legend(
                                 textStyle: customTextStyleOne(),
                                 isVisible: true,
-                                labelPosition: ChartDataLabelPosition.outside),
-                            enableTooltip: true,
+                                overflowMode: LegendItemOverflowMode.wrap),
+                            tooltipBehavior: _tooltipBehavior,
+                            series: <CircularSeries>[
+                                PieSeries<IncomeData, String>(
+                                  explode: true,
+                                  dataSource: _chartIncomeData,
+                                  xValueMapper: (IncomeData data, _) =>
+                                      data.catogory,
+                                  yValueMapper: (IncomeData data, _) =>
+                                      data.amount,
+                                  dataLabelSettings: DataLabelSettings(
+                                      textStyle: customTextStyleOne(),
+                                      showZeroValue: false,
+                                      isVisible: true,
+                                      labelPosition:
+                                          ChartDataLabelPosition.outside),
+                                  enableTooltip: true,
+                                )
+                              ]),
+                    transactionList.isEmpty || !isCategoryEmpty(false)
+                        ? Center(
+                            child: Text(
+                              'No Expense Transactions Found',
+                              style: customTextStyleOne(),
+                            ),
                           )
-                        ]),
-                    SfCircularChart(
-                        legend: Legend(
-                            textStyle: customTextStyleOne(),
-                            isVisible: true,
-                            overflowMode: LegendItemOverflowMode.wrap),
-                        tooltipBehavior: _tooltipBehavior,
-                        series: <CircularSeries>[
-                          PieSeries<ExpenseData, String>(
-                            explode: true,
-                            dataSource: _chartExpenseData,
-                            xValueMapper: (ExpenseData data, _) =>
-                                data.catogory,
-                            yValueMapper: (ExpenseData data, _) => data.amount,
-                            dataLabelSettings: DataLabelSettings(
+                        : SfCircularChart(
+                            legend: Legend(
                                 textStyle: customTextStyleOne(),
                                 isVisible: true,
-                                labelPosition: ChartDataLabelPosition.outside),
-                            enableTooltip: true,
-                          )
-                        ]),
+                                overflowMode: LegendItemOverflowMode.wrap),
+                            tooltipBehavior: _tooltipBehavior,
+                            series: <CircularSeries>[
+                                PieSeries<ExpenseData, String>(
+                                  explode: true,
+                                  dataSource: _chartExpenseData,
+                                  xValueMapper: (ExpenseData data, _) =>
+                                      data.catogory,
+                                  yValueMapper: (ExpenseData data, _) =>
+                                      data.amount,
+                                  dataLabelSettings: DataLabelSettings(
+                                      showZeroValue: false,
+                                      textStyle: customTextStyleOne(),
+                                      isVisible: true,
+                                      labelPosition:
+                                          ChartDataLabelPosition.outside),
+                                  enableTooltip: true,
+                                )
+                              ]),
                   ]),
                 ),
                 SizedBox(

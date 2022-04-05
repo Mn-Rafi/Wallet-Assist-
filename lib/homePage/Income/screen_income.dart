@@ -194,14 +194,13 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                   onTap: () => showDialog(
                                       context: context,
                                       builder: (ctx) => IncomeDisplay(
-                                          category:
-                                              transactionList[index].amount >= 0
-                                                  ? 'Income'
-                                                  : 'Expense',
+                                          category: transactionList[index]
+                                              .categoryName,
+                                          index: transactionList[index].key,
                                           incomeAmount:
                                               transactionList[index].amount,
                                           nameofCatagory: transactionList[index]
-                                              .categoryName,
+                                              .categoryCat,
                                           dateofIncome: transactionList[index]
                                               .dateofTransaction,
                                           notesaboutIncome:
