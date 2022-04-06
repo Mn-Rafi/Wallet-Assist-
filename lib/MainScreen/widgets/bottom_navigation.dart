@@ -15,7 +15,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(25), topLeft: Radius.circular(25)),
         boxShadow: [
-          BoxShadow(color: firstBlack, blurRadius: 1),
+          BoxShadow(color: firstBlack, blurRadius: 0.01),
         ],
       ),
       child: ClipRRect(
@@ -30,7 +30,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
               elevation: 0,
               currentIndex: updatedIndex,
               onTap: (newIndex) {
-                
                 ScreenHome.selectedIndexNotifier.value = newIndex;
               },
               type: BottomNavigationBarType.fixed,
@@ -44,7 +43,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 const BottomNavigationBarItem(
                   icon: FaIcon(FontAwesomeIcons.house),
                   label: '⦿',
-                  activeIcon: FaIcon(FontAwesomeIcons.houseChimney,size: 20),
+                  activeIcon: FaIcon(FontAwesomeIcons.houseChimney, size: 20),
                 ),
                 const BottomNavigationBarItem(
                   icon: FaIcon(FontAwesomeIcons.chartGantt),
@@ -65,8 +64,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     ),
                   ),
                   label: '',
-                  activeIcon: const FaIcon(
-                      FontAwesomeIcons.plus, size: 30),
+                  activeIcon: const FaIcon(FontAwesomeIcons.plus, size: 30),
                 ),
                 const BottomNavigationBarItem(
                   icon: FaIcon(FontAwesomeIcons.list),
@@ -74,9 +72,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   activeIcon: FaIcon(FontAwesomeIcons.tableList, size: 20),
                 ),
                 const BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.userPen, size: 24,),
+                  icon: FaIcon(
+                    FontAwesomeIcons.userPen,
+                    size: 24,
+                  ),
                   label: '⦿',
-                  activeIcon: FaIcon(FontAwesomeIcons.solidPenToSquare, size: 20,),
+                  activeIcon: FaIcon(
+                    FontAwesomeIcons.solidPenToSquare,
+                    size: 20,
+                  ),
                 )
               ],
             );

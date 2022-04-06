@@ -87,6 +87,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,

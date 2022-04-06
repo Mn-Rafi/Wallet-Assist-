@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/Splash Screen/screen_splash.dart';
+import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: () {
         return MaterialApp(
-            theme: ThemeData(primarySwatch: Colors.pink),
+            theme: ThemeData(primarySwatch: Colors.grey),
             debugShowCheckedModeBanner: false,
             home: const ScreenSplash());
       },

@@ -48,7 +48,6 @@ class IncomeDisplay extends StatelessWidget {
                                   () => showDialog(
                                       context: context,
                                       builder: (ctx) => CustomEditTransaction(
-                                        bgColor: incomeGreen,
                                             listHint: nameofCatagory.category,
                                             notes: notesaboutIncome,
                                             amount: incomeAmount,

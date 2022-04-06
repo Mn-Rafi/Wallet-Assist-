@@ -65,6 +65,7 @@ class _ScreenRemainderState extends State<ScreenRemainder>
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -127,8 +128,10 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                                   builder:
                                                                       (context) =>
                                                                           EditIncomeCategory(
-                                                                            typeTransactonList: incomeCategories,
-                                                                            transactionList: transactionList,
+                                                                    typeTransactonList:
+                                                                        incomeCategories,
+                                                                    transactionList:
+                                                                        transactionList,
                                                                     type: true,
                                                                     index:
                                                                         index,
@@ -142,24 +145,51 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                     ),
                                                     PopupMenuItem(
                                                         onTap: () {
-                                                          for (int i = 0;
-                                                              i <
-                                                                  transactionList
-                                                                      .length;
-                                                              i++) {
-                                                            if (transactionList[
-                                                                        i]
-                                                                    .categoryName ==
-                                                                incomeCategories[
-                                                                        index]
-                                                                    .category) {
-                                                              transactionList[i]
-                                                                  .delete();
-                                                            }
-                                                          }
-                                                          incomeCategories[
-                                                                  index]
-                                                              .delete();
+                                                          Future.delayed(
+                                                              const Duration(
+                                                                  seconds: 0),
+                                                              () => showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (ctx) =>
+                                                                      AlertDialog(
+                                                                        title:
+                                                                            Text(
+                                                                          'Previous transactions of this category will be deleted permenantly. Continue?',
+                                                                          style:
+                                                                              customTextStyleOne(fontSize: 15),
+                                                                        ),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              for (int i = 0; i < transactionList.length; i++) {
+                                                                                if (transactionList[i].categoryName == incomeCategories[index].category) {
+                                                                                  transactionList[i].delete();
+                                                                                }
+                                                                              }
+                                                                              incomeCategories[index].delete();
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Text(
+                                                                              'Yes',
+                                                                              style: customTextStyleOne(),
+                                                                            ),
+                                                                          ),
+                                                                          TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Text(
+                                                                              'No',
+                                                                              style: customTextStyleOne(),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      )));
                                                         },
                                                         child: const Text(
                                                             'Delete')),
@@ -188,7 +218,7 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                               color: Colors.red, fontSize: 17.sp),
                         )),
                     SizedBox(
-                      height: 70.h,
+                      height: 70.w,
                     )
                   ],
                 ),
@@ -239,19 +269,43 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                                 ),
                                                                 PopupMenuItem(
                                                                     onTap: () {
-                                                                      for (int i =
-                                                                              0;
-                                                                          i < transactionList.length;
-                                                                          i++) {
-                                                                        if (transactionList[i].categoryName ==
-                                                                            expenseCategories[index].category) {
-                                                                          transactionList[i]
-                                                                              .delete();
-                                                                        }
-                                                                      }
-                                                                      expenseCategories[
-                                                                              index]
-                                                                          .delete();
+                                                                      Future.delayed(
+                                                                          const Duration(seconds: 0),
+                                                                          () => showDialog(
+                                                                              context: context,
+                                                                              builder: (ctx) => AlertDialog(
+                                                                                    title: Text(
+                                                                                      'All previous transactions of this categories will be deleted permenantly. Do you really want to continue?',
+                                                                                      style: customTextStyleOne(fontSize: 15),
+                                                                                    ),
+                                                                                    actions: [
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          for (int i = 0; i < transactionList.length; i++) {
+                                                                                            if (transactionList[i].categoryName == expenseCategories[index].category) {
+                                                                                              transactionList[i].delete();
+                                                                                            }
+                                                                                          }
+                                                                                          expenseCategories[index].delete();
+
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: Text(
+                                                                                          'Yes',
+                                                                                          style: customTextStyleOne(),
+                                                                                        ),
+                                                                                      ),
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: Text(
+                                                                                          'No',
+                                                                                          style: customTextStyleOne(),
+                                                                                        ),
+                                                                                      )
+                                                                                    ],
+                                                                                  )));
                                                                     },
                                                                     child: const Text(
                                                                         'Delete')),
@@ -279,7 +333,7 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                               color: Colors.red, fontSize: 17.sp),
                         )),
                     SizedBox(
-                      height: 70.h,
+                      height: 70.w,
                     )
                   ],
                 ),

@@ -42,35 +42,38 @@ class CustomTotalIncomeContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: containerColor,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              headText,
-              style: customTextStyleOne(color: titleColor, fontSize: 15),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '₹$totalIncomeAmount',
-                  style: customTextStyleOne(fontSize: 25),
-                ),
-                Text(
-                  '+₹$lastIncomeAmount',
-                  style: customTextStyleOne(fontSize: 16),
-                ),
-              ],
-            ),
-          ],
+    return Hero(
+      tag: 'incomeHero',
+      child: Container(
+        decoration: BoxDecoration(
+          color: containerColor,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Text(
+                headText,
+                style: customTextStyleOne(color: Colors.white, fontSize: 15),
+              ),
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '₹$totalIncomeAmount',
+                    style:
+                        customTextStyleOne(fontSize: 25, color: Colors.white),
+                  ),
+                  Text(
+                    '+₹$lastIncomeAmount',
+                    style: customTextStyleOne(fontSize: 16),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -78,12 +81,12 @@ class CustomTotalIncomeContainer extends StatelessWidget {
 }
 
 class CustomTotalWalletContainer extends StatelessWidget {
-  String totalWalletAmount;
-  String lastTransactionAmount;
-  Color titleColor;
-  Color bgColor;
+  final String totalWalletAmount;
+  final String lastTransactionAmount;
+  final Color titleColor;
+  final Color bgColor;
 
-  CustomTotalWalletContainer({
+  const CustomTotalWalletContainer({
     Key? key,
     required this.totalWalletAmount,
     required this.lastTransactionAmount,
@@ -105,7 +108,7 @@ class CustomTotalWalletContainer extends StatelessWidget {
           children: [
             Text(
               'Your wallet balance',
-              style: customTextStyleOne(color: Colors.white, fontSize: 15),
+              style: customTextStyleOne(fontSize: 15, color: titleColor),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,11 +116,13 @@ class CustomTotalWalletContainer extends StatelessWidget {
               children: [
                 Text(
                   totalWalletAmount,
-                  style: customTextStyleOne(fontSize: 25,color: Colors.white),
+                  style: customTextStyleOne(fontSize: 25, color: titleColor),
                 ),
                 Text(
                   lastTransactionAmount,
-                  style: customTextStyleOne(fontSize: 16),
+                  style: customTextStyleOne(
+                    fontSize: 16,
+                  ),
                 ),
               ],
             ),
@@ -129,11 +134,11 @@ class CustomTotalWalletContainer extends StatelessWidget {
 }
 
 class CustomIncomeContainer extends StatelessWidget {
-  String headText;
-  double totalIncomeAmount;
-  DateTime incomeDate;
+  final String headText;
+  final double totalIncomeAmount;
+  final DateTime incomeDate;
 
-  CustomIncomeContainer({
+  const CustomIncomeContainer({
     Key? key,
     required this.headText,
     required this.totalIncomeAmount,
@@ -144,7 +149,7 @@ class CustomIncomeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: incomeGreen,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
@@ -154,7 +159,7 @@ class CustomIncomeContainer extends StatelessWidget {
           children: [
             Text(
               headText,
-              style: customTextStyleOne(color: secondGrey, fontSize: 15),
+              style: customTextStyleOne(color: Colors.white, fontSize: 15),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,7 +167,7 @@ class CustomIncomeContainer extends StatelessWidget {
               children: [
                 Text(
                   '₹$totalIncomeAmount',
-                  style: customTextStyleOne(fontSize: 25),
+                  style: customTextStyleOne(fontSize: 25, color: Colors.white),
                 ),
                 Text(
                   getText(),
@@ -180,11 +185,3 @@ class CustomIncomeContainer extends StatelessWidget {
     return '${incomeDate.day}-${incomeDate.month}-${incomeDate.year}';
   }
 }
-
-List<PopupMenuEntry<dynamic>> popUpMenuActions = [
-  PopupMenuItem(
-    onTap: () {},
-    child: GestureDetector(child: Text('Edit')),
-  ),
-  PopupMenuItem(child: Text('Delete')),
-];

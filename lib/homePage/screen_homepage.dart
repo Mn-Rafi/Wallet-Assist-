@@ -81,6 +81,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           foregroundColor: firstBlack,
           actions: [
@@ -151,9 +152,10 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           GestureDetector(
                             onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => const ScreenIncome())),
+                                    builder: (context) =>
+                                        const ScreenIncome())),
                             child: const Hero(
-                              tag: 'income',
+                              tag: 'incomeHero',
                               child: CustomContainerForCatogories(
                                   backgroundColor: incomeGreen,
                                   imagePath: 'images/income.png',
@@ -163,9 +165,10 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           GestureDetector(
                             onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => const ScreenExpense())),
+                                    builder: (context) =>
+                                        const ScreenExpense())),
                             child: const Hero(
-                              tag: 'expense',
+                              tag: 'expenseHero',
                               child: CustomContainerForCatogories(
                                   backgroundColor: expenseBlue,
                                   imagePath: 'images/expense.png',

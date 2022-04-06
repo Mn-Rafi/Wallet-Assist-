@@ -11,12 +11,13 @@ class RegularPayment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => ScreenHome(),
+                  builder: (BuildContext context) => const ScreenHome(),
                 ),
                 (route) => false),
             icon: const Icon(
@@ -32,7 +33,7 @@ class RegularPayment extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Center(child: const Text('No Regular Payments Found')),
+      body: const Center(child: Text('No Regular Payments Found')),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.white,
         foregroundColor: firstBlack,

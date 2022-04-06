@@ -30,35 +30,37 @@ class CustomTotalExpenseContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              headText,
-              style: customTextStyleOne(color: secondGrey, fontSize: 15),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '₹$totalExpenseAmount',
-                  style: customTextStyleOne(fontSize: 25),
-                ),
-                Text(
-                  '+₹$lastExpenseAmount',
-                  style: customTextStyleOne(fontSize: 16),
-                ),
-              ],
-            ),
-          ],
+    return Hero(
+      tag: 'expenseHero',
+      child: Container(
+        decoration: BoxDecoration(
+          color: expenseBlue,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Text(
+                headText,
+                style: customTextStyleOne(color: Colors.white, fontSize: 15),
+              ),
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '₹$totalExpenseAmount',
+                    style: customTextStyleOne(fontSize: 25, color: Colors.white),
+                  ),
+                  Text(
+                    '+₹$lastExpenseAmount',
+                    style: customTextStyleOne(fontSize: 16),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -81,7 +83,7 @@ class CustomExpenseContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: expenseBlue,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
@@ -91,7 +93,7 @@ class CustomExpenseContainer extends StatelessWidget {
           children: [
             Text(
               headText,
-              style: customTextStyleOne(color: secondGrey, fontSize: 15),
+              style: customTextStyleOne(color: Colors.white, fontSize: 15),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +101,7 @@ class CustomExpenseContainer extends StatelessWidget {
               children: [
                 Text(
                   '₹${-totalExpenseAmount}',
-                  style: customTextStyleOne(fontSize: 25),
+                  style: customTextStyleOne(fontSize: 25, color: Colors.white),
                 ),
                 Text(
                   getText(),

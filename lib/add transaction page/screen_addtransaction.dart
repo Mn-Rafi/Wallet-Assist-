@@ -58,6 +58,7 @@ class _ScreenTransactionState extends State<ScreenTransaction>
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -84,21 +85,17 @@ class _ScreenTransactionState extends State<ScreenTransaction>
               ],
             ),
             Expanded(
-              child: TabBarView(controller: _tabController, children: [
-                Container(
-                  child: const CustomAddCatogoryIncome(
-                      type: true,
-                      addFunction: AddCategory(),
-                      index: 0,
-                      listHint: 'income categories'),
-                ),
-                Container(
-                  child: const CustomAddCatogoryIncome(
-                      type: false,
-                      addFunction: AddExpenseCategory(),
-                      index: 1,
-                      listHint: 'expense categories'),
-                ),
+              child: TabBarView(controller: _tabController, children: const [
+                CustomAddCatogoryIncome(
+                    type: true,
+                    addFunction: AddCategory(),
+                    index: 0,
+                    listHint: 'income categories'),
+                CustomAddCatogoryIncome(
+                    type: false,
+                    addFunction: AddExpenseCategory(),
+                    index: 1,
+                    listHint: 'expense categories'),
               ]),
             )
           ],

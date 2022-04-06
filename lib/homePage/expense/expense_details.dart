@@ -49,7 +49,6 @@ class ExpenseDisplay extends StatelessWidget {
                                   () => showDialog(
                                       context: context,
                                       builder: (ctx) => CustomEditTransaction(
-                                            bgColor: expenseBlue,
                                             amount: -expenseAmount,
                                             notes: notesaboutExpense,
                                             dropdownValue: nameofCatagory,

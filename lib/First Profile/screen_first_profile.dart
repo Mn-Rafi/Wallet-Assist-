@@ -94,6 +94,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,

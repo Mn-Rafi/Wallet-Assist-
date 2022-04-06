@@ -97,7 +97,6 @@ Container customTextFieldContainer(String searchInput) {
 }
 
 class CustomEditTransaction extends StatefulWidget {
-  final Color bgColor;
   final double amount;
   final String notes;
   final DateTime dateOfTransaction;
@@ -109,7 +108,6 @@ class CustomEditTransaction extends StatefulWidget {
   final Widget addFunction;
   const CustomEditTransaction({
     Key? key,
-    required this.bgColor,
     required this.amount,
     required this.notes,
     required this.dateOfTransaction,
@@ -139,6 +137,7 @@ int findIndex(Transactions transaction) {
 }
 
 class _CustomEditTransactionState extends State<CustomEditTransaction> {
+  final Color bgColor = Colors.white;
   final formKey = GlobalKey<FormState>();
   Categories? dropdownvalue;
   DateTime date = DateTime.now();
@@ -162,7 +161,7 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: widget.bgColor,
+      backgroundColor: bgColor,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -209,7 +208,8 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(50)),
+                        border: Border.all(width: 0.2),
+                        borderRadius: BorderRadius.circular(20)),
                     child: ValueListenableBuilder(
                         valueListenable:
                             Hive.box<Categories>('categories').listenable(),
