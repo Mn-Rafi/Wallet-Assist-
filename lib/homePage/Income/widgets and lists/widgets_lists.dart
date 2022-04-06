@@ -81,19 +81,21 @@ class CustomTotalWalletContainer extends StatelessWidget {
   String totalWalletAmount;
   String lastTransactionAmount;
   Color titleColor;
+  Color bgColor;
 
   CustomTotalWalletContainer({
     Key? key,
     required this.totalWalletAmount,
     required this.lastTransactionAmount,
     this.titleColor = secondGrey,
+    required this.bgColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: bgColor,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
@@ -103,7 +105,7 @@ class CustomTotalWalletContainer extends StatelessWidget {
           children: [
             Text(
               'Your wallet balance',
-              style: customTextStyleOne(color: titleColor, fontSize: 15),
+              style: customTextStyleOne(color: Colors.white, fontSize: 15),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,7 +113,7 @@ class CustomTotalWalletContainer extends StatelessWidget {
               children: [
                 Text(
                   totalWalletAmount,
-                  style: customTextStyleOne(fontSize: 25),
+                  style: customTextStyleOne(fontSize: 25,color: Colors.white),
                 ),
                 Text(
                   lastTransactionAmount,

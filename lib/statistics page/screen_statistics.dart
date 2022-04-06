@@ -18,6 +18,7 @@ class ScreenStatistics extends StatefulWidget {
 class _ScreenStatisticsState extends State<ScreenStatistics>
     with SingleTickerProviderStateMixin {
   late List<IncomeData> _chartIncomeData;
+
   late List<ExpenseData> _chartExpenseData;
   late TabController _tabController;
   late TooltipBehavior _tooltipBehavior;

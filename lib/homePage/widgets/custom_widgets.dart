@@ -66,7 +66,7 @@ class CustomContainerForCatogories extends StatelessWidget {
             padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 8),
             child: Text(
               title,
-              style: customTextStyleOne(fontSize: 15.sp),
+              style: customTextStyleOne(fontSize: 15.sp, color: Colors.white),
             ),
           )
         ],

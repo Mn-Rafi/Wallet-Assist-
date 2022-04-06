@@ -36,6 +36,7 @@ dependencies:
   hive_flutter: ^1.1.0
   image_cropper: ^1.5.1
   image_picker: ^0.8.4+11
+  rubber: ^1.0.1
   shared_preferences: ^2.0.13
   showcaseview: ^1.1.5
   syncfusion_flutter_charts: ^19.4.56

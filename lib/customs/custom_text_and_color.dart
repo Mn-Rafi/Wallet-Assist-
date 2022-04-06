@@ -12,9 +12,9 @@ SizedBox customSpaceTwo = SizedBox(
   height: 20.w,
 );
 
-const incomeGreen = Color.fromARGB(255, 172, 240, 179);
-const expenseBlue = Color.fromARGB(255, 149, 228, 255);
-const walletPink = Color.fromARGB(255, 255, 187, 236);
+const incomeGreen = Colors.greenAccent;
+const expenseBlue = Colors.redAccent;
+const walletPink = Color.fromARGB(255,241,234,216);
 
 const firstBlue = Color.fromARGB(255, 0, 8, 255);
 const firstOrange = Color.fromARGB(255, 255, 77, 0);

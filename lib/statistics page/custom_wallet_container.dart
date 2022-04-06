@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
-
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
 
@@ -87,7 +87,8 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                             children: [
                               Text(
                                 'Wallet',
-                                style: customTextStyleOne(fontSize: 20.sp),
+                                style: customTextStyleOne(
+                                    fontSize: 20.sp, color: firstBlack),
                               ),
                             ],
                           ),
@@ -97,6 +98,7 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                           transactions.isEmpty
                               ? Center(
                                   child: CustomTotalWalletContainer(
+                                    bgColor: Colors.white,
                                     titleColor:
                                         const Color.fromARGB(255, 0, 0, 0),
                                     totalWalletAmount:
@@ -106,8 +108,10 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                                   ),
                                 )
                               : CustomTotalWalletContainer(
-                                  titleColor:
-                                      const Color.fromARGB(255, 0, 0, 0),
+                                  bgColor: transactions.last.amount > 0
+                                      ? incomeGreen
+                                      : expenseBlue,
+                                  titleColor: Colors.white,
                                   totalWalletAmount: widget
                                                   .initialWallletAmount +
                                               getTotalExpense() >=
@@ -125,7 +129,7 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                           Text(
                             'Transactions',
                             style: customTextStyleOneWithUnderLine(
-                                fontSize: 20.sp),
+                                fontSize: 20.sp, color: firstBlack),
                           ),
                           SizedBox(
                             height: 15.h,
@@ -144,6 +148,9 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
                                     return CustomWalletTransactionContainer(
+                                      bgColor: transactions[index].amount > 0
+                                          ? incomeGreen
+                                          : expenseBlue,
                                       previousTransactionAmaount: transactions[
                                                       index]
                                                   .amount >=
@@ -182,19 +189,21 @@ class CustomWalletTransactionContainer extends StatelessWidget {
   String transactionAmount;
   DateTime transactionDate;
   String previousTransactionAmaount;
+  Color bgColor;
 
   CustomWalletTransactionContainer({
     Key? key,
     required this.transactionAmount,
     required this.transactionDate,
     required this.previousTransactionAmaount,
+    required this.bgColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: bgColor,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
@@ -204,7 +213,7 @@ class CustomWalletTransactionContainer extends StatelessWidget {
           children: [
             Text(
               transactionAmount,
-              style: customTextStyleOne(fontSize: 25),
+              style: customTextStyleOne(fontSize: 25, color: Colors.white),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,7 +221,7 @@ class CustomWalletTransactionContainer extends StatelessWidget {
               children: [
                 Text(
                   getText(),
-                  style: customTextStyleOne(color: secondGrey, fontSize: 15),
+                  style: customTextStyleOne(color: Colors.white, fontSize: 15),
                 ),
                 Text(
                   previousTransactionAmaount,
