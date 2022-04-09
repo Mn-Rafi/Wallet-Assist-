@@ -59,82 +59,81 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
         return Future.value(true);
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text.rich(TextSpan(children: [
-                          TextSpan(
-                              text: 'Manage ',
-                              style: customTextStyleOne(
-                                  color: firstBlue, fontSize: 32)),
-                          TextSpan(
-                            text: 'your income and expence ',
-                            style: customTextStyleOne(fontSize: 32),
-                          ),
-                          TextSpan(
-                              text: 'quickly ',
-                              style: customTextStyleOne(
-                                  color: firstOrange, fontSize: 32)),
-                        ])),
-                        Image.asset(
-                          'images/financial-management-statistics-vector-22868355.png',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  alignment: Alignment.center,
-                  // width: 275.w,
-                  height: 48.h,
-                  decoration: customBoxDecoration,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30),
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Let\'s Get Started',
-                        style: customTextStyleOne(fontSize: 20),
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: 'Manage ',
+                            style: customTextStyleOne(
+                                color: firstBlue, fontSize: 32)),
+                        TextSpan(
+                          text: 'your income and expence ',
+                          style: customTextStyleOne(fontSize: 32),
+                        ),
+                        TextSpan(
+                            text: 'quickly ',
+                            style: customTextStyleOne(
+                                color: firstOrange, fontSize: 32)),
+                      ])),
+                      Image.asset(
+                        'images/financial-management-statistics-vector-22868355.png',
                       ),
-                      GestureDetector(
-                          onTap: () async {
-                            await _storeOnboardingInfo();
-                            categories = Hive.box<Categories>('categories');
-                            for (int i = 0;
-                                i < listIncomeCategories.length;
-                                i++) {
-                              categories.add(Categories(
-                                  category: listIncomeCategories[i],
-                                  type: true));
-                            }
-                            for (int i = 0;
-                                i < listExpenseCategories.length;
-                                i++) {
-                              categories.add(Categories(
-                                  category: listExpenseCategories[i],
-                                  type: false));
-                            }
-
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (ctx) => const ScreenProfile(),
-                              ),
-                            );
-                          },
-                          child: arrowForwardIcon)
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.center,
+                // width: 275.w,
+                height: 48.h,
+                decoration: customBoxDecoration,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Let\'s Get Started',
+                      style: customTextStyleOne(fontSize: 20),
+                    ),
+                    GestureDetector(
+                        onTap: () async {
+                          await _storeOnboardingInfo();
+                          categories = Hive.box<Categories>('categories');
+                          for (int i = 0;
+                              i < listIncomeCategories.length;
+                              i++) {
+                            categories.add(Categories(
+                                category: listIncomeCategories[i],
+                                type: true));
+                          }
+                          for (int i = 0;
+                              i < listExpenseCategories.length;
+                              i++) {
+                            categories.add(Categories(
+                                category: listExpenseCategories[i],
+                                type: false));
+                          }
+
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (ctx) => const ScreenProfile(),
+                            ),
+                          );
+                        },
+                        child: arrowForwardIcon)
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

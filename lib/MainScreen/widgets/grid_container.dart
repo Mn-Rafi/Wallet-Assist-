@@ -22,7 +22,6 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 140.w,
       height: 50.h,
       decoration: BoxDecoration(
         border: Border.all(
@@ -35,8 +34,8 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
           Padding(
             padding: const EdgeInsets.only(left: 7.0),
             child: Container(
-              width: 30.w,
-              height: 30.w,
+              width: 37.h,
+              height: 37.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.w),
                 image: DecorationImage(
@@ -54,7 +53,7 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 110.w,
+                  width: 100.w,
                   child: Text(
                     widget.categoryName,
                     overflow: TextOverflow.ellipsis,
@@ -65,7 +64,7 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
                   ),
                 ),
                 SizedBox(
-                    width: 110.w,
+                    width: 100.w,
                     child: Text(
                       '₹'+widget.amount.toString(),
                       overflow: TextOverflow.ellipsis,

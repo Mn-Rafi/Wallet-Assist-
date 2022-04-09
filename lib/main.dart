@@ -9,7 +9,7 @@ import 'package:month_year_picker/month_year_picker.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color.fromARGB(87, 124, 124, 124)));
+      statusBarColor: Color.fromARGB(255, 255, 255, 255)));
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter<ProfileDetails>(ProfileDetailsAdapter());

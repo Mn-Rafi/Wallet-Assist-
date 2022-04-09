@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:money_manager_app/Category%20page/screen_catogories.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
-import 'package:money_manager_app/MainScreen/screen_home.dart';
-import 'package:money_manager_app/On%20Boarding/screen_onboarding.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
-import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:money_manager_app/profile%20page/wifgets_of_profile.dart';
 
 class ScreenProfileDetails extends StatefulWidget {
@@ -16,6 +14,28 @@ class ScreenProfileDetails extends StatefulWidget {
 }
 
 class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
+  final snackBarOne = SnackBar(
+    duration: const Duration(seconds: 1),
+    content: Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(width: 0.2, color: Colors.black),
+          borderRadius: BorderRadius.circular(20)),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Text(
+          'Transactions cleared successfully',
+          textAlign: TextAlign.center,
+          style: customTextStyleOne(color: firstBlack),
+        ),
+      ),
+    ),
+    backgroundColor: Colors.transparent,
+    elevation: 10000,
+    behavior: SnackBarBehavior.floating,
+  );
+
   bool notificationValue = false;
   DateTime? timeBackButton;
   @override
@@ -26,27 +46,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
         if (timeBackButton == null ||
             now.difference(timeBackButton!) >= const Duration(seconds: 2)) {
           timeBackButton = now;
-          final snackBar = SnackBar(
-            duration: const Duration(seconds: 1),
-            content: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(width: 0.2, color: Colors.black),
-                  borderRadius: BorderRadius.circular(20)),
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  'double tap to exit',
-                  textAlign: TextAlign.center,
-                  style: customTextStyleOne(color: firstBlack),
-                ),
-              ),
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 10000,
-            behavior: SnackBarBehavior.floating,
-          );
+
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           return false;
         }
@@ -95,7 +95,6 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         ],
                       ),
                       GestureDetector(
-                          excludeFromSemantics: true,
                           onTap: () => showDialog(
                               context: context,
                               builder: (ctx) => EditProfileDetails(
@@ -139,6 +138,74 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                               notificationValue = value;
                             });
                           }),
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => const ScreenCategories())),
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(Icons.category, size: 22.w),
+                          title: 'Edit Categories',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text(
+                                    'All transactions will be removed permenantly. Continue?',
+                                    style: customTextStyleOne(),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () async {
+                                          await Hive.box<Transactions>(
+                                                  'transactions')
+                                              .clear();
+                                          await Hive.box<Categories>(
+                                                  'categories')
+                                              .clear();
+                                          for (int i = 0;
+                                              i < listIncomeCategories.length;
+                                              i++) {
+                                            Hive.box<Categories>('categories')
+                                                .add(Categories(
+                                                    category:
+                                                        listIncomeCategories[i],
+                                                    type: true));
+                                          }
+                                          for (int i = 0;
+                                              i < listExpenseCategories.length;
+                                              i++) {
+                                            Hive.box<Categories>('categories')
+                                                .add(Categories(
+                                                    category:
+                                                        listExpenseCategories[
+                                                            i],
+                                                    type: false));
+                                          }
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBarOne);
+                                        },
+                                        child: Text(
+                                          'Yes',
+                                          style: customTextStyleOne(),
+                                        )),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        'No',
+                                        style: customTextStyleOne(),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(Icons.remove_circle, size: 22.w),
+                          title: 'Clear All',
+                        ),
+                      ),
                       CustomRowofprofile(
                         leadingIcon: Icon(
                           Icons.share,
@@ -158,29 +225,9 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         leadingIcon: Icon(Icons.info, size: 22.w),
                         title: 'About me',
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          await Hive.box<Transactions>('transactions').clear();
-                          await Hive.box<Categories>('categories').clear();
-                          for (int i = 0;
-                              i < listIncomeCategories.length;
-                              i++) {
-                            Hive.box<Categories>('categories').add(Categories(
-                                category: listIncomeCategories[i], type: true));
-                          }
-                          for (int i = 0;
-                              i < listExpenseCategories.length;
-                              i++) {
-                            Hive.box<Categories>('categories').add(Categories(
-                                category: listExpenseCategories[i],
-                                type: false));
-                          }
-                        },
-                        child: CustomRowofprofile(
-                          leadingIcon: Icon(Icons.info, size: 22.w),
-                          title: 'Clear All',
-                        ),
-                      ),
+                      SizedBox(
+                        height: 70.h,
+                      )
                     ],
                   ),
                 );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:money_manager_app/Category%20page/screen_catogories.dart';
 import 'package:money_manager_app/MainScreen/widgets/bottom_navigation.dart';
+import 'package:money_manager_app/Regular%20Payment/screen_regularpayments.dart';
 import 'package:money_manager_app/add%20transaction%20page/screen_addtransaction.dart';
 import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:money_manager_app/profile%20page/screen_profile.dart';
@@ -17,7 +18,7 @@ class ScreenHome extends StatelessWidget {
     ScreenHomePage(),
     ScreenStatistics(),
     ScreenTransaction(),
-    ScreenRemainder(),
+    RegularPayment(),
     ScreenProfileDetails()
   ];
 

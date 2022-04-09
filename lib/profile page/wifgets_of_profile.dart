@@ -18,8 +18,8 @@ class CustomContainerForImageProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 150.w,
-      height: 150.w,
+      width: 150.h,
+      height: 150.h,
       child: imagePath != null
           ? CircleAvatar(
               backgroundImage: FileImage(File(imagePath!)),
@@ -45,12 +45,12 @@ class CustomRowofprofile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding:EdgeInsets.symmetric(vertical: 10.0.h),
       child: Row(
         children: [
           leadingIcon,
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            padding: EdgeInsets.symmetric(horizontal: 32.0.w),
             child: Text(title, style: customTextStyleOne(fontSize: 17.sp)),
           )
         ],
@@ -60,9 +60,9 @@ class CustomRowofprofile extends StatelessWidget {
 }
 
 class EditProfile extends StatelessWidget {
-  String intialName;
-  String imagePath;
-  EditProfile({
+  final String intialName;
+  final String imagePath;
+  const EditProfile({
     Key? key,
     required this.intialName,
     required this.imagePath,

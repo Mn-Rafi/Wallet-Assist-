@@ -83,16 +83,6 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           foregroundColor: firstBlack,
-          actions: [
-            IconButton(
-              padding: const EdgeInsets.only(right: 25),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const RegularPayment(),
-              )),
-              icon: const Icon(FontAwesomeIcons.calendarPlus),
-              color: firstBlack,
-            )
-          ],
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(
@@ -296,26 +286,24 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                                                     nameofCatagory: transactionList[index].categoryCat,
                                                     notesaboutExpense: transactionList[index].notes)),
                                         child: CustomGridContainer(
-                                            imagePath: transactionList[index]
-                                                        .amount >=
-                                                    0
-                                                ? 'images/incomeGreen.jpg'
-                                                : 'images/expenseBlue.jpg',
+                                            imagePath:
+                                                transactionList[index].amount >=
+                                                        0
+                                                    ? 'images/incomeGreen.jpg'
+                                                    : 'images/expenseBlue.jpg',
                                             amount: transactionList[index]
                                                         .amount >=
                                                     0
                                                 ? transactionList[index].amount
                                                 : -transactionList[index]
                                                     .amount,
-                                            categoryName:
-                                                transactionList[index].amount >=
-                                                        0
-                                                    ? 'Inc/' +
-                                                        transactionList[index]
-                                                            .categoryName
-                                                    : 'Exp/' +
-                                                        transactionList[index]
-                                                            .categoryName),
+                                            categoryName: transactionList[index]
+                                                        .amount >=
+                                                    0
+                                                ? transactionList[index]
+                                                    .categoryName
+                                                : transactionList[index]
+                                                    .categoryName),
                                       );
                                     },
                                     itemCount: transactionList.length,

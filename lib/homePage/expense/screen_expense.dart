@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
@@ -57,6 +58,7 @@ class _ScreenExpenseState extends State<ScreenExpense> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pushAndRemoveUntil(
@@ -343,28 +345,149 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (ctx) => ExpenseDisplay(
-                                        category:
-                                            transactionList[index].categoryName,
-                                        index: transactionList[index].key,
-                                        dateofExpense: transactionList[index]
-                                            .dateofTransaction,
-                                        expenseAmount:
-                                            transactionList[index].amount,
-                                        nameofCatagory:
-                                            transactionList[index].categoryCat,
-                                        notesaboutExpense:
-                                            transactionList[index].notes)),
-                                child: CustomExpenseContainer(
-                                    expenseDate: transactionList[index]
-                                        .dateofTransaction,
-                                    totalExpenseAmount:
-                                        transactionList[index].amount,
-                                    headText:
-                                        transactionList[index].categoryName),
+                              return Slidable(
+                                key: const ValueKey(0),
+                                startActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (ctx) {
+                                        Future.delayed(
+                                            const Duration(seconds: 0),
+                                            () => showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                      title: Text(
+                                                        'Your transaction details will be deleted permenently. Do you really want to continue?',
+                                                        style:
+                                                            customTextStyleOne(
+                                                                fontSize: 15),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            List<Transactions>
+                                                                transactionList =
+                                                                incomeorExpense(
+                                                                    Hive.box<Transactions>(
+                                                                            'transactions')
+                                                                        .values
+                                                                        .toList())[1];
+                                                            transactionList[
+                                                                    index]
+                                                                .delete();
+
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'Yes',
+                                                            style:
+                                                                customTextStyleOne(),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'No',
+                                                            style:
+                                                                customTextStyleOne(),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )));
+                                      },
+                                      foregroundColor: Colors.black,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                    ),
+                                  ],
+                                ),
+                                endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (ctx) {
+                                        Future.delayed(
+                                            const Duration(seconds: 0),
+                                            () => showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                      title: Text(
+                                                        'Your transaction details will be deleted permenently. Do you really want to continue?',
+                                                        style:
+                                                            customTextStyleOne(
+                                                                fontSize: 15),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            List<Transactions>
+                                                                transactionList =
+                                                                incomeorExpense(
+                                                                    Hive.box<Transactions>(
+                                                                            'transactions')
+                                                                        .values
+                                                                        .toList())[1];
+                                                            transactionList[
+                                                                    index]
+                                                                .delete();
+
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'Yes',
+                                                            style:
+                                                                customTextStyleOne(),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'No',
+                                                            style:
+                                                                customTextStyleOne(),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )));
+                                      },
+                                      foregroundColor: Colors.black,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (ctx) => ExpenseDisplay(
+                                          category: transactionList[index]
+                                              .categoryName,
+                                          index: transactionList[index].key,
+                                          dateofExpense: transactionList[index]
+                                              .dateofTransaction,
+                                          expenseAmount:
+                                              transactionList[index].amount,
+                                          nameofCatagory: transactionList[index]
+                                              .categoryCat,
+                                          notesaboutExpense:
+                                              transactionList[index].notes)),
+                                  child: CustomExpenseContainer(
+                                      expenseDate: transactionList[index]
+                                          .dateofTransaction,
+                                      totalExpenseAmount:
+                                          transactionList[index].amount,
+                                      headText:
+                                          transactionList[index].categoryName),
+                                ),
                               );
                             },
                             separatorBuilder: (context, index) => SizedBox(

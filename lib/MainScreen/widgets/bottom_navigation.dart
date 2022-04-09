@@ -67,13 +67,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   activeIcon: const FaIcon(FontAwesomeIcons.plus, size: 30),
                 ),
                 const BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.list),
+                  icon: FaIcon(FontAwesomeIcons.solidBell),
                   label: '⦿',
-                  activeIcon: FaIcon(FontAwesomeIcons.tableList, size: 20),
+                  activeIcon: FaIcon(FontAwesomeIcons.calendarPlus, size: 20),
                 ),
                 const BottomNavigationBarItem(
                   icon: FaIcon(
-                    FontAwesomeIcons.userPen,
+                    FontAwesomeIcons.screwdriverWrench,
                     size: 24,
                   ),
                   label: '⦿',

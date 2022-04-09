@@ -80,3 +80,25 @@ List<String> listExpenseCategories = [
   'Transportation',
   'Other Expense'
 ];
+
+final snackBar = SnackBar(
+  duration: const Duration(seconds: 1),
+  content: Container(
+    decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 0.2, color: Colors.black),
+        borderRadius: BorderRadius.circular(20)),
+    margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text(
+        'double tap to exit',
+        textAlign: TextAlign.center,
+        style: customTextStyleOne(color: firstBlack),
+      ),
+    ),
+  ),
+  backgroundColor: Colors.transparent,
+  elevation: 10000,
+  behavior: SnackBarBehavior.floating,
+);

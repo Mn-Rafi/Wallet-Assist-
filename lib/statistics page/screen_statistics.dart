@@ -104,7 +104,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
             totalAmount += transactions[j].amount;
           }
         }
-        chartExpenseData.add(ExpenseData(categories[i].category, totalAmount));
+        chartExpenseData.add(ExpenseData(categories[i].category, -totalAmount));
       }
     }
     return chartExpenseData;
@@ -154,7 +154,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
             }
           }
         }
-        chartExpenseData.add(ExpenseData(categories[i].category, totalAmount));
+        chartExpenseData.add(ExpenseData(categories[i].category, -totalAmount));
       }
     }
     return chartExpenseData;
@@ -202,7 +202,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
             }
           }
         }
-        chartExpenseData.add(ExpenseData(categories[i].category, totalAmount));
+        chartExpenseData.add(ExpenseData(categories[i].category, -totalAmount));
       }
     }
     return chartExpenseData;
@@ -630,7 +630,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                   !isCategoryEmpty(true)
                               ? Center(
                                   child: Text(
-                                    'No Income Transactions Found',
+                                    'No Expense Transactions Found',
                                     style: customTextStyleOne(),
                                   ),
                                 )
