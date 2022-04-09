@@ -22,6 +22,7 @@ class _ScreenRemainderState extends State<ScreenRemainder>
   void initState() {
     categories = Hive.box<Categories>('categories');
     box1 = Hive.box<Transactions>('transactions');
+
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -109,7 +110,6 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                     child: Text('No categories found'),
                                   )
                                 : ListView.builder(
-                                    reverse: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -195,7 +195,9 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                             'Delete')),
                                                   ]),
                                           title: Text(
-                                              incomeCategories[index].category),
+                                            incomeCategories[index].category,
+                                            style: customTextStyleOne(),
+                                          ),
                                         ));
                           },
                         ),
@@ -238,7 +240,6 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                         child: Text('No categories found'),
                                       )
                                     : ListView.builder(
-                                        reverse: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
@@ -263,9 +264,11 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                                               ),
                                                                             ));
                                                                   },
-                                                                  child:
-                                                                      const Text(
-                                                                          'Edit'),
+                                                                  child: Text(
+                                                                    'Edit',
+                                                                    style:
+                                                                        customTextStyleOne(),
+                                                                  ),
                                                                 ),
                                                                 PopupMenuItem(
                                                                     onTap: () {
@@ -307,12 +310,17 @@ class _ScreenRemainderState extends State<ScreenRemainder>
                                                                                     ],
                                                                                   )));
                                                                     },
-                                                                    child: const Text(
-                                                                        'Delete')),
+                                                                    child: Text(
+                                                                      'Delete',
+                                                                      style:
+                                                                          customTextStyleOne(),
+                                                                    )),
                                                               ]),
                                                   title: Text(
-                                                      expenseCategories[index]
-                                                          .category),
+                                                    expenseCategories[index]
+                                                        .category,
+                                                    style: customTextStyleOne(),
+                                                  ),
                                                 ));
                               })),
                     ),

@@ -59,12 +59,14 @@ class CustomTextFieldForDate extends StatelessWidget {
   String? hint;
   Icon prefixIcon;
   Function() onTap;
+  String? labelText;
 
   CustomTextFieldForDate({
     Key? key,
     this.hint,
     required this.prefixIcon,
     required this.onTap,
+    this.labelText,
   }) : super(key: key);
 
   @override
@@ -75,6 +77,7 @@ class CustomTextFieldForDate extends StatelessWidget {
       cursorWidth: 1,
       cursorColor: firstGrey,
       decoration: InputDecoration(
+        labelText: labelText,
         filled: true,
         fillColor: Colors.white,
         prefixIcon: prefixIcon,
@@ -114,7 +117,7 @@ class CustomTextFieldFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      initialValue: initialValue !=0 ? '$initialValue' : '',
+      initialValue: initialValue != 0 ? '$initialValue' : '',
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
       ],
@@ -155,7 +158,7 @@ class CustomTextFieldThree extends StatelessWidget {
   final TextInputType keyboardType;
   final String initialValue;
 
-  CustomTextFieldThree({
+  const CustomTextFieldThree({
     Key? key,
     this.labelText,
     required this.prefixIcon,
@@ -178,9 +181,11 @@ class CustomTextFieldThree extends StatelessWidget {
         labelText: labelText,
         labelStyle: customTextStyleOne(),
         focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
@@ -189,8 +194,8 @@ class CustomTextFieldThree extends StatelessWidget {
 }
 
 class CustomOutlinedButton extends StatefulWidget {
-  Function() onPressed;
-  CustomOutlinedButton({
+  final Function() onPressed;
+  const CustomOutlinedButton({
     Key? key,
     required this.onPressed,
   }) : super(key: key);

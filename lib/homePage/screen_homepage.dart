@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -129,7 +128,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                               ),
                               Text(
                                 welcome,
-                                style: TextStyle(fontSize: 18.sp),
+                                style: customTextStyleOne(fontSize: 18.sp),
                               ),
                             ],
                           ),
@@ -194,8 +193,28 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                               setState(() {
                                 if (myIcon.icon == Icons.search) {
                                   myIcon = const Icon(Icons.clear);
-                                  myField =
-                                      customTextFieldContainer(searchInput);
+                                  myField = Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          255, 233, 233, 233),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15, top: 5),
+                                      child: TextField(
+                                        onChanged: (value) {
+                                          setState(() {
+                                            searchInput = value;
+                                          });
+                                        },
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Search here...',
+                                        ),
+                                      ),
+                                    ),
+                                  );
                                 } else {
                                   setState(() {
                                     searchInput = '';
@@ -218,8 +237,11 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                               Hive.box<Transactions>('transactions')
                                   .listenable(),
                           builder: (context, Box<Transactions> box, _) {
-                            List<Transactions> transactionList =
-                                box.values.toList();
+                            List<Transactions> transactionList = box.values
+                                .where((element) => element.categoryName
+                                    .toLowerCase()
+                                    .contains(searchInput.toLowerCase()))
+                                .toList();
                             return transactionList.isEmpty
                                 ? Center(
                                     child: Padding(

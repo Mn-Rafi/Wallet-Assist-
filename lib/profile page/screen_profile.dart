@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
+import 'package:money_manager_app/On%20Boarding/screen_onboarding.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:money_manager_app/profile%20page/wifgets_of_profile.dart';
@@ -76,11 +77,22 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomContainerForImageProfile(
-                          imagePath: profileDetails[0].imageUrl?.toString()),
-                      Text(
-                        profileDetails[0].nameofUser.toString(),
-                        style: customTextStyleOne(fontSize: 22),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomContainerForImageProfile(
+                              imagePath:
+                                  profileDetails[0].imageUrl?.toString()),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            profileDetails[0].nameofUser.toString(),
+                            style: customTextStyleOne(fontSize: 22),
+                          ),
+                        ],
                       ),
                       GestureDetector(
                           excludeFromSemantics: true,
@@ -94,6 +106,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                         profileDetails[0].imageUrl?.toString(),
                                   )),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(
                                 Icons.edit,
@@ -102,10 +115,13 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                               Text(
                                 'edit profile',
                                 style: customTextStyleOne(
-                                    color: Colors.red, fontSize: 14.w),
+                                    color: Colors.red, fontSize: 14.sp),
                               ),
                             ],
                           )),
+                      SizedBox(
+                        height: 20.h,
+                      ),
                       SwitchListTile(
                           contentPadding: const EdgeInsets.all(0),
                           secondary: Icon(
@@ -115,7 +131,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                           ),
                           title: Text(
                             'Notification',
-                            style: customTextStyleOne(fontSize: 17.w),
+                            style: customTextStyleOne(fontSize: 17.sp),
                           ),
                           value: notificationValue,
                           onChanged: (value) {
@@ -143,9 +159,22 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         title: 'About me',
                       ),
                       GestureDetector(
-                        onTap: (){
-                          Hive.box<Transactions>('transactions').clear();
-                          Hive.box<Categories>('categories').clear();
+                        onTap: () async {
+                          await Hive.box<Transactions>('transactions').clear();
+                          await Hive.box<Categories>('categories').clear();
+                          for (int i = 0;
+                              i < listIncomeCategories.length;
+                              i++) {
+                            Hive.box<Categories>('categories').add(Categories(
+                                category: listIncomeCategories[i], type: true));
+                          }
+                          for (int i = 0;
+                              i < listExpenseCategories.length;
+                              i++) {
+                            Hive.box<Categories>('categories').add(Categories(
+                                category: listExpenseCategories[i],
+                                type: false));
+                          }
                         },
                         child: CustomRowofprofile(
                           leadingIcon: Icon(Icons.info, size: 22.w),

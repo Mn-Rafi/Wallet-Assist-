@@ -1,50 +1,267 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
-class RegularPaymentAdd extends StatelessWidget {
-  String intialName;
-  RegularPaymentAdd({
+class RegularPaymentAdd extends StatefulWidget {
+  final String intialName;
+  const RegularPaymentAdd({
     Key? key,
     this.intialName = '',
   }) : super(key: key);
 
   @override
+  State<RegularPaymentAdd> createState() => _RegularPaymentAddState();
+}
+
+class _RegularPaymentAddState extends State<RegularPaymentAdd> {
+  String? name;
+  DateTime date = DateTime.now();
+  final formKey = GlobalKey<FormState>();
+
+  late Box<RegularPayments> regHive;
+  @override
+  void initState() {
+    regHive = Hive.box<RegularPayments>('regularPayments');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomTextFieldThree(
-              labelText: 'Title of the payment',
-              keyboardType: TextInputType.name,
-              prefixIcon: Icon(
-                Icons.upcoming,
+      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+      content: Form(
+        key: formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                validator: (value) {
+                  if (value!.trim() == '' || value.length < 3) {
+                    return 'Enter a valid title';
+                  } else {
+                    return null;
+                  }
+                },
+                onChanged: (value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
+                maxLength: 30,
+                keyboardType: TextInputType.name,
+                cursorWidth: 1,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: const Icon(Icons.title),
+                  labelText: 'Enter title',
+                  labelStyle: customTextStyleOne(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            CustomTextFieldThree(
-              labelText: 'Upcoming date',
-              keyboardType: TextInputType.datetime,
-              prefixIcon: Icon(
-                Icons.calendar_month,
+              CustomTextFieldForDate(
+                onTap: () {
+                  pickdate(context);
+                },
+                prefixIcon: const Icon(Icons.calendar_month),
+                hint: getText(),
               ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            CustomOutlinedButton(
-              onPressed: () => Navigator.pop(context),
-            )
-          ],
+              SizedBox(
+                height: 20.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomOutlinedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        regHive.add(
+                          RegularPayments(
+                            title: name!,
+                            upcomingDate: date,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future pickdate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime.now(),
+    );
+
+    if (newDate == null) {
+      return;
+    } else {
+      setState(() {
+        date = newDate;
+      });
+    }
+  }
+
+  String getText() {
+    return '${date.day}-${date.month}-${date.year}';
+  }
+}
+
+class RegularPaymentEdit extends StatefulWidget {
+  final String intialName;
+  final DateTime initialdate;
+  final int index;
+  const RegularPaymentEdit({
+    Key? key,
+    required this.intialName,
+    required this.initialdate,
+    required this.index,
+  }) : super(key: key);
+
+  @override
+  State<RegularPaymentEdit> createState() => _RegularPaymentEditState();
+}
+
+class _RegularPaymentEditState extends State<RegularPaymentEdit> {
+  String? name;
+  DateTime date = DateTime.now();
+  final formKey = GlobalKey<FormState>();
+
+  late Box<RegularPayments> regHive;
+  @override
+  void initState() {
+    name = widget.intialName;
+    date = widget.initialdate;
+    regHive = Hive.box<RegularPayments>('regularPayments');
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+      content: Form(
+        key: formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                initialValue: widget.intialName,
+                validator: (value) {
+                  if (value!.trim() == '' || value.length < 3) {
+                    return 'Enter a valid title';
+                  } else {
+                    return null;
+                  }
+                },
+                onChanged: (value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
+                maxLength: 30,
+                keyboardType: TextInputType.name,
+                cursorWidth: 1,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: const Icon(Icons.title),
+                  labelText: 'Enter title',
+                  labelStyle: customTextStyleOne(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              CustomTextFieldForDate(
+                onTap: () {
+                  pickdate(context);
+                },
+                prefixIcon: const Icon(Icons.calendar_month),
+                hint: getText(),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomOutlinedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        regHive.putAt(
+                          widget.index,
+                          RegularPayments(
+                            title: name!,
+                            upcomingDate: date,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future pickdate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime.now(),
+    );
+
+    if (newDate == null) {
+      return;
+    } else {
+      setState(() {
+        date = newDate;
+      });
+    }
+  }
+
+  String getText() {
+    return '${date.day}-${date.month}-${date.year}';
   }
 }

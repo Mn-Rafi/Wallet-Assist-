@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
+import 'package:money_manager_app/customs/custom_widgets.dart';
 import 'package:money_manager_app/homePage/Income/income_detailed_page.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 class ScreenIncome extends StatefulWidget {
   const ScreenIncome({Key? key}) : super(key: key);
@@ -16,7 +19,40 @@ class ScreenIncome extends StatefulWidget {
 }
 
 class _ScreenIncomeState extends State<ScreenIncome> {
-  String dropdownvalue = 'Monthly';
+  DateTime _selected = DateTime.now();
+  DateTime _selectedYear = DateTime.now();
+  String? dropdownvalue = 'All';
+  DateTimeRange dateRange = DateTimeRange(
+      start: DateTime.now().subtract(const Duration(hours: 24 * 3)),
+      end: DateTime.now());
+
+  Future pickDate(
+    BuildContext context,
+  ) async {
+    final selected = await showMonthYearPicker(
+      context: context,
+      initialDate: _selected,
+      firstDate: DateTime(2015),
+      lastDate: DateTime.now(),
+    );
+
+    if (selected != null) {
+      setState(() {
+        _selected = selected;
+      });
+    }
+  }
+
+  pickDateRange(BuildContext context) async {
+    final newDateRange = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(DateTime.now().year - 10),
+        lastDate: DateTime.now());
+    if (newDateRange == null) return;
+    setState(() {
+      dateRange = newDateRange;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +81,16 @@ class _ScreenIncomeState extends State<ScreenIncome> {
       body: ValueListenableBuilder(
           valueListenable: Hive.box<Transactions>('transactions').listenable(),
           builder: (context, Box<Transactions> box, _) {
-            List<Transactions> transactionList =
-                incomeorExpense(box.values.toList())[0];
+            List<Transactions> transactionList = dropdownvalue == items[0]
+                ? incomeorExpense(box.values.toList())[0]
+                : dropdownvalue == items[1]
+                    ? monthWise(
+                        incomeorExpense(box.values.toList())[0], _selected)
+                    : dropdownvalue == items[2]
+                        ? yearWise(incomeorExpense(box.values.toList())[0],
+                            _selectedYear)
+                        : periodWise(
+                            incomeorExpense(box.values.toList())[0], dateRange);
 
             double getTotalExpense() {
               double totalAmount = 0;
@@ -85,88 +129,201 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                           },
                         ),
                         dropdownvalue == items[0]
-                            ? Row(
-                                children: [
-                                  arrowPrev,
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Text(
-                                    'March - 2022',
-                                    style: customTextStyleOne(
-                                        color: const Color.fromARGB(
-                                            255, 255, 0, 0),
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  arrowNext,
-                                ],
-                              )
+                            ? const SizedBox()
                             : dropdownvalue == items[1]
                                 ? Row(
                                     children: [
-                                      arrowPrev,
+                                      IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _selected = DateTime(
+                                                  _selected.year,
+                                                  _selected.month - 1,
+                                                  _selected.day);
+                                            });
+                                          },
+                                          icon: arrowPrev),
                                       SizedBox(
                                         width: 10.w,
                                       ),
-                                      Text(
-                                        '2022',
-                                        style: customTextStyleOne(
-                                            color: const Color.fromARGB(
-                                                255, 255, 0, 0),
-                                            fontSize: 14),
+                                      GestureDetector(
+                                        onTap: () {
+                                          pickDate(context);
+                                        },
+                                        child: Text(
+                                          DateFormat.yMMM('en_US')
+                                              .format(_selected),
+                                          style: customTextStyleOne(
+                                              color: const Color.fromARGB(
+                                                  255, 255, 0, 0),
+                                              fontSize: 14),
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 10.w,
                                       ),
-                                      arrowNext,
+                                      IconButton(
+                                          onPressed: () {
+                                            if (_selected.year <
+                                                    DateTime.now().year ||
+                                                (_selected.year ==
+                                                        DateTime.now().year &&
+                                                    _selected.month <
+                                                        DateTime.now().month)) {
+                                              setState(() {
+                                                _selected = DateTime(
+                                                    _selected.year,
+                                                    _selected.month + 1,
+                                                    _selected.day);
+                                              });
+                                            }
+                                          },
+                                          icon: arrowNext),
                                     ],
                                   )
-                                : Row(
-                                    children: [
-                                      Text(
-                                        '01-04-2022 ',
-                                        style: customTextStyleOne(
-                                            color:
-                                                Color.fromARGB(255, 255, 0, 0),
-                                            fontSize: 14),
-                                      ),
-                                      Text(
-                                        ' to ',
-                                        style: customTextStyleOne(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontSize: 14),
-                                      ),
-                                      Text(
-                                        ' 20-04 2022',
-                                        style: customTextStyleOne(
-                                            color:
-                                                Color.fromARGB(255, 255, 0, 0),
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
+                                : dropdownvalue == items[2]
+                                    ? Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _selectedYear = DateTime(
+                                                      _selectedYear.year - 1,
+                                                      _selectedYear.month,
+                                                      _selectedYear.day);
+                                                });
+                                              },
+                                              icon: arrowPrev),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                      "Select Year",
+                                                      style:
+                                                          customTextStyleOne(),
+                                                    ),
+                                                    content: SizedBox(
+                                                      width: 300.w,
+                                                      height: 300.h,
+                                                      child: YearPicker(
+                                                        firstDate: DateTime(
+                                                            DateTime.now()
+                                                                    .year -
+                                                                10,
+                                                            1),
+                                                        lastDate:
+                                                            DateTime.now(),
+                                                        initialDate:
+                                                            DateTime.now(),
+                                                        selectedDate:
+                                                            _selectedYear,
+                                                        onChanged: (DateTime
+                                                            dateTime) {
+                                                          setState(() {
+                                                            _selectedYear =
+                                                                dateTime;
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Text(
+                                              DateFormat.y('en_US')
+                                                  .format(_selectedYear),
+                                              style: customTextStyleOne(
+                                                  color: const Color.fromARGB(
+                                                      255, 255, 0, 0),
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                if (_selectedYear.year <
+                                                        DateTime.now().year ||
+                                                    (_selectedYear.year ==
+                                                            DateTime.now()
+                                                                .year &&
+                                                        _selectedYear.month <
+                                                            DateTime.now()
+                                                                .month)) {
+                                                  setState(() {
+                                                    _selectedYear = DateTime(
+                                                        _selectedYear.year + 1,
+                                                        _selectedYear.month,
+                                                        _selectedYear.day);
+                                                  });
+                                                }
+                                              },
+                                              icon: arrowNext),
+                                        ],
+                                      )
+                                    : Row(
+                                        children: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                pickDateRange(context),
+                                            child: Text(
+                                              DateFormat.yMMMd('en_US')
+                                                  .format(dateRange.start),
+                                              style: customTextStyleOne(
+                                                  color: const Color.fromARGB(
+                                                      255, 255, 0, 0),
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          Text(
+                                            ' to ',
+                                            style: customTextStyleOne(
+                                                color: firstBlack,
+                                                fontSize: 14),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                pickDateRange(context),
+                                            child: Text(
+                                              DateFormat.yMMMd('en_US')
+                                                  .format(dateRange.end),
+                                              style: customTextStyleOne(
+                                                  color: const Color.fromARGB(
+                                                      255, 255, 0, 0),
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                       ],
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
                     transactionList.isEmpty
-                        ? CustomTotalIncomeContainer(
-                          containerColor: incomeGreen,
-                          headText: 'Your total income',
-                          totalIncomeAmount: 0,
-                          lastIncomeAmount: 0,
-                        )
+                        ? const CustomTotalIncomeContainer(
+                            containerColor: incomeGreen,
+                            headText: 'Your total income',
+                            totalIncomeAmount: 0,
+                            lastIncomeAmount: 0,
+                          )
                         : CustomTotalIncomeContainer(
-                          containerColor: incomeGreen,
-                          headText: 'Your total income',
-                          totalIncomeAmount: getTotalExpense(),
-                          lastIncomeAmount: transactionList.last.amount,
-                        ),
+                            containerColor: incomeGreen,
+                            headText: 'Your total income',
+                            totalIncomeAmount: getTotalExpense(),
+                            lastIncomeAmount: transactionList.last.amount,
+                          ),
                     SizedBox(
                       height: 20.h,
                     ),
@@ -180,7 +337,7 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                             child: Text(
                               'No Income Transactions Found',
                               style: customTextStyleOne(
-                                  fontSize: 18, color: Colors.white),
+                                  fontSize: 18, color: firstBlack),
                             ),
                           )
                         : ListView.separated(

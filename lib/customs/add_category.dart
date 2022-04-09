@@ -37,6 +37,7 @@ class _AddCategoryState extends State<AddCategory> {
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: TextFormField(
+                style: customTextStyleOne(),
                 validator: (value) {
                   if (value!.trim() == '' || value.length < 3) {
                     return 'Enter valid category name';
@@ -148,6 +149,7 @@ class _EditIncomeCategory extends State<EditIncomeCategory> {
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: TextFormField(
+                style: customTextStyleOne(),
                 initialValue: widget.initialValue,
                 validator: (value) {
                   if (value!.trim() == '' || value.length < 3) {
@@ -243,6 +245,7 @@ class _AddExpenseCategory extends State<AddExpenseCategory> {
                     newCategory = value;
                   });
                 },
+                style: customTextStyleOne(),
                 keyboardType: TextInputType.name,
                 textCapitalization: TextCapitalization.sentences,
                 decoration: const InputDecoration(

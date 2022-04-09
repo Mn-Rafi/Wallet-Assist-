@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 var items = [
+  'All',
   'Monthly',
   'Yearly',
   'Period',
@@ -12,7 +13,7 @@ var items = [
 Icon arrowNext = Icon(
   Icons.arrow_forward_ios_rounded,
   size: 18.w,
-  color: Colors.white,
+  color: firstBlack,
 );
 Icon arrowNextOne = Icon(
   Icons.arrow_forward_ios_rounded,
@@ -20,18 +21,18 @@ Icon arrowNextOne = Icon(
   color: Color.fromARGB(255, 0, 0, 0),
 );
 Icon arrowPrev =
-    Icon(Icons.arrow_back_ios_new_rounded, size: 18.w, color: Colors.white);
+    Icon(Icons.arrow_back_ios_new_rounded, size: 18.w, color: firstBlack);
 Icon arrowPrevOne = Icon(Icons.arrow_back_ios_new_rounded,
     size: 18.w, color: Color.fromARGB(255, 0, 0, 0));
 
 class CustomTotalIncomeContainer extends StatelessWidget {
-  String headText;
-  double totalIncomeAmount;
-  double lastIncomeAmount;
-  Color containerColor;
-  Color titleColor;
+  final String headText;
+  final double totalIncomeAmount;
+  final double lastIncomeAmount;
+  final Color containerColor;
+  final Color titleColor;
 
-  CustomTotalIncomeContainer({
+  const CustomTotalIncomeContainer({
     Key? key,
     required this.headText,
     required this.totalIncomeAmount,
@@ -68,7 +69,8 @@ class CustomTotalIncomeContainer extends StatelessWidget {
                   ),
                   Text(
                     '+₹$lastIncomeAmount',
-                    style: customTextStyleOne(fontSize: 16),
+                    style:
+                        customTextStyleOne(fontSize: 16, color: Colors.white),
                   ),
                 ],
               ),
@@ -81,16 +83,16 @@ class CustomTotalIncomeContainer extends StatelessWidget {
 }
 
 class CustomTotalWalletContainer extends StatelessWidget {
+  final Color titleColor;
   final String totalWalletAmount;
   final String lastTransactionAmount;
-  final Color titleColor;
   final Color bgColor;
 
   const CustomTotalWalletContainer({
     Key? key,
+    this.titleColor = Colors.white,
     required this.totalWalletAmount,
     required this.lastTransactionAmount,
-    this.titleColor = secondGrey,
     required this.bgColor,
   }) : super(key: key);
 
@@ -120,9 +122,7 @@ class CustomTotalWalletContainer extends StatelessWidget {
                 ),
                 Text(
                   lastTransactionAmount,
-                  style: customTextStyleOne(
-                    fontSize: 16,
-                  ),
+                  style: customTextStyleOne(fontSize: 16, color: titleColor),
                 ),
               ],
             ),
@@ -171,7 +171,7 @@ class CustomIncomeContainer extends StatelessWidget {
                 ),
                 Text(
                   getText(),
-                  style: customTextStyleOne(fontSize: 16),
+                  style: customTextStyleOne(fontSize: 16, color: Colors.white),
                 ),
               ],
             ),

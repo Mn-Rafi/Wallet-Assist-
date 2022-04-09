@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 var items = [
+  'All',
   'Monthly',
   'Yearly',
   'Period',
@@ -11,10 +12,10 @@ var items = [
 Icon arrowNext = Icon(
   Icons.arrow_forward_ios_rounded,
   size: 18.w,
-  color: Colors.white,
+  color: firstBlack,
 );
 Icon arrowPrev =
-    Icon(Icons.arrow_back_ios_new_rounded, size: 18.w, color: Colors.white);
+    Icon(Icons.arrow_back_ios_new_rounded, size: 18.w, color: firstBlack);
 
 class CustomTotalExpenseContainer extends StatelessWidget {
   String headText;
@@ -51,11 +52,13 @@ class CustomTotalExpenseContainer extends StatelessWidget {
                 children: [
                   Text(
                     '₹$totalExpenseAmount',
-                    style: customTextStyleOne(fontSize: 25, color: Colors.white),
+                    style:
+                        customTextStyleOne(fontSize: 25, color: Colors.white),
                   ),
                   Text(
                     '+₹$lastExpenseAmount',
-                    style: customTextStyleOne(fontSize: 16),
+                    style:
+                        customTextStyleOne(fontSize: 16, color: Colors.white),
                   ),
                 ],
               ),
@@ -105,7 +108,7 @@ class CustomExpenseContainer extends StatelessWidget {
                 ),
                 Text(
                   getText(),
-                  style: customTextStyleOne(fontSize: 16),
+                  style: customTextStyleOne(fontSize: 16, color: Colors.white),
                 ),
               ],
             ),

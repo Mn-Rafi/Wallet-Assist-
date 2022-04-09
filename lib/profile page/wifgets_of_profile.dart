@@ -10,37 +10,33 @@ import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomContainerForImageProfile extends StatelessWidget {
-  String? imagePath;
+  final String? imagePath;
 
-  CustomContainerForImageProfile({Key? key, required this.imagePath})
+  const CustomContainerForImageProfile({Key? key, required this.imagePath})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 150.w,
-        height: 150.w,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: imagePath != null
-              ? Image(
-                  image: FileImage(File(imagePath!)),
-                  fit: BoxFit.cover,
-                )
-              : Image(
-                  image: Image.asset('images/userAlt.png').image,
-                  fit: BoxFit.cover,
-                ),
-        ));
+      width: 150.w,
+      height: 150.w,
+      child: imagePath != null
+          ? CircleAvatar(
+              backgroundImage: FileImage(File(imagePath!)),
+            )
+          : CircleAvatar(
+              backgroundImage: Image.asset('images/userAlt.png').image,
+            ),
+    );
   }
 }
 
 class CustomRowofprofile extends StatelessWidget {
-  Icon leadingIcon;
+  final Icon leadingIcon;
 
-  String title;
+  final String title;
 
-  CustomRowofprofile({
+  const CustomRowofprofile({
     Key? key,
     required this.leadingIcon,
     required this.title,
@@ -55,7 +51,7 @@ class CustomRowofprofile extends StatelessWidget {
           leadingIcon,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(title, style: customTextStyleOne(fontSize: 17.w)),
+            child: Text(title, style: customTextStyleOne(fontSize: 17.sp)),
           )
         ],
       ),
@@ -188,7 +184,82 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () => showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                      actionsAlignment:
+                                          MainAxisAlignment.center,
+                                      actions: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            TextButton.icon(
+                                                onPressed: () {
+                                                  chooseImage(
+                                                      ImageSource.camera);
+                                                  Navigator.pop(ctx);
+                                                },
+                                                icon: const Icon(Icons.camera),
+                                                label:
+                                                    const Text('Take Photo')),
+                                            TextButton.icon(
+                                                onPressed: () {
+                                                  chooseImage(
+                                                      ImageSource.gallery);
+                                                  Navigator.pop(ctx);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.filter_sharp),
+                                                label: const Text(
+                                                    'Choose from device')),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                            child: imagePath != null
+                                ? CircleAvatar(
+                                    radius: 100.r,
+                                    backgroundImage: FileImage(
+                                      File(
+                                        imagePath!,
+                                      ),
+                                    ),
+                                  )
+                                : widget.initialUrl != null
+                                    ? CircleAvatar(
+                                        radius: 100.r,
+                                        backgroundImage: FileImage(
+                                          File(
+                                            widget.initialUrl!,
+                                          ),
+                                        ))
+                                    : CircleAvatar(
+                                        radius: 100.r,
+                                        backgroundImage:
+                                            Image.asset('images/userAlt.png')
+                                                .image,
+                                      ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Tap to change photo',
+                            style: customTextStyleOne(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
                       customSpaceTwo,
+                      customSpaceOne,
                       CustomTextFieldTwo(
                           initialValue: widget.initialName.toString(),
                           onChanged: (value) {
@@ -200,75 +271,6 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
                           labelText: 'Enter your name',
                           prefixIcon: const Icon(Icons.person_pin_outlined)),
                       customSpaceTwo,
-                      Text(
-                        'Tap to change photo',
-                        style: customTextStyleOne(
-                          fontSize: 18,
-                        ),
-                      ),
-                      customSpaceOne,
-                      GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                                  actionsAlignment: MainAxisAlignment.center,
-                                  actions: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        TextButton.icon(
-                                            onPressed: () {
-                                              chooseImage(ImageSource.camera);
-                                              Navigator.pop(ctx);
-                                            },
-                                            icon: const Icon(Icons.camera),
-                                            label: const Text('Take Photo')),
-                                        TextButton.icon(
-                                            onPressed: () {
-                                              chooseImage(ImageSource.gallery);
-                                              Navigator.pop(ctx);
-                                            },
-                                            icon:
-                                                const Icon(Icons.filter_sharp),
-                                            label: const Text(
-                                                'Choose from device')),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                        child: imagePath != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image(
-                                    height: 150.w,
-                                    width: 150.w,
-                                    fit: BoxFit.cover,
-                                    image: FileImage(
-                                      File(
-                                        imagePath!,
-                                      ),
-                                    )),
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: widget.initialUrl != null
-                                    ? Image(
-                                        height: 150.w,
-                                        width: 150.w,
-                                        fit: BoxFit.cover,
-                                        image: FileImage(
-                                          File(
-                                            widget.initialUrl!,
-                                          ),
-                                        ))
-                                    : Image(
-                                        image: Image.asset('images/userAlt.png')
-                                            .image,
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                      ),
                     ],
                   ),
                 ),

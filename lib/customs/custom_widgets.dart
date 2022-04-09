@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
@@ -57,31 +58,78 @@ class AddImageContainer extends StatelessWidget {
 }
 
 class AddImageContainerOne extends StatelessWidget {
-  String? imagePath;
-  AddImageContainerOne({Key? key, this.imagePath})
-      : super(key: key);
+  final String? imagePath;
+  const AddImageContainerOne({Key? key, this.imagePath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 120.w,
-      height: 120.w,
-      decoration: customBoxDecoration,
-      child: imagePath != null
-          ? ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image(
-                fit: BoxFit.cover,
-                image: FileImage(
-                  File(
-                    imagePath!,
-                  ),
-                )),
-          )
-          : const Icon(
-              Icons.add,
-              size: 40,
+    return imagePath != null
+        ? CircleAvatar(
+            radius: 90.r,
+            backgroundImage: FileImage(
+              File(
+                imagePath!,
+              ),
             ),
-    );
+          )
+        : CircleAvatar(
+            radius: 90.r,
+            child: const Icon(
+              Icons.add,
+              size: 70,
+            ),
+          );
   }
+}
+
+List<Transactions> monthWise(List<Transactions> list, DateTime month) {
+  List<Transactions> transac = [];
+
+  for (int i = 0; i < list.length; i++) {
+    if (list[i].dateofTransaction.month == month.month &&
+        list[i].dateofTransaction.year == month.year) {
+      transac.add(list[i]);
+    }
+  }
+
+  return transac;
+}
+
+List<Transactions> monthWiseCat(List<Transactions> list, DateTime month) {
+  List<Transactions> transac = [];
+
+  for (int i = 0; i < list.length; i++) {
+    if (list[i].dateofTransaction.month == month.month) {
+      transac.add(list[i]);
+    }
+  }
+
+  return transac;
+}
+
+List<Transactions> yearWise(List<Transactions> list, DateTime year) {
+  List<Transactions> transac = [];
+
+  for (int i = 0; i < list.length; i++) {
+    if (list[i].dateofTransaction.year == year.year) {
+      transac.add(list[i]);
+    }
+  }
+
+  return transac;
+}
+
+List<Transactions> periodWise(List<Transactions> list, DateTimeRange period) {
+  List<Transactions> transac = [];
+
+  for (int i = 0; i < list.length; i++) {
+    if ((list[i].dateofTransaction == period.start ||
+            list[i].dateofTransaction.isAfter(period.start)) &&
+        (list[i].dateofTransaction == period.end ||
+            list[i].dateofTransaction.isBefore(period.end))) {
+      transac.add(list[i]);
+    }
+  }
+
+  return transac;
 }

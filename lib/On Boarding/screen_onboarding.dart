@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/First%20Profile/screen_first_profile.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ScreenOnboarding extends StatelessWidget {
-  ScreenOnboarding({Key? key}) : super(key: key);
+class ScreenOnboarding extends StatefulWidget {
+  const ScreenOnboarding({Key? key}) : super(key: key);
 
+  @override
+  State<ScreenOnboarding> createState() => _ScreenOnboardingState();
+}
+
+class _ScreenOnboardingState extends State<ScreenOnboarding> {
   _storeOnboardingInfo() async {
     int isViewed = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('onBoard', isViewed);
   }
 
+  late Box<Categories> categories;
   DateTime? timeBackButton;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -98,6 +107,22 @@ class ScreenOnboarding extends StatelessWidget {
                       GestureDetector(
                           onTap: () async {
                             await _storeOnboardingInfo();
+                            categories = Hive.box<Categories>('categories');
+                            for (int i = 0;
+                                i < listIncomeCategories.length;
+                                i++) {
+                              categories.add(Categories(
+                                  category: listIncomeCategories[i],
+                                  type: true));
+                            }
+                            for (int i = 0;
+                                i < listExpenseCategories.length;
+                                i++) {
+                              categories.add(Categories(
+                                  category: listExpenseCategories[i],
+                                  type: false));
+                            }
+
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (ctx) => const ScreenProfile(),

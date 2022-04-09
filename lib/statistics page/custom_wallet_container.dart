@@ -98,9 +98,8 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                           transactions.isEmpty
                               ? Center(
                                   child: CustomTotalWalletContainer(
+                                    titleColor: firstBlack,
                                     bgColor: Colors.white,
-                                    titleColor:
-                                        const Color.fromARGB(255, 0, 0, 0),
                                     totalWalletAmount:
                                         '₹${widget.initialWallletAmount}',
                                     lastTransactionAmount:
@@ -111,7 +110,6 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                                   bgColor: transactions.last.amount > 0
                                       ? incomeGreen
                                       : expenseBlue,
-                                  titleColor: Colors.white,
                                   totalWalletAmount: widget
                                                   .initialWallletAmount +
                                               getTotalExpense() >=
@@ -137,9 +135,9 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
                           transactions.isEmpty
                               ? Center(
                                   child: Text(
-                                    'No Transactions Found',
+                                    'No Transactions Found 🙂',
                                     style: customTextStyleOne(
-                                        fontSize: 18, color: Colors.white),
+                                        fontSize: 18, color: firstBlack),
                                   ),
                                 )
                               : ListView.separated(
@@ -225,7 +223,10 @@ class CustomWalletTransactionContainer extends StatelessWidget {
                 ),
                 Text(
                   previousTransactionAmaount,
-                  style: customTextStyleOne(fontSize: 16),
+                  style: customTextStyleOne(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),

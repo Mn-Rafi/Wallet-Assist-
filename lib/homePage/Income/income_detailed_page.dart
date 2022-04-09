@@ -59,7 +59,10 @@ class IncomeDisplay extends StatelessWidget {
                                             index: index,
                                           )));
                             },
-                            child: const Text('Edit'),
+                            child: Text(
+                              'Edit',
+                              style: customTextStyleOne(),
+                            ),
                           ),
                           PopupMenuItem(
                               onTap: () {
@@ -105,7 +108,10 @@ class IncomeDisplay extends StatelessWidget {
                                               ],
                                             )));
                               },
-                              child: const Text('Delete')),
+                              child: Text(
+                                'Delete',
+                                style: customTextStyleOne(),
+                              )),
                         ]),
               ],
             ),

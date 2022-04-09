@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/First%20Profile/screen_first_profile.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/On%20Boarding/screen_onboarding.dart';
+import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +20,7 @@ int? isViewd;
 int? isViewdFirstProfile;
 
 class _ScreenSplashState extends State<ScreenSplash> {
+ 
   @override
   void initState() {
     super.initState();

@@ -59,3 +59,16 @@ class Transactions extends HiveObject {
       required this.notes,
       required this.type});
 }
+
+@HiveType(typeId: 3)
+class RegularPayments extends HiveObject {
+  @HiveField(0)
+  final String title;
+
+  @HiveField(1)
+  final DateTime upcomingDate;
+
+  RegularPayments({required this.title, required this.upcomingDate});
+}
+
+

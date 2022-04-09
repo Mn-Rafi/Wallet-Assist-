@@ -21,19 +21,14 @@ class CustomContainerForImage extends StatelessWidget {
     return SizedBox(
       width: 60.w,
       height: 60.w,
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: imagePath != null
-              ? Image(
-                  image: FileImage(File(imagePath!)),
-                  fit: BoxFit.cover,
-                )
-              : Image(
-                  image: Image.asset(
-                    'images/userAlt.png',
-                  ).image,
-                  fit: BoxFit.cover,
-                )),
+      child: CircleAvatar(
+        radius: 50,
+        backgroundImage: imagePath != null
+            ? FileImage(File(imagePath!))
+            : Image.asset(
+                'images/userAlt.png',
+              ).image,
+      ),
     );
   }
 }
@@ -66,7 +61,7 @@ class CustomContainerForCatogories extends StatelessWidget {
             padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 8),
             child: Text(
               title,
-              style: customTextStyleOne(fontSize: 15.sp, color: Colors.white),
+              style: customTextStyleOne(fontSize: 16.sp, color: Colors.white),
             ),
           )
         ],
@@ -75,26 +70,6 @@ class CustomContainerForCatogories extends StatelessWidget {
   }
 }
 
-Container customTextFieldContainer(String searchInput) {
-  return Container(
-    decoration: BoxDecoration(
-      color: const Color.fromARGB(255, 233, 233, 233),
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-      child: TextField(
-        onChanged: (value) {
-          searchInput = value;
-        },
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Search here...',
-        ),
-      ),
-    ),
-  );
-}
 
 class CustomEditTransaction extends StatefulWidget {
   final double amount;

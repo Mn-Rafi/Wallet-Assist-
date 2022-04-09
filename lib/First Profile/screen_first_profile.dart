@@ -116,6 +116,62 @@ class _ScreenProfileState extends State<ScreenProfile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () => showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
+                                        actions: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              TextButton.icon(
+                                                  onPressed: () {
+                                                    chooseImage(
+                                                        ImageSource.camera);
+                                                    Navigator.pop(ctx);
+                                                  },
+                                                  icon:
+                                                      const Icon(Icons.camera),
+                                                  label:
+                                                      const Text('Take Photo')),
+                                              TextButton.icon(
+                                                  onPressed: () {
+                                                    chooseImage(
+                                                        ImageSource.gallery);
+                                                    Navigator.pop(ctx);
+                                                  },
+                                                  icon: const Icon(
+                                                      Icons.filter_sharp),
+                                                  label: const Text(
+                                                      'Choose from device')),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                              child: AddImageContainerOne(
+                                imagePath: imagePath,
+                              ),
+                            ),
+                          ],
+                        ),
+                        customSpaceOne,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Add a profile photo',
+                              style: customTextStyleOne(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
                         customSpaceTwo,
                         CustomTextFieldTwo(
                             onChanged: (value) {
@@ -136,48 +192,6 @@ class _ScreenProfileState extends State<ScreenProfile> {
                             labelText: 'Current Wallet Balance',
                             prefixIcon: const Icon(Icons.currency_rupee)),
                         customSpaceTwo,
-                        Text(
-                          'Add a profile photo',
-                          style: customTextStyleOne(
-                            fontSize: 18,
-                          ),
-                        ),
-                        customSpaceOne,
-                        GestureDetector(
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                    actionsAlignment: MainAxisAlignment.center,
-                                    actions: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          TextButton.icon(
-                                              onPressed: () {
-                                                chooseImage(ImageSource.camera);
-                                                Navigator.pop(ctx);
-                                              },
-                                              icon: const Icon(Icons.camera),
-                                              label: const Text('Take Photo')),
-                                          TextButton.icon(
-                                              onPressed: () {
-                                                chooseImage(
-                                                    ImageSource.gallery);
-                                                Navigator.pop(ctx);
-                                              },
-                                              icon: const Icon(
-                                                  Icons.filter_sharp),
-                                              label: const Text(
-                                                  'Choose from device')),
-                                        ],
-                                      ),
-                                    ],
-                                  )),
-                          child: AddImageContainerOne(
-                            imagePath: imagePath,
-                          ),
-                        )
                       ],
                     ),
                   ),

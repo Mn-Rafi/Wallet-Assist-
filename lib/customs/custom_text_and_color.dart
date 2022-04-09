@@ -12,9 +12,9 @@ SizedBox customSpaceTwo = SizedBox(
   height: 20.w,
 );
 
-const incomeGreen = Colors.greenAccent;
+const incomeGreen = Colors.green;
 const expenseBlue = Colors.redAccent;
-const walletPink = Color.fromARGB(255,241,234,216);
+const walletPink = Color.fromARGB(255, 246, 235, 209);
 
 const firstBlue = Color.fromARGB(255, 0, 8, 255);
 const firstOrange = Color.fromARGB(255, 255, 77, 0);
@@ -32,16 +32,6 @@ TextStyle customTextStyleOne(
   );
 }
 
-TextStyle customTextStyleOneOne(
-    {Color color = const Color.fromARGB(255, 0, 0, 0), double? fontSize}) {
-  return TextStyle(
-    fontFamily: headingFont,
-    fontSize: fontSize,
-    fontWeight: FontWeight.w600,
-    color: color,
-  );
-}
-
 TextStyle customTextStyleOneWithUnderLine(
     {Color color = const Color.fromARGB(255, 0, 0, 0), double? fontSize}) {
   return TextStyle(
@@ -51,17 +41,6 @@ TextStyle customTextStyleOneWithUnderLine(
     fontWeight: FontWeight.w500,
     color: color,
   );
-}
-
-TextStyle customTextStyleTwo(
-    {Color color = const Color.fromARGB(255, 0, 0, 0),
-    double? fontSize,
-    fontWeight = FontWeight.w600}) {
-  return TextStyle(
-      fontFamily: subHeadingFont,
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-      color: color);
 }
 
 Icon arrowForwardIcon = Icon(
@@ -77,6 +56,27 @@ BoxDecoration customBoxDecoration = BoxDecoration(
 Text customHeading(String text) {
   return Text(
     text,
-    style: customTextStyleOne(fontSize: 20.sp,),
+    style: customTextStyleOne(
+      fontSize: 20.sp,
+    ),
   );
 }
+
+List<String> listIncomeCategories = [
+  'Salary',
+  'Gift',
+  'Voucher',
+  'Interest',
+  'Paycheck',
+  'Bonus',
+  'Other Income'
+];
+
+List<String> listExpenseCategories = [
+  'Education',
+  'Food',
+  'Groceries',
+  'Workout',
+  'Transportation',
+  'Other Expense'
+];
