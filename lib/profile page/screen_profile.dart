@@ -10,6 +10,8 @@ import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/Notification/notifications.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/profile%20page/wifgets_of_profile.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScreenProfileDetails extends StatefulWidget {
   const ScreenProfileDetails({Key? key}) : super(key: key);
@@ -17,6 +19,8 @@ class ScreenProfileDetails extends StatefulWidget {
   @override
   State<ScreenProfileDetails> createState() => _ScreenProfileDetailsState();
 }
+
+const String _url = 'https://mn-rafi.github.io/My-Personal-Website/';
 
 class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
   bool notificationValue =
@@ -26,6 +30,10 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void _launchURL() async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
   final snackBarOne = SnackBar(
@@ -60,7 +68,6 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
         canCheckBiometrics = await auth.canCheckBiometrics;
       } on PlatformException catch (e) {
         canCheckBiometrics = false;
-
         print(canCheckBiometrics);
       }
       if (!mounted) {
@@ -76,7 +83,8 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
       bool authenticated = false;
       try {
         authenticated = await auth.authenticate(
-            localizedReason: ' ', useErrorDialogs: true, stickyAuth: true);
+            localizedReason: ' ',
+            useErrorDialogs: true,);
         if (authenticated) {}
         return authenticated;
       } on PlatformException catch (e) {
@@ -110,7 +118,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
           centerTitle: true,
         ),
         body: Container(
-          padding: const EdgeInsets.all(25),
+          padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 10.w),
           child: ValueListenableBuilder(
               valueListenable:
                   Hive.box<ProfileDetails>('profiledetails').listenable(),
@@ -167,7 +175,10 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         height: 20.h,
                       ),
                       SwitchListTile(
-                          contentPadding: const EdgeInsets.all(0),
+                          activeColor: walletPink,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 16.0),
+                          dense: true,
                           secondary: Icon(
                             Icons.lock,
                             size: 22.w,
@@ -192,10 +203,10 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                           .toList()[0]
                                           .enableAuth;
                                 });
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBarError);
                               }
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBarError);
                             }
                           }),
                       GestureDetector(
@@ -339,27 +350,40 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                 )),
                         child: CustomRowofprofile(
                           leadingIcon: Icon(Icons.remove_circle, size: 22.w),
-                          title: 'Clear All',
+                          title: 'Clear all',
                         ),
                       ),
-                      CustomRowofprofile(
-                        leadingIcon: Icon(
-                          Icons.share,
-                          size: 22.w,
+                      GestureDetector(
+                        onTap: () => Share.share(
+                            'check out my website https://example.com',
+                            subject: 'Look what I made!'),
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(
+                            Icons.share,
+                            size: 22.w,
+                          ),
+                          title: 'Share with friends',
                         ),
-                        title: 'Share with friends',
                       ),
                       CustomRowofprofile(
                         leadingIcon: Icon(Icons.star_outlined, size: 22.w),
                         title: 'Rate this app',
                       ),
-                      CustomRowofprofile(
-                        leadingIcon: Icon(Icons.feedback, size: 22.w),
-                        title: 'Feedback',
+                      GestureDetector(
+                        onTap: () => Utils.openEmail(
+                            toEmail: 'moideenrafihpa@gmail.com',
+                            subject: 'Feedback about Monzuma'),
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(Icons.feedback, size: 22.w),
+                          title: 'Feedback',
+                        ),
                       ),
-                      CustomRowofprofile(
-                        leadingIcon: Icon(Icons.info, size: 22.w),
-                        title: 'About',
+                      GestureDetector(
+                        onTap: _launchURL,
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(Icons.info, size: 22.w),
+                          title: 'About',
+                        ),
                       ),
                       SizedBox(
                         height: 70.h,
@@ -395,3 +419,21 @@ final snackBarError = SnackBar(
   elevation: 10000,
   behavior: SnackBarBehavior.floating,
 );
+
+class Utils {
+  static Future _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
+
+  static openEmail({
+    required String toEmail,
+    required String subject,
+  }) async {
+    final url = 'mailto:$toEmail?subject=${Uri.encodeFull(subject)}';
+    await _launchUrl(url);
+  }
+
+  static Future openLink({required String url}) => _launchUrl(url);
+}

@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/homePage/widgets/custom_widgets.dart';
 
 class ExpenseDisplay extends StatelessWidget {
-  String category;
-  Categories nameofCatagory;
-  double expenseAmount;
-  DateTime dateofExpense;
-  String notesaboutExpense;
-  int index;
+  final String category;
+  final Categories nameofCatagory;
+  final double expenseAmount;
+  final DateTime dateofExpense;
+  final String notesaboutExpense;
+  final int index;
 
-  ExpenseDisplay({
+  const ExpenseDisplay({
     Key? key,
     required this.category,
     required this.nameofCatagory,

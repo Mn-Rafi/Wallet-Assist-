@@ -73,6 +73,7 @@ class AddImageContainerOne extends StatelessWidget {
             ),
           )
         : CircleAvatar(
+          backgroundColor: walletPink,
             radius: 90.r,
             child: const Icon(
               Icons.add,

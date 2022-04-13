@@ -27,7 +27,7 @@ class _AddCategoryState extends State<AddCategory> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Name of catogory',
+              'Name of category',
               style: customTextStyleOne(),
             ),
             SizedBox(
@@ -45,6 +45,7 @@ class _AddCategoryState extends State<AddCategory> {
                     return null;
                   }
                 },
+                maxLength: 25,
                 onChanged: (value) {
                   setState(() {
                     newCategory = value;
@@ -222,7 +223,7 @@ class _AddExpenseCategory extends State<AddExpenseCategory> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Name of catogory',
+              'Name of category',
               style: customTextStyleOne(),
             ),
             SizedBox(
@@ -239,6 +240,7 @@ class _AddExpenseCategory extends State<AddExpenseCategory> {
                     return null;
                   }
                 },
+                maxLength: 25,
                 onChanged: (value) {
                   setState(() {
                     newCategory = value;

@@ -7,10 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
+import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/customs/custom_widgets.dart';
 import 'package:money_manager_app/homePage/Income/income_detailed_page.dart';
 import 'package:money_manager_app/homePage/Income/widgets%20and%20lists/widgets_lists.dart';
+import 'package:money_manager_app/homePage/widgets/custom_widgets.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
 class ScreenIncome extends StatefulWidget {
@@ -404,58 +406,47 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                         icon: Icons.delete,
                                         label: 'Delete',
                                       ),
-                                    ],
-                                  ),
-                                  endActionPane: ActionPane(
-                                    motion: const ScrollMotion(),
-                                    children: [
                                       SlidableAction(
                                         onPressed: (ctx) {
                                           Future.delayed(
                                               const Duration(seconds: 0),
                                               () => showDialog(
                                                   context: context,
-                                                  builder: (ctx) => AlertDialog(
-                                                        title: Text(
-                                                          'Your transaction details will be deleted permenently. Do you really want to continue?',
-                                                          style:
-                                                              customTextStyleOne(
-                                                                  fontSize: 15),
-                                                        ),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              Hive.box<Transactions>(
-                                                                      'transactions')
-                                                                  .delete(transactionList[
-                                                                          index]
-                                                                      .key);
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Text(
-                                                              'Yes',
-                                                              style:
-                                                                  customTextStyleOne(),
-                                                            ),
-                                                          ),
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Text(
-                                                              'No',
-                                                              style:
-                                                                  customTextStyleOne(),
-                                                            ),
-                                                          )
-                                                        ],
+                                                  builder: (ctx) =>
+                                                      CustomEditTransaction(
+                                                        slide: true,
+                                                        amount:
+                                                            transactionList[
+                                                                    index]
+                                                                .amount,
+                                                        notes: transactionList[
+                                                                index]
+                                                            .notes,
+                                                        dropdownValue:
+                                                            transactionList[
+                                                                    index]
+                                                                .categoryCat,
+                                                        dateOfTransaction:
+                                                            transactionList[
+                                                                    index]
+                                                                .dateofTransaction,
+                                                        dropInt: 0,
+                                                        type: true,
+                                                        addFunction:
+                                                            const AddCategory(),
+                                                        index: transactionList[
+                                                                index]
+                                                            .key,
+                                                        listHint:
+                                                            transactionList[
+                                                                    index]
+                                                                .categoryCat
+                                                                .category,
                                                       )));
                                         },
                                         foregroundColor: Colors.black,
-                                        icon: Icons.delete,
-                                        label: 'Delete',
+                                        icon: Icons.edit,
+                                        label: 'Edit',
                                       ),
                                     ],
                                   ),

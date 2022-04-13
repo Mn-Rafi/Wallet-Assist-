@@ -71,6 +71,7 @@ class CustomContainerForCatogories extends StatelessWidget {
 }
 
 class CustomEditTransaction extends StatefulWidget {
+  final bool? slide;
   final double amount;
   final String notes;
   final DateTime dateOfTransaction;
@@ -82,6 +83,7 @@ class CustomEditTransaction extends StatefulWidget {
   final Widget addFunction;
   const CustomEditTransaction({
     Key? key,
+    this.slide,
     required this.amount,
     required this.notes,
     required this.dateOfTransaction,
@@ -325,8 +327,12 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
                           notes: notes,
                           categoryCat: dropdownvalue!,
                           type: widget.type));
+                  if(widget.slide==null){
+                    Navigator.pop(context);
                   Navigator.pop(context);
-                  Navigator.of(context).pop();
+                  }else{
+                    Navigator.pop(context);
+                  }
                 }
               }),
             ],

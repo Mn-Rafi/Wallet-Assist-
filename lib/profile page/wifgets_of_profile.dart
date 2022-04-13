@@ -18,8 +18,8 @@ class CustomContainerForImageProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 150.h,
-      height: 150.h,
+      width: 100.h,
+      height: 100.h,
       child: imagePath != null
           ? CircleAvatar(
               backgroundImage: FileImage(File(imagePath!)),
@@ -45,8 +45,9 @@ class CustomRowofprofile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+      dense: true,
       iconColor: firstBlack,
-      contentPadding: const EdgeInsets.all(0),
       title: Text(title, style: customTextStyleOne(fontSize: 17.sp)),
       leading: leadingIcon,
     );
@@ -156,6 +157,7 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pop(context),

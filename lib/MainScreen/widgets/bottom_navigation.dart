@@ -27,6 +27,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           valueListenable: ScreenHome.selectedIndexNotifier,
           builder: (BuildContext ctx, int updatedIndex, _) {
             return BottomNavigationBar(
+              backgroundColor: Colors.white,
               elevation: 0,
               currentIndex: updatedIndex,
               onTap: (newIndex) {

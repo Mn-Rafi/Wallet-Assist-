@@ -125,7 +125,10 @@ class _RegularPaymentState extends State<RegularPayment> {
                                                                   .title,
                                                         )));
                                           },
-                                          child: Text('Edit', style: customTextStyleOne(),),
+                                          child: Text(
+                                            'Edit',
+                                            style: customTextStyleOne(),
+                                          ),
                                         ),
                                         PopupMenuItem(
                                             onTap: () {
@@ -162,7 +165,8 @@ class _RegularPaymentState extends State<RegularPayment> {
                                                                               .hour +
                                                                           regList[index]
                                                                               .upcomingDate
-                                                                              .microsecond+1);
+                                                                              .microsecond +
+                                                                          1);
                                                                     },
                                                                     child: Text(
                                                                       'Yes',
@@ -185,7 +189,10 @@ class _RegularPaymentState extends State<RegularPayment> {
                                                                 ],
                                                               )));
                                             },
-                                            child: Text('Delete', style: customTextStyleOne(),)),
+                                            child: Text(
+                                              'Delete',
+                                              style: customTextStyleOne(),
+                                            )),
                                       ]),
                             ),
                           );
@@ -196,8 +203,9 @@ class _RegularPaymentState extends State<RegularPayment> {
           floatingActionButton: Padding(
             padding: EdgeInsets.only(bottom: 70.w),
             child: FloatingActionButton.extended(
-              backgroundColor: Colors.white,
+              backgroundColor: walletPink,
               foregroundColor: firstBlack,
+              elevation: 2,
               label: Row(
                 children: [
                   Text(

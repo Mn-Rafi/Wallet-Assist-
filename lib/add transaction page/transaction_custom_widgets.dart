@@ -204,7 +204,7 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                 ],
               ),
               SizedBox(
-                height: 20.w,
+                height: 70.h,
               ),
             ],
           ),

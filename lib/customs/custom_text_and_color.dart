@@ -50,7 +50,7 @@ Icon arrowForwardIcon = Icon(
 
 BoxDecoration customBoxDecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(10),
-  color: firstGrey,
+  color: walletPink,
 );
 
 Text customHeading(String text) {

@@ -62,11 +62,13 @@ class MyApp extends StatelessWidget {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
             statusBarIconBrightness: Brightness.dark));
         return MaterialApp(
+            themeMode: ThemeMode.system,
             localizationsDelegates: const [
               GlobalWidgetsLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               MonthYearPickerLocalizations.delegate,
             ],
+            darkTheme: ThemeData.dark(),
             theme: ThemeData(primarySwatch: Colors.grey),
             debugShowCheckedModeBanner: false,
             home: const ScreenSplash());

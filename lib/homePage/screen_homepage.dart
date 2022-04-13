@@ -132,7 +132,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                         SizedBox(
                           height: 30.h,
                         ),
-                        Text('Catogories',
+                        Text('Categories',
                             style: customTextStyleOne(fontSize: 20.sp)),
                         SizedBox(
                           height: 17.h,

@@ -48,7 +48,7 @@ class _ScreenCategoriesState extends State<ScreenCategories>
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(
-            'Catogories',
+            'Categories',
             style: customTextStyleOne(fontSize: 20.w),
           ),
           centerTitle: true,
@@ -133,7 +133,7 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                                                       AlertDialog(
                                                                         title:
                                                                             Text(
-                                                                          'Previous transactions of this category will be deleted permenantly. Continue?',
+                                                                          'Previous transactions of this category will be deleted permanantly. Continue?',
                                                                           style:
                                                                               customTextStyleOne(fontSize: 15),
                                                                         ),
@@ -253,7 +253,7 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                                                               context: context,
                                                                               builder: (ctx) => AlertDialog(
                                                                                     title: Text(
-                                                                                      'All previous transactions of this categories will be deleted permenantly. Do you really want to continue?',
+                                                                                      'All previous transactions of this category will be deleted permanantly. Do you really want to continue?',
                                                                                       style: customTextStyleOne(fontSize: 15),
                                                                                     ),
                                                                                     actions: [

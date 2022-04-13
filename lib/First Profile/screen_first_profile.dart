@@ -94,6 +94,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
           return Future.value(true);
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
@@ -104,15 +105,17 @@ class _ScreenProfileState extends State<ScreenProfile> {
             ),
             centerTitle: true,
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: formKey,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+          body: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Form(
+                    key: formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -204,7 +207,11 @@ class _ScreenProfileState extends State<ScreenProfile> {
                     ),
                   ),
                 ),
-                Row(
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
@@ -232,9 +239,9 @@ class _ScreenProfileState extends State<ScreenProfile> {
                       ),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),

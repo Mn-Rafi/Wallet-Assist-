@@ -97,40 +97,35 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
                 // width: 275.w,
                 height: 48.h,
                 decoration: customBoxDecoration,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Let\'s Get Started',
-                      style: customTextStyleOne(fontSize: 20),
-                    ),
-                    GestureDetector(
-                        onTap: () async {
-                          await _storeOnboardingInfo();
-                          categories = Hive.box<Categories>('categories');
-                          for (int i = 0;
-                              i < listIncomeCategories.length;
-                              i++) {
-                            categories.add(Categories(
-                                category: listIncomeCategories[i],
-                                type: true));
-                          }
-                          for (int i = 0;
-                              i < listExpenseCategories.length;
-                              i++) {
-                            categories.add(Categories(
-                                category: listExpenseCategories[i],
-                                type: false));
-                          }
+                child: GestureDetector(
+                  onTap: () async {
+                    await _storeOnboardingInfo();
+                    categories = Hive.box<Categories>('categories');
+                    for (int i = 0; i < listIncomeCategories.length; i++) {
+                      categories.add(Categories(
+                          category: listIncomeCategories[i], type: true));
+                    }
+                    for (int i = 0; i < listExpenseCategories.length; i++) {
+                      categories.add(Categories(
+                          category: listExpenseCategories[i], type: false));
+                    }
 
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (ctx) => const ScreenProfile(),
-                            ),
-                          );
-                        },
-                        child: arrowForwardIcon)
-                  ],
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (ctx) => const ScreenProfile(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Let\'s Get Started',
+                        style: customTextStyleOne(fontSize: 20),
+                      ),
+                      arrowForwardIcon
+                    ],
+                  ),
                 ),
               )
             ],

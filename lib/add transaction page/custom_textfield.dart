@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:money_manager_app/First%20Profile/first_profile_widgets.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
@@ -83,7 +84,6 @@ class CustomTextFieldForDate extends StatelessWidget {
     return TextFormField(
       style: customTextStyleOne(),
       onTap: onTap,
-      
       readOnly: true,
       cursorWidth: 1,
       cursorColor: firstGrey,
@@ -227,14 +227,21 @@ class CustomOutlinedButton extends StatefulWidget {
 class _CustomOutlinedButtonState extends State<CustomOutlinedButton> {
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
+    return ElevatedButton(
       onPressed: widget.onPressed,
       child: Text(
         'Submit',
-        style: customTextStyleOne(fontSize: 16),
+        style: customTextStyleOne(fontSize: 18),
       ),
-      style:
-          ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          padding: MaterialStateProperty.all(
+              EdgeInsets.symmetric(horizontal: 25.w, vertical: 8.h)),
+          backgroundColor: MaterialStateProperty.all(walletPink)),
     );
   }
 }

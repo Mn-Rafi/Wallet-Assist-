@@ -31,7 +31,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(
-          localizedReason: ' ', useErrorDialogs: true, stickyAuth: true);
+          localizedReason: ' ', useErrorDialogs: true, );
       if (authenticated) {
         _navigate();
       } else {
@@ -97,7 +97,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   _navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(milliseconds: 4000));
+    await Future.delayed(const Duration(milliseconds: 7000));
 
     isViewd = prefs.getInt('onBoard');
     isViewdFirstProfile = prefs.getInt('onFirstProfile');
@@ -159,9 +159,22 @@ class _ScreenSplashState extends State<ScreenSplash> {
         backgroundColor: Colors.white,
         body: Center(
           child: AnimatedTextKit(animatedTexts: [
-            ColorizeAnimatedText('Monzimo',
+            ColorizeAnimatedText('Monzuma',
+                speed: const Duration(milliseconds: 400),
+                textStyle: customTextStyleOne(fontSize: 50.sp),
+                colors: [
+                  firstBlue,
+                  firstOrange,
+                  walletPink,
+                  incomeGreen,
+                  firstBlue,
+                  firstOrange,
+                  walletPink,
+                  incomeGreen
+                ]),
+            ColorizeAnimatedText('Your smart ledger',
                 speed: const Duration(milliseconds: 600),
-                textStyle: customTextStyleOne(fontSize: 50),
+                textStyle: customTextStyleOne(fontSize: 24.sp),
                 colors: [
                   firstBlue,
                   firstOrange,
