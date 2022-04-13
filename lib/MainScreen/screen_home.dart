@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:money_manager_app/Category%20page/screen_catogories.dart';
+import 'package:flutter/services.dart';
 import 'package:money_manager_app/MainScreen/widgets/bottom_navigation.dart';
 import 'package:money_manager_app/Regular%20Payment/screen_regularpayments.dart';
 import 'package:money_manager_app/add%20transaction%20page/screen_addtransaction.dart';
@@ -24,21 +23,25 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: [
-            ValueListenableBuilder(
-              valueListenable: selectedIndexNotifier,
-              builder: (BuildContext context, int updatedInddex, child) {
-                return _pages[updatedInddex];
-              },
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: CustomBottomNavigationBar(),
-            ),
-          ],
-        ));
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
+    return SafeArea(
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Stack(
+            children: [
+              ValueListenableBuilder(
+                valueListenable: selectedIndexNotifier,
+                builder: (BuildContext context, int updatedInddex, child) {
+                  return _pages[updatedInddex];
+                },
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: CustomBottomNavigationBar(),
+              ),
+            ],
+          )),
+    );
   }
 }

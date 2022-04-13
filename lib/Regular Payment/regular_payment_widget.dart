@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
+import 'package:money_manager_app/Notification/notifications.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
@@ -43,6 +44,8 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
+                style: customTextStyleOne(),
+                textCapitalization: TextCapitalization.sentences,
                 validator: (value) {
                   if (value!.trim() == '' || value.length < 3) {
                     return 'Enter a valid title';
@@ -55,10 +58,18 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                     name = value;
                   });
                 },
-                maxLength: 30,
+                maxLength: 50,
                 keyboardType: TextInputType.name,
                 cursorWidth: 1,
                 decoration: InputDecoration(
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(Icons.title),
@@ -73,6 +84,9 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 10.h,
               ),
               CustomTextFieldForDate(
                 onTap: () {
@@ -96,6 +110,10 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                             upcomingDate: date,
                           ),
                         );
+                        scheduledNotification(date.day, name,
+                            date.microsecond + date.hour + date.minute);
+                        scheduledNotificationRepeat(date.day, name,
+                            date.microsecond + date.hour + date.minute + 1);
                         Navigator.pop(context);
                       }
                     },
@@ -112,10 +130,11 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
   Future pickdate(BuildContext context) async {
     final initialDate = DateTime.now();
     final newDate = await showDatePicker(
+      initialDatePickerMode: DatePickerMode.day,
       context: context,
       initialDate: initialDate,
-      firstDate: DateTime(DateTime.now().year - 5),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 31)),
     );
 
     if (newDate == null) {
@@ -188,10 +207,19 @@ class _RegularPaymentEditState extends State<RegularPaymentEdit> {
                     name = value;
                   });
                 },
+                style: customTextStyleOne(),
                 maxLength: 30,
                 keyboardType: TextInputType.name,
                 cursorWidth: 1,
                 decoration: InputDecoration(
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(Icons.title),
@@ -230,7 +258,20 @@ class _RegularPaymentEditState extends State<RegularPaymentEdit> {
                             upcomingDate: date,
                           ),
                         );
+                        cancelScheduledNotificationsOne(
+                            widget.initialdate.microsecond +
+                                widget.initialdate.hour +
+                                widget.initialdate.minute);
+                        cancelScheduledNotificationsOne(
+                            widget.initialdate.microsecond +
+                                widget.initialdate.hour +
+                                widget.initialdate.minute +
+                                1);
+                        scheduledNotification(date.day, name,
+                            date.microsecond + date.hour + date.minute);
                         Navigator.pop(context);
+                        scheduledNotificationRepeat(date.day, name,
+                            date.microsecond + date.hour + date.minute + 1);
                       }
                     },
                   ),
@@ -248,8 +289,8 @@ class _RegularPaymentEditState extends State<RegularPaymentEdit> {
     final newDate = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: DateTime(DateTime.now().year - 5),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 31)),
     );
 
     if (newDate == null) {

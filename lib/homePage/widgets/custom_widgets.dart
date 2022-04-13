@@ -70,7 +70,6 @@ class CustomContainerForCatogories extends StatelessWidget {
   }
 }
 
-
 class CustomEditTransaction extends StatefulWidget {
   final double amount;
   final String notes;
@@ -117,7 +116,7 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
   Categories? dropdownvalue;
   DateTime date = DateTime.now();
   double? amount;
-  String notes = 'No notes found';
+  String notes = '';
 
   String getText() {
     return '${date.day}-${date.month}-${date.year}';
@@ -190,6 +189,7 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
                             Hive.box<Categories>('categories').listenable(),
                         builder: (context, Box<Categories> box, _) {
                           return DropdownButton<dynamic>(
+                            style: customTextStyleOne(),
                             underline: const SizedBox(),
                             hint: Text(
                               widget.listHint,
@@ -289,6 +289,7 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
                 height: 10.w,
               ),
               TextFormField(
+                style: customTextStyleOne(),
                 initialValue: notes,
                 onChanged: ((value) {
                   setState(() {
@@ -315,7 +316,7 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
               CustomOutlinedButton(onPressed: () {
                 final isValidForm = formKey.currentState!.validate();
                 if (isValidForm && dropdownvalue != null) {
-                  Hive.box<Transactions>('transactions').putAt(
+                  Hive.box<Transactions>('transactions').put(
                       widget.index,
                       Transactions(
                           categoryName: dropdownvalue!.category,

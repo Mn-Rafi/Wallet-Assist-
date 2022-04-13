@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,11 +17,35 @@ void main() async {
   Hive.registerAdapter<Categories>(CategoriesAdapter());
   Hive.registerAdapter<Transactions>(TransactionsAdapter());
   Hive.registerAdapter<RegularPayments>(RegularPaymentsAdapter());
+  Hive.registerAdapter<LockAuthentication>(LockAuthenticationAdapter());
 
   await Hive.openBox<ProfileDetails>('profiledetails');
   await Hive.openBox<Categories>('categories');
   await Hive.openBox<Transactions>('transactions');
   await Hive.openBox<RegularPayments>('regularPayments');
+  await Hive.openBox<LockAuthentication>('lockAuth');
+
+  AwesomeNotifications().initialize(
+      'resource://drawable/res_notification_app_icon',
+      [
+        NotificationChannel(
+            channelKey: 'basic_channel',
+            channelName: 'Basic Notifications',
+            channelDescription: 'Notification on presses',
+            defaultColor: Colors.teal,
+            importance: NotificationImportance.High,
+            channelShowBadge: true),
+        NotificationChannel(
+          channelKey: 'scheduled_channel',
+          channelName: 'Scheduled Notifications',
+          channelDescription: 'Monthly on presses',
+          defaultColor: Colors.teal,
+          locked: true,
+          importance: NotificationImportance.High,
+          soundSource: 'resource://raw/res_custom_notification',
+        ),
+      ],
+      debug: true);
   runApp(const MyApp());
 }
 
@@ -33,13 +58,15 @@ class MyApp extends StatelessWidget {
       designSize: const Size(400, 793),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: () {
+      builder: (context) {
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.dark));
         return MaterialApp(
-          localizationsDelegates: const [
-        GlobalWidgetsLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        MonthYearPickerLocalizations.delegate,
-      ],  
+            localizationsDelegates: const [
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              MonthYearPickerLocalizations.delegate,
+            ],
             theme: ThemeData(primarySwatch: Colors.grey),
             debugShowCheckedModeBanner: false,
             home: const ScreenSplash());

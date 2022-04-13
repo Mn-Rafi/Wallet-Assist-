@@ -181,8 +181,7 @@ class _EditIncomeCategory extends State<EditIncomeCategory> {
                       newCategory)) {
                 if (newCategory == '') {
                 } else {
-                  await Hive.box<Categories>('categories').putAt(
-                      findIndex(widget.initialValue),
+                  await Hive.box<Categories>('categories').put(widget.index,
                       Categories(category: newCategory, type: widget.type));
 
                   for (int i = 0; i < widget.transactionList.length; i++) {

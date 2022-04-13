@@ -23,6 +23,7 @@ class CustomTextFieldTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: customTextStyleOne(),
       validator: (value) {
         if (value != null && value.length < 3) {
           return 'Enter atleast 3 characters';
@@ -37,6 +38,14 @@ class CustomTextFieldTwo extends StatelessWidget {
       cursorWidth: 1,
       cursorColor: firstGrey,
       decoration: InputDecoration(
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         filled: true,
         fillColor: Colors.white,
         prefixIcon: prefixIcon,
@@ -72,7 +81,9 @@ class CustomTextFieldForDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: customTextStyleOne(),
       onTap: onTap,
+      
       readOnly: true,
       cursorWidth: 1,
       cursorColor: firstGrey,
@@ -82,7 +93,7 @@ class CustomTextFieldForDate extends StatelessWidget {
         fillColor: Colors.white,
         prefixIcon: prefixIcon,
         hintText: hint,
-        labelStyle: customTextStyleOne(),
+        hintStyle: customTextStyleOne(),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
@@ -117,6 +128,7 @@ class CustomTextFieldFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: customTextStyleOne(),
       initialValue: initialValue != 0 ? '$initialValue' : '',
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)'))
@@ -134,6 +146,14 @@ class CustomTextFieldFour extends StatelessWidget {
       cursorWidth: 1,
       cursorColor: firstGrey,
       decoration: InputDecoration(
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.5),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         filled: true,
         fillColor: Colors.white,
         prefixIcon: prefixIcon,

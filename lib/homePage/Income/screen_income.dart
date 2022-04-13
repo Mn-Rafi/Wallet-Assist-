@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -57,449 +58,444 @@ class _ScreenIncomeState extends State<ScreenIncome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const ScreenHome(),
-                ),
-                (route) => false),
-            icon: const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: firstBlack,
-              size: 15,
-            )),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Income',
-          style: customTextStyleOne(fontSize: 20),
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: firstBlack,
+                size: 15,
+              )),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Income',
+            style: customTextStyleOne(fontSize: 20),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: ValueListenableBuilder(
-          valueListenable: Hive.box<Transactions>('transactions').listenable(),
-          builder: (context, Box<Transactions> box, _) {
-            List<Transactions> transactionList = dropdownvalue == items[0]
-                ? incomeorExpense(box.values.toList())[0]
-                : dropdownvalue == items[1]
-                    ? monthWise(
-                        incomeorExpense(box.values.toList())[0], _selected)
-                    : dropdownvalue == items[2]
-                        ? yearWise(incomeorExpense(box.values.toList())[0],
-                            _selectedYear)
-                        : periodWise(
-                            incomeorExpense(box.values.toList())[0], dateRange);
+        body: ValueListenableBuilder(
+            valueListenable:
+                Hive.box<Transactions>('transactions').listenable(),
+            builder: (context, Box<Transactions> box, _) {
+              List<Transactions> transactionList = dropdownvalue == items[0]
+                  ? incomeorExpense(box.values.toList())[0]
+                  : dropdownvalue == items[1]
+                      ? monthWise(
+                          incomeorExpense(box.values.toList())[0], _selected)
+                      : dropdownvalue == items[2]
+                          ? yearWise(incomeorExpense(box.values.toList())[0],
+                              _selectedYear)
+                          : periodWise(incomeorExpense(box.values.toList())[0],
+                              dateRange);
 
-            double getTotalExpense() {
-              double totalAmount = 0;
-              for (int i = 0; i < transactionList.length; i++) {
-                totalAmount += transactionList[i].amount;
+              double getTotalExpense() {
+                double totalAmount = 0;
+                for (int i = 0; i < transactionList.length; i++) {
+                  totalAmount += transactionList[i].amount;
+                }
+                return totalAmount;
               }
-              return totalAmount;
-            }
 
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        DropdownButton(
-                          value: dropdownvalue,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(
-                                items,
-                                style: customTextStyleOne(),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
-                          },
-                        ),
-                        dropdownvalue == items[0]
-                            ? const SizedBox()
-                            : dropdownvalue == items[1]
-                                ? Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _selected = DateTime(
-                                                  _selected.year,
-                                                  _selected.month - 1,
-                                                  _selected.day);
-                                            });
-                                          },
-                                          icon: arrowPrev),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          pickDate(context);
-                                        },
-                                        child: Text(
-                                          DateFormat.yMMM('en_US')
-                                              .format(_selected),
-                                          style: customTextStyleOne(
-                                              color: const Color.fromARGB(
-                                                  255, 255, 0, 0),
-                                              fontSize: 14),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            if (_selected.year <
-                                                    DateTime.now().year ||
-                                                (_selected.year ==
-                                                        DateTime.now().year &&
-                                                    _selected.month <
-                                                        DateTime.now().month)) {
+              transactionList.sort((first, second) =>
+                  second.dateofTransaction.compareTo(first.dateofTransaction));
+
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DropdownButton(
+                            value: dropdownvalue,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: items.map((String items) {
+                              return DropdownMenuItem(
+                                value: items,
+                                child: Text(
+                                  items,
+                                  style: customTextStyleOne(),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownvalue = newValue!;
+                              });
+                            },
+                          ),
+                          dropdownvalue == items[0]
+                              ? const SizedBox()
+                              : dropdownvalue == items[1]
+                                  ? Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
                                               setState(() {
                                                 _selected = DateTime(
                                                     _selected.year,
-                                                    _selected.month + 1,
+                                                    _selected.month - 1,
                                                     _selected.day);
                                               });
-                                            }
-                                          },
-                                          icon: arrowNext),
-                                    ],
-                                  )
-                                : dropdownvalue == items[2]
-                                    ? Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  _selectedYear = DateTime(
-                                                      _selectedYear.year - 1,
-                                                      _selectedYear.month,
-                                                      _selectedYear.day);
-                                                });
-                                              },
-                                              icon: arrowPrev),
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: Text(
-                                                      "Select Year",
-                                                      style:
-                                                          customTextStyleOne(),
-                                                    ),
-                                                    content: SizedBox(
-                                                      width: 300.w,
-                                                      height: 300.h,
-                                                      child: YearPicker(
-                                                        firstDate: DateTime(
-                                                            DateTime.now()
-                                                                    .year -
-                                                                10,
-                                                            1),
-                                                        lastDate:
-                                                            DateTime.now(),
-                                                        initialDate:
-                                                            DateTime.now(),
-                                                        selectedDate:
-                                                            _selectedYear,
-                                                        onChanged: (DateTime
-                                                            dateTime) {
-                                                          setState(() {
-                                                            _selectedYear =
-                                                                dateTime;
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              );
                                             },
-                                            child: Text(
-                                              DateFormat.y('en_US')
-                                                  .format(_selectedYear),
-                                              style: customTextStyleOne(
-                                                  color: const Color.fromARGB(
-                                                      255, 255, 0, 0),
-                                                  fontSize: 14),
-                                            ),
+                                            icon: arrowPrev),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            pickDate(context);
+                                          },
+                                          child: Text(
+                                            DateFormat.yMMM('en_US')
+                                                .format(_selected),
+                                            style: customTextStyleOne(
+                                                color: const Color.fromARGB(
+                                                    255, 255, 0, 0),
+                                                fontSize: 14),
                                           ),
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          IconButton(
-                                              onPressed: () {
-                                                if (_selectedYear.year <
-                                                        DateTime.now().year ||
-                                                    (_selectedYear.year ==
-                                                            DateTime.now()
-                                                                .year &&
-                                                        _selectedYear.month <
-                                                            DateTime.now()
-                                                                .month)) {
+                                        ),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              if (_selected.year <
+                                                      DateTime.now().year ||
+                                                  (_selected.year ==
+                                                          DateTime.now().year &&
+                                                      _selected.month <
+                                                          DateTime.now()
+                                                              .month)) {
+                                                setState(() {
+                                                  _selected = DateTime(
+                                                      _selected.year,
+                                                      _selected.month + 1,
+                                                      _selected.day);
+                                                });
+                                              }
+                                            },
+                                            icon: arrowNext),
+                                      ],
+                                    )
+                                  : dropdownvalue == items[2]
+                                      ? Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
                                                   setState(() {
                                                     _selectedYear = DateTime(
-                                                        _selectedYear.year + 1,
+                                                        _selectedYear.year - 1,
                                                         _selectedYear.month,
                                                         _selectedYear.day);
                                                   });
-                                                }
+                                                },
+                                                icon: arrowPrev),
+                                            SizedBox(
+                                              width: 10.w,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                        "Select Year",
+                                                        style:
+                                                            customTextStyleOne(),
+                                                      ),
+                                                      content: SizedBox(
+                                                        width: 300.w,
+                                                        height: 300.h,
+                                                        child: YearPicker(
+                                                          firstDate: DateTime(
+                                                              DateTime.now()
+                                                                      .year -
+                                                                  10,
+                                                              1),
+                                                          lastDate:
+                                                              DateTime.now(),
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          selectedDate:
+                                                              _selectedYear,
+                                                          onChanged: (DateTime
+                                                              dateTime) {
+                                                            setState(() {
+                                                              _selectedYear =
+                                                                  dateTime;
+                                                            });
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
                                               },
-                                              icon: arrowNext),
-                                        ],
-                                      )
-                                    : Row(
-                                        children: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                pickDateRange(context),
-                                            child: Text(
-                                              DateFormat.yMMMd('en_US')
-                                                  .format(dateRange.start),
+                                              child: Text(
+                                                DateFormat.y('en_US')
+                                                    .format(_selectedYear),
+                                                style: customTextStyleOne(
+                                                    color: const Color.fromARGB(
+                                                        255, 255, 0, 0),
+                                                    fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10.w,
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  if (_selectedYear.year <
+                                                          DateTime.now().year ||
+                                                      (_selectedYear.year ==
+                                                              DateTime.now()
+                                                                  .year &&
+                                                          _selectedYear.month <
+                                                              DateTime.now()
+                                                                  .month)) {
+                                                    setState(() {
+                                                      _selectedYear = DateTime(
+                                                          _selectedYear.year +
+                                                              1,
+                                                          _selectedYear.month,
+                                                          _selectedYear.day);
+                                                    });
+                                                  }
+                                                },
+                                                icon: arrowNext),
+                                          ],
+                                        )
+                                      : Row(
+                                          children: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  pickDateRange(context),
+                                              child: Text(
+                                                DateFormat.yMMMd('en_US')
+                                                    .format(dateRange.start),
+                                                style: customTextStyleOne(
+                                                    color: const Color.fromARGB(
+                                                        255, 255, 0, 0),
+                                                    fontSize: 14),
+                                              ),
+                                            ),
+                                            Text(
+                                              ' to ',
                                               style: customTextStyleOne(
-                                                  color: const Color.fromARGB(
-                                                      255, 255, 0, 0),
+                                                  color: firstBlack,
                                                   fontSize: 14),
                                             ),
-                                          ),
-                                          Text(
-                                            ' to ',
-                                            style: customTextStyleOne(
-                                                color: firstBlack,
-                                                fontSize: 14),
-                                          ),
-                                          TextButton(
-                                            onPressed: () =>
-                                                pickDateRange(context),
-                                            child: Text(
-                                              DateFormat.yMMMd('en_US')
-                                                  .format(dateRange.end),
-                                              style: customTextStyleOne(
-                                                  color: const Color.fromARGB(
-                                                      255, 255, 0, 0),
-                                                  fontSize: 14),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  pickDateRange(context),
+                                              child: Text(
+                                                DateFormat.yMMMd('en_US')
+                                                    .format(dateRange.end),
+                                                style: customTextStyleOne(
+                                                    color: const Color.fromARGB(
+                                                        255, 255, 0, 0),
+                                                    fontSize: 14),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    transactionList.isEmpty
-                        ? const CustomTotalIncomeContainer(
-                            containerColor: incomeGreen,
-                            headText: 'Your total income',
-                            totalIncomeAmount: 0,
-                            lastIncomeAmount: 0,
-                          )
-                        : CustomTotalIncomeContainer(
-                            containerColor: incomeGreen,
-                            headText: 'Your total income',
-                            totalIncomeAmount: getTotalExpense(),
-                            lastIncomeAmount: transactionList.last.amount,
-                          ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Text('Transactions',
-                        style: customTextStyleOneWithUnderLine(fontSize: 17)),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    transactionList.isEmpty
-                        ? Center(
-                            child: Text(
-                              'No Income Transactions Found',
-                              style: customTextStyleOne(
-                                  fontSize: 18, color: firstBlack),
+                                          ],
+                                        )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      transactionList.isEmpty
+                          ? const CustomTotalIncomeContainer(
+                              containerColor: incomeGreen,
+                              headText: 'Your total income',
+                              totalIncomeAmount: 0,
+                              lastIncomeAmount: 0,
+                            )
+                          : CustomTotalIncomeContainer(
+                              containerColor: incomeGreen,
+                              headText: 'Your total income',
+                              totalIncomeAmount: getTotalExpense(),
+                              lastIncomeAmount: transactionList.last.amount,
                             ),
-                          )
-                        : ListView.separated(
-                            reverse: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Slidable(
-                                key: const ValueKey(0),
-                                startActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (ctx) {
-                                        Future.delayed(
-                                            const Duration(seconds: 0),
-                                            () => showDialog(
-                                                context: context,
-                                                builder: (ctx) => AlertDialog(
-                                                      title: Text(
-                                                        'Your transaction details will be deleted permenently. Do you really want to continue?',
-                                                        style:
-                                                            customTextStyleOne(
-                                                                fontSize: 15),
-                                                      ),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            List<Transactions>
-                                                                transactionList =
-                                                                incomeorExpense(
-                                                                    Hive.box<Transactions>(
-                                                                            'transactions')
-                                                                        .values
-                                                                        .toList())[0];
-                                                            transactionList[
-                                                                    index]
-                                                                .delete();
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Text(
-                                                            'Yes',
-                                                            style:
-                                                                customTextStyleOne(),
-                                                          ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Text('Transactions',
+                          style: customTextStyleOneWithUnderLine(fontSize: 17)),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      transactionList.isEmpty
+                          ? Center(
+                              child: Text(
+                                'No Income Transactions Found',
+                                style: customTextStyleOne(
+                                    fontSize: 18, color: firstBlack),
+                              ),
+                            )
+                          : ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Slidable(
+                                  key: const ValueKey(0),
+                                  startActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (ctx) {
+                                          Future.delayed(
+                                              const Duration(seconds: 0),
+                                              () => showDialog(
+                                                  context: context,
+                                                  builder: (ctx) => AlertDialog(
+                                                        title: Text(
+                                                          'Your transaction details will be deleted permenently. Do you really want to continue?',
+                                                          style:
+                                                              customTextStyleOne(
+                                                                  fontSize: 15),
                                                         ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Text(
-                                                            'No',
-                                                            style:
-                                                                customTextStyleOne(),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Hive.box<Transactions>(
+                                                                      'transactions')
+                                                                  .delete(transactionList[
+                                                                          index]
+                                                                      .key);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              'Yes',
+                                                              style:
+                                                                  customTextStyleOne(),
+                                                            ),
                                                           ),
-                                                        )
-                                                      ],
-                                                    )));
-                                      },
-                                      foregroundColor: Colors.black,
-                                      icon: Icons.delete,
-                                      label: 'Delete',
-                                    ),
-                                  ],
-                                ),
-                                endActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (ctx) {
-                                        Future.delayed(
-                                            const Duration(seconds: 0),
-                                            () => showDialog(
-                                                context: context,
-                                                builder: (ctx) => AlertDialog(
-                                                      title: Text(
-                                                        'Your transaction details will be deleted permenently. Do you really want to continue?',
-                                                        style:
-                                                            customTextStyleOne(
-                                                                fontSize: 15),
-                                                      ),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            List<Transactions>
-                                                                transactionList =
-                                                                incomeorExpense(
-                                                                    Hive.box<Transactions>(
-                                                                            'transactions')
-                                                                        .values
-                                                                        .toList())[0];
-                                                            transactionList[
-                                                                    index]
-                                                                .delete();
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Text(
-                                                            'Yes',
-                                                            style:
-                                                                customTextStyleOne(),
-                                                          ),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Text(
-                                                            'No',
-                                                            style:
-                                                                customTextStyleOne(),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )));
-                                      },
-                                      foregroundColor: Colors.black,
-                                      icon: Icons.delete,
-                                      label: 'Delete',
-                                    ),
-                                  ],
-                                ),
-                                child: GestureDetector(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (ctx) => IncomeDisplay(
-                                          category: transactionList[index]
-                                              .categoryName,
-                                          index: transactionList[index].key,
-                                          incomeAmount:
-                                              transactionList[index].amount,
-                                          nameofCatagory: transactionList[index]
-                                              .categoryCat,
-                                          dateofIncome: transactionList[index]
-                                              .dateofTransaction,
-                                          notesaboutIncome:
-                                              transactionList[index].notes)),
-                                  child: CustomIncomeContainer(
-                                    headText:
-                                        transactionList[index].categoryName,
-                                    totalIncomeAmount:
-                                        transactionList[index].amount,
-                                    incomeDate: transactionList[index]
-                                        .dateofTransaction,
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              'No',
+                                                              style:
+                                                                  customTextStyleOne(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )));
+                                        },
+                                        foregroundColor: Colors.black,
+                                        icon: Icons.delete,
+                                        label: 'Delete',
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) => SizedBox(
-                                  height: 10.h,
-                                ),
-                            itemCount: transactionList.length)
-                  ],
+                                  endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (ctx) {
+                                          Future.delayed(
+                                              const Duration(seconds: 0),
+                                              () => showDialog(
+                                                  context: context,
+                                                  builder: (ctx) => AlertDialog(
+                                                        title: Text(
+                                                          'Your transaction details will be deleted permenently. Do you really want to continue?',
+                                                          style:
+                                                              customTextStyleOne(
+                                                                  fontSize: 15),
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Hive.box<Transactions>(
+                                                                      'transactions')
+                                                                  .delete(transactionList[
+                                                                          index]
+                                                                      .key);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              'Yes',
+                                                              style:
+                                                                  customTextStyleOne(),
+                                                            ),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              'No',
+                                                              style:
+                                                                  customTextStyleOne(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )));
+                                        },
+                                        foregroundColor: Colors.black,
+                                        icon: Icons.delete,
+                                        label: 'Delete',
+                                      ),
+                                    ],
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () => showDialog(
+                                        context: context,
+                                        builder: (ctx) => IncomeDisplay(
+                                            category: transactionList[index]
+                                                .categoryName,
+                                            index: transactionList[index].key,
+                                            incomeAmount:
+                                                transactionList[index].amount,
+                                            nameofCatagory:
+                                                transactionList[index]
+                                                    .categoryCat,
+                                            dateofIncome: transactionList[index]
+                                                .dateofTransaction,
+                                            notesaboutIncome:
+                                                transactionList[index].notes)),
+                                    child: CustomIncomeContainer(
+                                      headText:
+                                          transactionList[index].categoryName,
+                                      totalIncomeAmount:
+                                          transactionList[index].amount,
+                                      incomeDate: transactionList[index]
+                                          .dateofTransaction,
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) => SizedBox(
+                                    height: 10.h,
+                                  ),
+                              itemCount: transactionList.length)
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }

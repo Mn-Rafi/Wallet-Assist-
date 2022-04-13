@@ -1,6 +1,13 @@
+import 'dart:async';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:money_manager_app/First%20Profile/screen_first_profile.dart';
+import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/On%20Boarding/screen_onboarding.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
@@ -18,15 +25,80 @@ int? isViewd;
 int? isViewdFirstProfile;
 
 class _ScreenSplashState extends State<ScreenSplash> {
+  final LocalAuthentication auth = LocalAuthentication();
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+          localizedReason: ' ', useErrorDialogs: true, stickyAuth: true);
+      if (authenticated) {
+        _navigate();
+      } else {
+        _authenticate();
+      }
+    } on PlatformException catch (e) {
+      print(e);
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _navigate();
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  content: Text(
+                    'Please allow permissions for Notifications',
+                    style: customTextStyleOne(),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'dont allow',
+                          style: customTextStyleOne(),
+                        )),
+                    TextButton(
+                        onPressed: () => AwesomeNotifications()
+                            .requestPermissionToSendNotifications()
+                            .then((_) => Navigator.pop(context)),
+                        child: Text(
+                          'allow',
+                          style: customTextStyleOne(),
+                        ))
+                  ],
+                ));
+      }
+    });
+    if (Hive.box<LockAuthentication>('lockAuth').values.toList().isNotEmpty) {
+      if (Hive.box<LockAuthentication>('lockAuth')
+          .values
+          .toList()[0]
+          .enableAuth) {
+        _authenticate();
+      } else {
+        _navigate();
+      }
+    } else {
+      Hive.box<LockAuthentication>('lockAuth')
+          .add(LockAuthentication(enableAuth: false));
+      _navigate();
+    }
   }
 
   _navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(milliseconds: 3000));
+    await Future.delayed(const Duration(milliseconds: 4000));
+
     isViewd = prefs.getInt('onBoard');
     isViewdFirstProfile = prefs.getInt('onFirstProfile');
     isFirstTime = prefs.getInt('isFirstTime');
@@ -86,19 +158,21 @@ class _ScreenSplashState extends State<ScreenSplash> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'images/App_Logo.gif',
-                width: 100.w,
-              ),
-              const Text(
-                'Wallet Assist',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
+          child: AnimatedTextKit(animatedTexts: [
+            ColorizeAnimatedText('Monzimo',
+                speed: const Duration(milliseconds: 600),
+                textStyle: customTextStyleOne(fontSize: 50),
+                colors: [
+                  firstBlue,
+                  firstOrange,
+                  walletPink,
+                  incomeGreen,
+                  firstBlue,
+                  firstOrange,
+                  walletPink,
+                  incomeGreen
+                ])
+          ]),
         ),
       ),
     );

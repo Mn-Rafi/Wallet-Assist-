@@ -679,6 +679,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                     Hive.box<ProfileDetails>('profiledetails').listenable(),
                 builder: (context, Box<ProfileDetails> box, widget) {
                   List<ProfileDetails> profileDetails = box.values.toList();
+                  
                   return DraggableScrollableSheet(
                       initialChildSize: childSize,
                       maxChildSize: 0.8,

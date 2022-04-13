@@ -79,15 +79,9 @@ class IncomeDisplay extends StatelessWidget {
                                               actions: [
                                                 TextButton(
                                                   onPressed: () {
-                                                    List<Transactions>
-                                                        transactionList =
-                                                        incomeorExpense(Hive.box<
-                                                                    Transactions>(
-                                                                'transactions')
-                                                            .values
-                                                            .toList())[0];
-                                                    transactionList[index]
-                                                        .delete();
+                                                    Hive.box<Transactions>(
+                                                            'transactions')
+                                                        .delete(index);
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   },

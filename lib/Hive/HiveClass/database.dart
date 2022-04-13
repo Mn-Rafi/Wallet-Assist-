@@ -71,4 +71,11 @@ class RegularPayments extends HiveObject {
   RegularPayments({required this.title, required this.upcomingDate});
 }
 
-
+@HiveType(typeId: 4)
+class LockAuthentication extends HiveObject {
+  @HiveField(0)
+  final bool enableAuth;
+  LockAuthentication({
+    required this.enableAuth,
+  });
+}

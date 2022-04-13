@@ -15,7 +15,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(25), topLeft: Radius.circular(25)),
         boxShadow: [
-          BoxShadow(color: firstBlack, blurRadius: 0.01),
+          BoxShadow(color: firstBlack, blurRadius: 0.1),
         ],
       ),
       child: ClipRRect(
@@ -39,15 +39,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               unselectedItemColor: firstGrey,
               showUnselectedLabels: false,
+              iconSize: 20.w,
               items: [
-                const BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.house),
+                BottomNavigationBarItem(
+                  icon: const FaIcon(FontAwesomeIcons.house),
                   label: '⦿',
-                  activeIcon: FaIcon(FontAwesomeIcons.houseChimney, size: 20),
+                  activeIcon: FaIcon(FontAwesomeIcons.houseChimney, size: 20.w),
                 ),
-                const BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.chartGantt),
-                  activeIcon: FaIcon(FontAwesomeIcons.chartPie, size: 20),
+                BottomNavigationBarItem(
+                  icon: const FaIcon(FontAwesomeIcons.chartGantt),
+                  activeIcon: FaIcon(FontAwesomeIcons.chartPie, size: 20.w),
                   label: '⦿',
                 ),
                 BottomNavigationBarItem(
@@ -58,28 +59,28 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(color: firstGrey, width: 2)),
-                    child: const FaIcon(
+                    child: FaIcon(
                       FontAwesomeIcons.plus,
-                      size: 30,
+                      size: 30.w,
                     ),
                   ),
                   label: '',
-                  activeIcon: const FaIcon(FontAwesomeIcons.plus, size: 30),
+                  activeIcon: FaIcon(FontAwesomeIcons.plus, size: 30.w),
                 ),
-                const BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.solidBell),
+                BottomNavigationBarItem(
+                  icon: const FaIcon(FontAwesomeIcons.solidBell),
                   label: '⦿',
-                  activeIcon: FaIcon(FontAwesomeIcons.calendarPlus, size: 20),
+                  activeIcon: FaIcon(FontAwesomeIcons.calendarPlus, size: 20.w),
                 ),
-                const BottomNavigationBarItem(
+                BottomNavigationBarItem(
                   icon: FaIcon(
                     FontAwesomeIcons.screwdriverWrench,
-                    size: 24,
+                    size: 24.w,
                   ),
                   label: '⦿',
                   activeIcon: FaIcon(
                     FontAwesomeIcons.solidPenToSquare,
-                    size: 20,
+                    size: 20.w,
                   ),
                 )
               ],

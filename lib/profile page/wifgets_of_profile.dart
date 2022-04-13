@@ -44,17 +44,11 @@ class CustomRowofprofile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:EdgeInsets.symmetric(vertical: 10.0.h),
-      child: Row(
-        children: [
-          leadingIcon,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.0.w),
-            child: Text(title, style: customTextStyleOne(fontSize: 17.sp)),
-          )
-        ],
-      ),
+    return ListTile(
+      iconColor: firstBlack,
+      contentPadding: const EdgeInsets.all(0),
+      title: Text(title, style: customTextStyleOne(fontSize: 17.sp)),
+      leading: leadingIcon,
     );
   }
 }
@@ -145,9 +139,8 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
         aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
         androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'crop',
-          toolbarColor: walletPink,
+          toolbarColor: Colors.grey,
           toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: walletPink,
         ),
         iosUiSettings: const IOSUiSettings(
             minimumAspectRatio: 1.0, aspectRatioLockEnabled: true),
@@ -164,6 +157,13 @@ class _EditProfileDetailsState extends State<EditProfileDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: firstBlack,
+              size: 15,
+            )),
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(

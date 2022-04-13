@@ -61,12 +61,13 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(width: 0.2),
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(10)),
                 child: ValueListenableBuilder(
                     valueListenable:
                         Hive.box<Categories>('categories').listenable(),
                     builder: (context, Box<Categories> box, _) {
                       return DropdownButton<dynamic>(
+                        style: customTextStyleOne(),
                         underline: const SizedBox(),
                         hint: Text(
                           widget.listHint,
@@ -100,9 +101,6 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                     style: customTextStyleOne(fontSize: 20.sp),
                   ),
                   TextButton.icon(
-                      style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.all(0))),
                       onPressed: () => showDialog(
                           context: context,
                           builder: (ctx) => widget.addFunction),
@@ -158,6 +156,8 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                 height: 10.w,
               ),
               TextField(
+                textCapitalization: TextCapitalization.sentences,
+                style: customTextStyleOne(),
                 onChanged: ((value) {
                   setState(() {
                     notes = value;
@@ -194,24 +194,11 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                           notes: notes,
                           type: widget.type));
 
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: Text(
-                                  'Transaction submitted succesfully',
-                                  style: customTextStyleOne(),
-                                ),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () => Navigator.of(context)
-                                          .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const ScreenHome()),
-                                              (route) => false),
-                                      child: const Text('Ok'))
-                                ],
-                              ));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const ScreenHome()),
+                          (route) => false);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBarOne);
                     }
                   }),
                 ],
@@ -244,3 +231,25 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
     }
   }
 }
+
+final snackBarOne = SnackBar(
+  duration: const Duration(seconds: 1),
+  content: Container(
+    decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 0.2, color: Colors.black),
+        borderRadius: BorderRadius.circular(20)),
+    margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text(
+        'Transaction added successfully',
+        textAlign: TextAlign.center,
+        style: customTextStyleOne(color: firstBlack),
+      ),
+    ),
+  ),
+  backgroundColor: Colors.transparent,
+  elevation: 10000,
+  behavior: SnackBarBehavior.floating,
+);

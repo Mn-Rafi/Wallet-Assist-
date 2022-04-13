@@ -6,7 +6,6 @@ import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
-import 'package:money_manager_app/homePage/expense/expense_widgets.dart';
 import 'package:money_manager_app/homePage/widgets/custom_widgets.dart';
 
 class ExpenseDisplay extends StatelessWidget {
@@ -62,7 +61,10 @@ class ExpenseDisplay extends StatelessWidget {
                                             listHint: nameofCatagory.category,
                                           )));
                             },
-                            child: Text('Edit', style: customTextStyleOne(),),
+                            child: Text(
+                              'Edit',
+                              style: customTextStyleOne(),
+                            ),
                           ),
                           PopupMenuItem(
                               onTap: () {
@@ -79,15 +81,9 @@ class ExpenseDisplay extends StatelessWidget {
                                               actions: [
                                                 TextButton(
                                                   onPressed: () {
-                                                    List<Transactions>
-                                                        transactionList =
-                                                        incomeorExpense(Hive.box<
-                                                                    Transactions>(
-                                                                'transactions')
-                                                            .values
-                                                            .toList())[1];
-                                                    transactionList[index]
-                                                        .delete();
+                                                    Hive.box<Transactions>(
+                                                            'transactions')
+                                                        .delete(index);
 
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
@@ -109,7 +105,10 @@ class ExpenseDisplay extends StatelessWidget {
                                               ],
                                             )));
                               },
-                              child: Text('Delete', style: customTextStyleOne(),)),
+                              child: Text(
+                                'Delete',
+                                style: customTextStyleOne(),
+                              )),
                         ]),
               ],
             ),
