@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/First%20Profile/screen_first_profile.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
+import 'package:money_manager_app/customs/utilities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenOnboarding extends StatefulWidget {
@@ -25,6 +27,7 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
 
   @override
   Widget build(BuildContext context) {
+    systemUi(context);
     return WillPopScope(
       onWillPop: () async {
         DateTime now = DateTime.now();
@@ -59,7 +62,6 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
         return Future.value(true);
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30),
           child: Column(
@@ -74,19 +76,40 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
                         TextSpan(
                             text: 'Manage ',
                             style: customTextStyleOne(
-                                color: firstBlue, fontSize: 32)),
+                                color:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.light
+                                        ? firstBlue
+                                        : Colors.white,
+                                fontSize: 32)),
                         TextSpan(
                           text: 'your income and expence ',
-                          style: customTextStyleOne(fontSize: 32),
+                          style: customTextStyleOne(
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.light
+                                      ? firstBlack
+                                      : Colors.white,
+                              fontSize: 32),
                         ),
                         TextSpan(
                             text: 'quickly ',
                             style: customTextStyleOne(
-                                color: firstOrange, fontSize: 32)),
+                                color:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.light
+                                        ? firstOrange
+                                        : Colors.white,
+                                fontSize: 32)),
                       ])),
-                      Image.asset(
-                        'images/financial-management-statistics-vector-22868355.png',
-                      ),
+                      MediaQuery.of(context).platformBrightness ==
+                              Brightness.light
+                          ? Image.asset(
+                              'images/financial-management-statistics-vector-22868355.png',
+                            )
+                          : Image.asset(
+                              'images/moneyManagerdark.png',
+                            ),
                     ],
                   ),
                 ),
@@ -94,7 +117,6 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 alignment: Alignment.center,
-                // width: 275.w,
                 height: 48.h,
                 decoration: customBoxDecoration,
                 child: GestureDetector(
@@ -123,7 +145,11 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
                         'Let\'s Get Started',
                         style: customTextStyleOne(fontSize: 20),
                       ),
-                      arrowForwardIcon
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 30.w,
+                        color: firstBlack,
+                      )
                     ],
                   ),
                 ),

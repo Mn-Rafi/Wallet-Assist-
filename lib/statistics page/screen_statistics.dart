@@ -313,13 +313,11 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
         return Future.value(true);
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
+          title: const Text(
             'Statistics',
-            style: customTextStyleOne(fontSize: 20.w),
           ),
           centerTitle: true,
         ),
@@ -330,8 +328,15 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
               children: [
                 TabBar(
                   labelStyle: customTextStyleOne(),
-                  labelColor: firstBlack,
-                  unselectedLabelColor: firstGrey,
+                  labelColor: MediaQuery.of(context).platformBrightness ==
+                          Brightness.dark
+                      ? firstWhite
+                      : firstBlack,
+                  unselectedLabelColor:
+                      MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? firstGrey.withOpacity(0.4)
+                          : firstGrey,
                   controller: _tabController,
                   tabs: const [
                     Tab(
@@ -358,7 +363,12 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                 value: items,
                                 child: Text(
                                   items,
-                                  style: customTextStyleOne(),
+                                  style: customTextStyleOne(
+                                      color: MediaQuery.of(context)
+                                                  .platformBrightness ==
+                                              Brightness.dark
+                                          ? secondGrey
+                                          : firstBlack),
                                 ),
                               );
                             }).toList(),
@@ -384,7 +394,14 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                                 _selected.day);
                                           });
                                         },
-                                        icon: arrowPrev),
+                                        icon: Icon(
+                                            Icons.arrow_back_ios_new_rounded,
+                                            size: 18.w,
+                                            color: MediaQuery.of(context)
+                                                        .platformBrightness ==
+                                                    Brightness.dark
+                                                ? firstWhite
+                                                : firstBlack)),
                                     SizedBox(
                                       width: 10.w,
                                     ),
@@ -420,7 +437,14 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                             });
                                           }
                                         },
-                                        icon: arrowNext),
+                                        icon: Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 18.w,
+                                            color: MediaQuery.of(context)
+                                                        .platformBrightness ==
+                                                    Brightness.dark
+                                                ? firstWhite
+                                                : firstBlack)),
                                   ],
                                 )
                               : dropdownvalue == items[2]
@@ -435,7 +459,15 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                                     _selectedYear.day);
                                               });
                                             },
-                                            icon: arrowPrev),
+                                            icon: Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                size: 18.w,
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack)),
                                         SizedBox(
                                           width: 10.w,
                                         ),
@@ -505,7 +537,14 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                                 });
                                               }
                                             },
-                                            icon: arrowNext),
+                                            icon: Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                size: 18.w,
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack)),
                                       ],
                                     )
                                   : Row(
@@ -525,7 +564,12 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                         Text(
                                           ' to ',
                                           style: customTextStyleOne(
-                                              color: firstBlack, fontSize: 14),
+                                              color: MediaQuery.of(context)
+                                                          .platformBrightness ==
+                                                      Brightness.dark
+                                                  ? firstWhite
+                                                  : firstBlack,
+                                              fontSize: 14),
                                         ),
                                         TextButton(
                                           onPressed: () =>
@@ -571,12 +615,21 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                               ? Center(
                                   child: Text(
                                     'No Income Transactions Found',
-                                    style: customTextStyleOne(),
+                                    style: customTextStyleOne(
+                                        color: MediaQuery.of(context)
+                                                    .platformBrightness ==
+                                                Brightness.dark
+                                            ? firstWhite
+                                            : firstBlack),
                                   ),
                                 )
                               : SfCircularChart(
                                   legend: Legend(
-                                      textStyle: customTextStyleOne(),
+                                      textStyle: customTextStyleOne(color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,),
                                       isVisible: true,
                                       overflowMode:
                                           LegendItemOverflowMode.scroll),
@@ -597,7 +650,11 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                         yValueMapper: (IncomeData data, _) =>
                                             data.amount,
                                         dataLabelSettings: DataLabelSettings(
-                                            textStyle: customTextStyleOne(),
+                                            textStyle: customTextStyleOne(color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,),
                                             showZeroValue: false,
                                             isVisible: true,
                                             labelPosition:
@@ -631,12 +688,21 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                               ? Center(
                                   child: Text(
                                     'No Expense Transactions Found',
-                                    style: customTextStyleOne(),
+                                    style: customTextStyleOne(
+                                        color: MediaQuery.of(context)
+                                                    .platformBrightness ==
+                                                Brightness.dark
+                                            ? firstWhite
+                                            : firstBlack),
                                   ),
                                 )
                               : SfCircularChart(
                                   legend: Legend(
-                                      textStyle: customTextStyleOne(),
+                                      textStyle: customTextStyleOne(color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,),
                                       isVisible: true,
                                       overflowMode:
                                           LegendItemOverflowMode.scroll),
@@ -658,7 +724,11 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                         yValueMapper: (ExpenseData data, _) =>
                                             data.amount,
                                         dataLabelSettings: DataLabelSettings(
-                                            textStyle: customTextStyleOne(),
+                                            textStyle: customTextStyleOne(color : MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,),
                                             showZeroValue: false,
                                             isVisible: true,
                                             labelPosition:
@@ -679,7 +749,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                     Hive.box<ProfileDetails>('profiledetails').listenable(),
                 builder: (context, Box<ProfileDetails> box, widget) {
                   List<ProfileDetails> profileDetails = box.values.toList();
-                  
+
                   return DraggableScrollableSheet(
                       initialChildSize: childSize,
                       maxChildSize: 0.8,

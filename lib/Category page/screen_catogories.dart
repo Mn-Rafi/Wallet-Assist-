@@ -30,26 +30,22 @@ class _ScreenCategoriesState extends State<ScreenCategories>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
     Box<Transactions> box1 = Hive.box<Transactions>('transactions');
     List<Transactions> transactionList = box1.values.toList();
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: firstBlack,
                 size: 15,
               )),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
+          title: const Text(
             'Categories',
-            style: customTextStyleOne(fontSize: 20.w),
           ),
           centerTitle: true,
         ),
@@ -57,8 +53,14 @@ class _ScreenCategoriesState extends State<ScreenCategories>
           children: [
             TabBar(
               labelStyle: customTextStyleOne(),
-              labelColor: firstBlack,
-              unselectedLabelColor: firstGrey,
+              labelColor:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? firstWhite
+                      : firstBlack,
+              unselectedLabelColor:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? firstGrey.withOpacity(0.4)
+                      : firstGrey,
               controller: _tabController,
               tabs: const [
                 Tab(
@@ -92,6 +94,11 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                     shrinkWrap: true,
                                     itemCount: incomeCategories.length,
                                     itemBuilder: (context, index) => ListTile(
+                                          iconColor: MediaQuery.of(context)
+                                                      .platformBrightness ==
+                                                  Brightness.dark
+                                              ? firstWhite
+                                              : firstBlack,
                                           trailing: PopupMenuButton(
                                               itemBuilder: (context) => [
                                                     PopupMenuItem(
@@ -174,7 +181,12 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                                   ]),
                                           title: Text(
                                             incomeCategories[index].category,
-                                            style: customTextStyleOne(),
+                                            style: customTextStyleOne(
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack),
                                           ),
                                         ));
                           },
@@ -221,6 +233,11 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                         itemCount: expenseCategories.length,
                                         itemBuilder:
                                             (context, index) => ListTile(
+                                              iconColor: MediaQuery.of(context)
+                                                      .platformBrightness ==
+                                                  Brightness.dark
+                                              ? firstWhite
+                                              : firstBlack,
                                                   trailing: PopupMenuButton(
                                                       itemBuilder:
                                                           (context) => [
@@ -294,7 +311,13 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                                   title: Text(
                                                     expenseCategories[index]
                                                         .category,
-                                                    style: customTextStyleOne(),
+                                                    style: customTextStyleOne(
+                                                        color: MediaQuery.of(
+                                                                        context)
+                                                                    .platformBrightness ==
+                                                                Brightness.dark
+                                                            ? firstWhite
+                                                            : firstBlack),
                                                   ),
                                                 ));
                               })),

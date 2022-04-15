@@ -37,9 +37,11 @@ class IncomeDisplay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CloseButton(
+                  color:  firstBlack,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 PopupMenuButton(
+                  icon: const Icon(Icons.more_vert_rounded, color: firstBlack),
                     itemBuilder: (context) => [
                           PopupMenuItem(
                             onTap: () {

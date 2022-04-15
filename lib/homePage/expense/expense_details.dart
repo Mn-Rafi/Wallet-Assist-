@@ -36,9 +36,11 @@ class ExpenseDisplay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CloseButton(
+                  color: firstBlack,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 PopupMenuButton(
+                  icon: const Icon(Icons.more_vert_rounded, color: firstBlack,),
                     padding: const EdgeInsets.all(0),
                     itemBuilder: (context) => [
                           PopupMenuItem(

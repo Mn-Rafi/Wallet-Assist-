@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
+import 'package:money_manager_app/customs/utilities.dart';
 import 'package:money_manager_app/homePage/expense/expense_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,8 +28,10 @@ String welcome = 'Welcome!';
 int? isFirstTime;
 
 class _ScreenHomePageState extends State<ScreenHomePage> {
-  Icon myIcon = const Icon(Icons.search);
-  Widget myField = customHeading('Latest Transactions');
+  Icon myIcon = const Icon(
+    Icons.search,
+  );
+  Widget? myField;
   String searchInput = '';
 
   _storeFirstApperInfo() async {
@@ -36,8 +40,16 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
     await prefs.setInt('isFirstTime', isFirstTime);
   }
 
+  bool isDarkMode =
+      SchedulerBinding.instance!.window.platformBrightness == Brightness.dark;
+
   @override
   void initState() {
+    myField = Text(
+      'Latest Transactions',
+      style: customTextStyleOne(
+          fontSize: 20.sp, color: isDarkMode ? firstWhite : firstBlack),
+    );
     _storeFirstApperInfo();
     super.initState();
   }
@@ -45,8 +57,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
   DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
+    systemUi(context);
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -82,14 +93,12 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
           return Future.value(true);
         },
         child: Scaffold(
-          backgroundColor: Colors.white,
           appBar: AppBar(
             foregroundColor: firstBlack,
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text(
+            title: const Text(
               'Home',
-              style: customTextStyleOne(fontSize: 20.w),
             ),
             centerTitle: true,
           ),
@@ -116,11 +125,23 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                               children: [
                                 Text(
                                   'Hi ${profileDetails[0].nameofUser.toString()} 👋',
-                                  style: customTextStyleOne(fontSize: 22.sp),
+                                  style: customTextStyleOne(
+                                      fontSize: 22.sp,
+                                      color: MediaQuery.of(context)
+                                                  .platformBrightness ==
+                                              Brightness.dark
+                                          ? firstWhite
+                                          : firstBlack),
                                 ),
                                 Text(
                                   welcome,
-                                  style: customTextStyleOne(fontSize: 18.sp),
+                                  style: customTextStyleOne(
+                                      fontSize: 18.sp,
+                                      color: MediaQuery.of(context)
+                                                  .platformBrightness ==
+                                              Brightness.dark
+                                          ? firstWhite
+                                          : firstBlack),
                                 ),
                               ],
                             ),
@@ -133,7 +154,13 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                           height: 30.h,
                         ),
                         Text('Categories',
-                            style: customTextStyleOne(fontSize: 20.sp)),
+                            style: customTextStyleOne(
+                                fontSize: 20.sp,
+                                color:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack)),
                         SizedBox(
                           height: 17.h,
                         ),
@@ -215,8 +242,14 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                                       searchInput = '';
                                     });
                                     myIcon = const Icon(Icons.search);
-                                    myField =
-                                        customHeading('Latest Transactions');
+                                    myField = Text(
+                                      'Latest Transactions',
+                                      style: customTextStyleOne(
+                                          fontSize: 20.sp,
+                                          color: isDarkMode
+                                              ? firstWhite
+                                              : firstBlack),
+                                    );
                                   }
                                 });
                               },

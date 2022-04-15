@@ -47,8 +47,16 @@ class CustomRowofprofile extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
       dense: true,
-      iconColor: firstBlack,
-      title: Text(title, style: customTextStyleOne(fontSize: 17.sp)),
+      iconColor: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,
+      title: Text(title, style: customTextStyleOne(fontSize: 17.sp, color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack)),
       leading: leadingIcon,
     );
   }

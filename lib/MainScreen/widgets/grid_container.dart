@@ -68,7 +68,11 @@ class _CustomGridContainerState extends State<CustomGridContainer> {
                     child: Text(
                       '₹'+widget.amount.toString(),
                       overflow: TextOverflow.ellipsis,
-                      style: customTextStyleOne(fontSize: 18.sp),
+                      style: customTextStyleOne(fontSize: 18.sp, color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,),
                     )),
               ],
             ),

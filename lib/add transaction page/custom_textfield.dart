@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:money_manager_app/First%20Profile/first_profile_widgets.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomTextFieldTwo extends StatelessWidget {
@@ -48,10 +47,16 @@ class CustomTextFieldTwo extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? firstGrey
+            : firstWhite,
         prefixIcon: prefixIcon,
         labelText: labelText,
-        labelStyle: customTextStyleOne(),
+        labelStyle: customTextStyleOne(
+          color: MediaQuery.of(context).platformBrightness == Brightness.dark
+              ? firstWhite
+              : firstBlack,
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
@@ -90,10 +95,16 @@ class CustomTextFieldForDate extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         filled: true,
-        fillColor: Colors.white,
+        fillColor: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? firstGrey
+            : firstWhite,
         prefixIcon: prefixIcon,
         hintText: hint,
-        hintStyle: customTextStyleOne(),
+        hintStyle: customTextStyleOne(
+          color: MediaQuery.of(context).platformBrightness == Brightness.dark
+              ? firstWhite
+              : firstBlack,
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
@@ -155,10 +166,16 @@ class CustomTextFieldFour extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? firstGrey
+            : firstWhite,
         prefixIcon: prefixIcon,
         labelText: labelText,
-        labelStyle: customTextStyleOne(),
+        labelStyle: customTextStyleOne(
+          color: MediaQuery.of(context).platformBrightness == Brightness.dark
+              ? firstWhite
+              : firstBlack,
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),

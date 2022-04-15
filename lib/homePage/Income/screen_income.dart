@@ -60,24 +60,19 @@ class _ScreenIncomeState extends State<ScreenIncome> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: firstBlack,
                 size: 15,
               )),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
+          title: const Text(
             'Income',
-            style: customTextStyleOne(fontSize: 20),
           ),
           centerTitle: true,
         ),
@@ -125,7 +120,12 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                 value: items,
                                 child: Text(
                                   items,
-                                  style: customTextStyleOne(),
+                                  style: customTextStyleOne(
+                                      color: MediaQuery.of(context)
+                                                  .platformBrightness ==
+                                              Brightness.dark
+                                          ? secondGrey
+                                          : firstBlack),
                                 ),
                               );
                             }).toList(),
@@ -149,7 +149,15 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                     _selected.day);
                                               });
                                             },
-                                            icon: arrowPrev),
+                                            icon: Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                size: 18.w,
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack)),
                                         SizedBox(
                                           width: 10.w,
                                         ),
@@ -186,7 +194,14 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                 });
                                               }
                                             },
-                                            icon: arrowNext),
+                                            icon: Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                size: 18.w,
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack)),
                                       ],
                                     )
                                   : dropdownvalue == items[2]
@@ -201,7 +216,16 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                         _selectedYear.day);
                                                   });
                                                 },
-                                                icon: arrowPrev),
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_back_ios_new_rounded,
+                                                    size: 18.w,
+                                                    color: MediaQuery.of(
+                                                                    context)
+                                                                .platformBrightness ==
+                                                            Brightness.dark
+                                                        ? firstWhite
+                                                        : firstBlack)),
                                             SizedBox(
                                               width: 10.w,
                                             ),
@@ -278,7 +302,16 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                     });
                                                   }
                                                 },
-                                                icon: arrowNext),
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    size: 18.w,
+                                                    color: MediaQuery.of(
+                                                                    context)
+                                                                .platformBrightness ==
+                                                            Brightness.dark
+                                                        ? firstWhite
+                                                        : firstBlack)),
                                           ],
                                         )
                                       : Row(
@@ -337,7 +370,13 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                         height: 20.h,
                       ),
                       Text('Transactions',
-                          style: customTextStyleOneWithUnderLine(fontSize: 17)),
+                          style: customTextStyleOneWithUnderLine(
+                              fontSize: 17,
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.dark
+                                      ? firstWhite
+                                      : firstBlack)),
                       SizedBox(
                         height: 20.h,
                       ),
@@ -346,7 +385,12 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                               child: Text(
                                 'No Income Transactions Found',
                                 style: customTextStyleOne(
-                                    fontSize: 18, color: firstBlack),
+                                    fontSize: 18,
+                                    color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack),
                               ),
                             )
                           : ListView.separated(
@@ -359,6 +403,7 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                     motion: const ScrollMotion(),
                                     children: [
                                       SlidableAction(
+                                        backgroundColor: Colors.transparent,
                                         onPressed: (ctx) {
                                           Future.delayed(
                                               const Duration(seconds: 0),
@@ -402,11 +447,16 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                         ],
                                                       )));
                                         },
-                                        foregroundColor: Colors.black,
+                                        foregroundColor: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,
                                         icon: Icons.delete,
                                         label: 'Delete',
                                       ),
                                       SlidableAction(
+                                        backgroundColor: Colors.transparent,
                                         onPressed: (ctx) {
                                           Future.delayed(
                                               const Duration(seconds: 0),
@@ -415,10 +465,9 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                   builder: (ctx) =>
                                                       CustomEditTransaction(
                                                         slide: true,
-                                                        amount:
-                                                            transactionList[
-                                                                    index]
-                                                                .amount,
+                                                        amount: transactionList[
+                                                                index]
+                                                            .amount,
                                                         notes: transactionList[
                                                                 index]
                                                             .notes,
@@ -444,7 +493,11 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                                                                 .category,
                                                       )));
                                         },
-                                        foregroundColor: Colors.black,
+                                        foregroundColor:MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,
                                         icon: Icons.edit,
                                         label: 'Edit',
                                       ),

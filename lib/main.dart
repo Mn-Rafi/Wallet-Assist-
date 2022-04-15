@@ -6,6 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/Splash Screen/screen_splash.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:money_manager_app/customs/utilities.dart';
+import 'package:money_manager_app/themedata.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
 void main() async {
@@ -59,8 +61,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context) {
-        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark));
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
         return MaterialApp(
             themeMode: ThemeMode.system,
             localizationsDelegates: const [
@@ -68,8 +71,8 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               MonthYearPickerLocalizations.delegate,
             ],
-            darkTheme: ThemeData.dark(),
-            theme: ThemeData(primarySwatch: Colors.grey),
+            darkTheme: MyTheme.darkTheme,
+            theme: MyTheme.lightTheme,
             debugShowCheckedModeBanner: false,
             home: const ScreenSplash());
       },

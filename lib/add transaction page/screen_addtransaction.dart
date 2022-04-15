@@ -58,13 +58,11 @@ class _ScreenTransactionState extends State<ScreenTransaction>
         return Future.value(true);
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
+          title: const Text(
             'Add Transaction',
-            style: customTextStyleOne(fontSize: 20.w),
           ),
           centerTitle: true,
         ),
@@ -72,8 +70,14 @@ class _ScreenTransactionState extends State<ScreenTransaction>
           children: [
             TabBar(
               labelStyle: customTextStyleOne(),
-              labelColor: firstBlack,
-              unselectedLabelColor: firstGrey,
+              labelColor:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? firstWhite
+                      : firstBlack,
+              unselectedLabelColor:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? firstGrey.withOpacity(0.4)
+                      : firstGrey,
               controller: _tabController,
               tabs: const [
                 Tab(
@@ -90,12 +94,12 @@ class _ScreenTransactionState extends State<ScreenTransaction>
                     type: true,
                     addFunction: AddCategory(),
                     index: 0,
-                    listHint: 'income categories'),
+                    listHint: 'Income categories'),
                 CustomAddCatogoryIncome(
                     type: false,
                     addFunction: AddExpenseCategory(),
                     index: 1,
-                    listHint: 'expense categories'),
+                    listHint: 'Expense categories'),
               ]),
             )
           ],

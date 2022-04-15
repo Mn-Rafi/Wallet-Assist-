@@ -11,6 +11,7 @@ import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/On%20Boarding/screen_onboarding.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
+import 'package:money_manager_app/customs/utilities.dart';
 import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,10 @@ class _ScreenSplashState extends State<ScreenSplash> {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(
-          localizedReason: ' ', useErrorDialogs: true, );
+        stickyAuth: true,
+        localizedReason: ' ',
+        useErrorDialogs: true,
+      );
       if (authenticated) {
         _navigate();
       } else {
@@ -97,7 +101,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   _navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(milliseconds: 7000));
+    await Future.delayed(const Duration(milliseconds: 2300));
 
     isViewd = prefs.getInt('onBoard');
     isViewdFirstProfile = prefs.getInt('onFirstProfile');
@@ -122,6 +126,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
+    systemUi(context);
     return WillPopScope(
       onWillPop: () async {
         DateTime now = DateTime.now();
@@ -155,37 +160,45 @@ class _ScreenSplashState extends State<ScreenSplash> {
         ScaffoldMessenger.of(context).clearSnackBars();
         return Future.value(true);
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: AnimatedTextKit(animatedTexts: [
-            ColorizeAnimatedText('Monzuma',
-                speed: const Duration(milliseconds: 400),
-                textStyle: customTextStyleOne(fontSize: 50.sp),
-                colors: [
-                  firstBlue,
-                  firstOrange,
-                  walletPink,
-                  incomeGreen,
-                  firstBlue,
-                  firstOrange,
-                  walletPink,
-                  incomeGreen
+      child: SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedTextKit(animatedTexts: [
+                  ColorizeAnimatedText('Monzuma',
+                      speed: const Duration(milliseconds: 400),
+                      textStyle: customTextStyleOne(fontSize: 50.sp),
+                      colors: [
+                        firstBlue,
+                        firstOrange,
+                        walletPink,
+                        incomeGreen,
+                        firstBlue,
+                        firstOrange,
+                        walletPink,
+                        incomeGreen
+                      ]),
                 ]),
-            ColorizeAnimatedText('Your smart ledger',
-                speed: const Duration(milliseconds: 600),
-                textStyle: customTextStyleOne(fontSize: 24.sp),
-                colors: [
-                  firstBlue,
-                  firstOrange,
-                  walletPink,
-                  incomeGreen,
-                  firstBlue,
-                  firstOrange,
-                  walletPink,
-                  incomeGreen
-                ])
-          ]),
+                AnimatedTextKit(animatedTexts: [
+                  ColorizeAnimatedText('Your smart ledger',
+                      speed: const Duration(milliseconds: 400),
+                      textStyle: customTextStyleOne(fontSize: 24.sp),
+                      colors: [
+                        firstBlue,
+                        firstOrange,
+                        walletPink,
+                        incomeGreen,
+                        firstBlue,
+                        firstOrange,
+                        walletPink,
+                        incomeGreen
+                      ])
+                ]),
+              ],
+            ),
+          ),
         ),
       ),
     );

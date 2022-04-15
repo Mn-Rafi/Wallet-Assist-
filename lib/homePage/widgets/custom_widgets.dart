@@ -99,26 +99,13 @@ class CustomEditTransaction extends StatefulWidget {
   State<CustomEditTransaction> createState() => _CustomEditTransactionState();
 }
 
-int findIndex(Transactions transaction) {
-  int index = 0;
-  List<Transactions> list =
-      Hive.box<Transactions>('transactions').values.toList();
-  for (int i = 0; i < list.length; i++) {
-    if (list[i].key == transaction.key) {
-      index = i;
-      break;
-    }
-  }
-  return index;
-}
-
 class _CustomEditTransactionState extends State<CustomEditTransaction> {
   final Color bgColor = Colors.white;
   final formKey = GlobalKey<FormState>();
   Categories? dropdownvalue;
   DateTime date = DateTime.now();
   double? amount;
-  String notes = '';
+  String? notes;
 
   String getText() {
     return '${date.day}-${date.month}-${date.year}';
@@ -126,7 +113,7 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
 
   @override
   void initState() {
-    notes = widget.notes;
+    notes = widget.notes == 'No notes found' ? '' : widget.notes;
     amount = widget.amount;
     date = widget.dateOfTransaction;
     dropdownvalue = widget.dropdownValue;
@@ -324,13 +311,13 @@ class _CustomEditTransactionState extends State<CustomEditTransaction> {
                           categoryName: dropdownvalue!.category,
                           amount: widget.type == true ? amount! : -amount!,
                           dateofTransaction: date,
-                          notes: notes,
+                          notes: notes ?? 'No notes found',
                           categoryCat: dropdownvalue!,
                           type: widget.type));
-                  if(widget.slide==null){
+                  if (widget.slide == null) {
                     Navigator.pop(context);
-                  Navigator.pop(context);
-                  }else{
+                    Navigator.pop(context);
+                  } else {
                     Navigator.pop(context);
                   }
                 }

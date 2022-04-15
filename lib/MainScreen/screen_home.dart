@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:money_manager_app/MainScreen/widgets/bottom_navigation.dart';
 import 'package:money_manager_app/Regular%20Payment/screen_regularpayments.dart';
 import 'package:money_manager_app/add%20transaction%20page/screen_addtransaction.dart';
+import 'package:money_manager_app/customs/utilities.dart';
 import 'package:money_manager_app/homePage/screen_homepage.dart';
 import 'package:money_manager_app/profile%20page/screen_profile.dart';
 import 'package:money_manager_app/statistics%20page/screen_statistics.dart';
@@ -23,8 +24,8 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
+    systemUi(context);
+
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,

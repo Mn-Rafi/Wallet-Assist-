@@ -11,11 +11,19 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 72.w,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? firstWhite
+            : firstBlack,
+        borderRadius: const BorderRadius.only(
             topRight: Radius.circular(25), topLeft: Radius.circular(25)),
         boxShadow: [
-          BoxShadow(color: firstBlack, blurRadius: 0.1),
+          BoxShadow(
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? firstWhite
+                      : firstBlack,
+              blurRadius: 0.1),
         ],
       ),
       child: ClipRRect(
@@ -27,18 +35,25 @@ class CustomBottomNavigationBar extends StatelessWidget {
           valueListenable: ScreenHome.selectedIndexNotifier,
           builder: (BuildContext ctx, int updatedIndex, _) {
             return BottomNavigationBar(
-              backgroundColor: Colors.white,
+              backgroundColor:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? Colors.grey.shade900
+                      : firstWhite,
               elevation: 0,
               currentIndex: updatedIndex,
               onTap: (newIndex) {
                 ScreenHome.selectedIndexNotifier.value = newIndex;
               },
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: firstBlack,
+              selectedItemColor: MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? firstWhite
+                      : firstBlack,
               selectedLabelStyle: TextStyle(
                 fontSize: 10.sp,
               ),
-              unselectedItemColor: firstGrey,
+              unselectedItemColor: MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? Colors.white30
+                      : firstGrey,
               showUnselectedLabels: false,
               iconSize: 20.w,
               items: [

@@ -83,8 +83,10 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
       bool authenticated = false;
       try {
         authenticated = await auth.authenticate(
-            localizedReason: ' ',
-            useErrorDialogs: true,);
+          localizedReason: ' ',
+          stickyAuth: true,
+          useErrorDialogs: true,
+        );
         if (authenticated) {}
         return authenticated;
       } on PlatformException catch (e) {
@@ -107,13 +109,11 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
+          title: const Text(
             'Settings',
-            style: customTextStyleOne(fontSize: 20.w),
           ),
           centerTitle: true,
         ),
@@ -143,7 +143,13 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         children: [
                           Text(
                             profileDetails[0].nameofUser.toString(),
-                            style: customTextStyleOne(fontSize: 22),
+                            style: customTextStyleOne(
+                                fontSize: 22,
+                                color:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack),
                           ),
                         ],
                       ),
@@ -175,18 +181,31 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         height: 20.h,
                       ),
                       SwitchListTile(
-                          activeColor: walletPink,
+                          activeColor:
+                              MediaQuery.of(context).platformBrightness ==
+                                      Brightness.dark
+                                  ? walletDark
+                                  : walletPink,
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 0.0, horizontal: 16.0),
                           dense: true,
                           secondary: Icon(
                             Icons.lock,
                             size: 22.w,
-                            color: firstBlack,
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.dark
+                                ? firstWhite
+                                : firstBlack,
                           ),
                           title: Text(
                             'Enable app lock',
-                            style: customTextStyleOne(fontSize: 17.sp),
+                            style: customTextStyleOne(
+                                fontSize: 17.sp,
+                                color:
+                                    MediaQuery.of(context).platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack),
                           ),
                           value: notificationValue,
                           onChanged: (value) async {
@@ -355,7 +374,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                       ),
                       GestureDetector(
                         onTap: () => Share.share(
-                            'check out my website https://example.com',
+                            'MONZUMA, your smart ledger - Hai.. 👋👋 As this is the first update of the app in playstore, I can\'t provide you the shareable link. It will be fixed in few days. Thank you in advance. 💖',
                             subject: 'Look what I made!'),
                         child: CustomRowofprofile(
                           leadingIcon: Icon(
@@ -372,7 +391,8 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                       GestureDetector(
                         onTap: () => Utils.openEmail(
                             toEmail: 'moideenrafihpa@gmail.com',
-                            subject: 'Feedback about Monzuma'),
+                            subject:
+                                'Feedback about Monzuma, your smart ledger app'),
                         child: CustomRowofprofile(
                           leadingIcon: Icon(Icons.feedback, size: 22.w),
                           title: 'Feedback',

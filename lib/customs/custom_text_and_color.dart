@@ -15,15 +15,19 @@ SizedBox customSpaceTwo = SizedBox(
 const incomeGreen = Colors.green;
 const expenseBlue = Colors.redAccent;
 const walletPink = Color.fromARGB(255, 246, 235, 209);
+const walletDark = Color.fromARGB(255, 200, 193, 177);
 
 const firstBlue = Color.fromARGB(255, 0, 8, 255);
 const firstOrange = Color.fromARGB(255, 255, 77, 0);
 const firstGrey = Color.fromARGB(255, 216, 216, 216);
 const secondGrey = Color.fromARGB(255, 189, 189, 189);
 const firstBlack = Color.fromARGB(255, 0, 0, 0);
+const firstWhite = Color.fromARGB(255, 255, 255, 255);
+
 
 TextStyle customTextStyleOne(
-    {Color color = const Color.fromARGB(255, 0, 0, 0), double? fontSize}) {
+    {Color color = 
+    const Color.fromARGB(255, 0, 0, 0), double? fontSize,}) {
   return TextStyle(
     fontFamily: headingFont,
     fontSize: fontSize,
@@ -46,6 +50,7 @@ TextStyle customTextStyleOneWithUnderLine(
 Icon arrowForwardIcon = Icon(
   Icons.arrow_forward,
   size: 30.w,
+  color: firstBlack,
 );
 
 BoxDecoration customBoxDecoration = BoxDecoration(

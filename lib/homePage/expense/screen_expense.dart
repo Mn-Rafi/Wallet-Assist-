@@ -9,6 +9,7 @@ import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/customs/custom_widgets.dart';
+import 'package:money_manager_app/customs/utilities.dart';
 import 'package:money_manager_app/homePage/expense/expense_details.dart';
 import 'package:money_manager_app/homePage/expense/expense_widgets.dart';
 import 'package:money_manager_app/homePage/widgets/custom_widgets.dart';
@@ -59,24 +60,19 @@ class _ScreenExpenseState extends State<ScreenExpense> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           leading: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: firstBlack,
                 size: 15,
               )),
           elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: Text(
+          title: const Text(
             'Expense',
-            style: customTextStyleOne(fontSize: 20),
           ),
           centerTitle: true,
         ),
@@ -118,13 +114,25 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                         children: [
                           DropdownButton(
                             value: dropdownvalue,
-                            icon: const Icon(Icons.keyboard_arrow_down),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.dark
+                                      ? firstWhite
+                                      : firstBlack,
+                            ),
                             items: items.map((String items) {
                               return DropdownMenuItem(
                                 value: items,
                                 child: Text(
                                   items,
-                                  style: customTextStyleOne(),
+                                  style: customTextStyleOne(
+                                      color: MediaQuery.of(context)
+                                                  .platformBrightness ==
+                                              Brightness.dark
+                                          ? secondGrey
+                                          : firstBlack),
                                 ),
                               );
                             }).toList(),
@@ -148,7 +156,15 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                                     _selected.day);
                                               });
                                             },
-                                            icon: arrowPrev),
+                                            icon: Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                size: 18.w,
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack)),
                                         SizedBox(
                                           width: 10.w,
                                         ),
@@ -185,7 +201,14 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                                 });
                                               }
                                             },
-                                            icon: arrowNext),
+                                            icon: Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                size: 18.w,
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? firstWhite
+                                                    : firstBlack)),
                                       ],
                                     )
                                   : dropdownvalue == items[2]
@@ -200,7 +223,16 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                                         _selectedYear.day);
                                                   });
                                                 },
-                                                icon: arrowPrev),
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_back_ios_new_rounded,
+                                                    size: 18.w,
+                                                    color: MediaQuery.of(
+                                                                    context)
+                                                                .platformBrightness ==
+                                                            Brightness.dark
+                                                        ? firstWhite
+                                                        : firstBlack)),
                                             SizedBox(
                                               width: 10.w,
                                             ),
@@ -277,7 +309,16 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                                     });
                                                   }
                                                 },
-                                                icon: arrowNext),
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    size: 18.w,
+                                                    color: MediaQuery.of(
+                                                                    context)
+                                                                .platformBrightness ==
+                                                            Brightness.dark
+                                                        ? firstWhite
+                                                        : firstBlack)),
                                           ],
                                         )
                                       : Row(
@@ -297,7 +338,11 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                             Text(
                                               ' to ',
                                               style: customTextStyleOne(
-                                                  color: firstBlack,
+                                                  color: MediaQuery.of(context)
+                                                              .platformBrightness ==
+                                                          Brightness.dark
+                                                      ? firstWhite
+                                                      : firstBlack,
                                                   fontSize: 14),
                                             ),
                                             TextButton(
@@ -334,7 +379,13 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                         height: 20.h,
                       ),
                       Text('Transactions',
-                          style: customTextStyleOneWithUnderLine(fontSize: 17)),
+                          style: customTextStyleOneWithUnderLine(
+                              fontSize: 17,
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.dark
+                                      ? firstWhite
+                                      : firstBlack)),
                       SizedBox(
                         height: 20.h,
                       ),
@@ -343,7 +394,12 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                               child: Text(
                                 'No Expense Transactions Found',
                                 style: customTextStyleOne(
-                                    fontSize: 18, color: firstBlack),
+                                    fontSize: 18,
+                                    color: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack),
                               ),
                             )
                           : ListView.separated(
@@ -356,6 +412,7 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                     motion: const ScrollMotion(),
                                     children: [
                                       SlidableAction(
+                                        backgroundColor: Colors.transparent,
                                         onPressed: (ctx) {
                                           Future.delayed(
                                               const Duration(seconds: 0),
@@ -399,11 +456,16 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                                         ],
                                                       )));
                                         },
-                                        foregroundColor: Colors.black,
+                                        foregroundColor: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,
                                         icon: Icons.delete,
                                         label: 'Delete',
                                       ),
                                       SlidableAction(
+                                        backgroundColor: Colors.transparent,
                                         onPressed: (ctx) {
                                           Future.delayed(
                                               const Duration(seconds: 0),
@@ -441,7 +503,11 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                                                                 .category,
                                                       )));
                                         },
-                                        foregroundColor: Colors.black,
+                                        foregroundColor: MediaQuery.of(context)
+                                                .platformBrightness ==
+                                            Brightness.dark
+                                        ? firstWhite
+                                        : firstBlack,
                                         icon: Icons.edit,
                                         label: 'Edit',
                                       ),

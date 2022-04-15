@@ -63,13 +63,12 @@ class _RegularPaymentState extends State<RegularPayment> {
           return Future.value(true);
         },
         child: Scaffold(
-          backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text(
+            title: const Text(
               'Regular Payments',
-              style: customTextStyleOne(fontSize: 20.w),
             ),
             centerTitle: true,
           ),
@@ -85,7 +84,11 @@ class _RegularPaymentState extends State<RegularPayment> {
                     ? Center(
                         child: Text(
                         'No Regular Payments Found',
-                        style: customTextStyleOne(),
+                        style: customTextStyleOne(
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.dark
+                                ? firstWhite
+                                : firstBlack),
                       ))
                     : ListView.builder(
                         physics: const BouncingScrollPhysics(),
@@ -96,6 +99,11 @@ class _RegularPaymentState extends State<RegularPayment> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4),
                             child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: const BorderSide(
+                                    width: 0.5, color: Colors.black),
+                              ),
                               tileColor:
                                   const Color.fromARGB(255, 243, 242, 242),
                               title: Text(

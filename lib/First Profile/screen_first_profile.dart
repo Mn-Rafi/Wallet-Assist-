@@ -6,10 +6,12 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/MainScreen/screen_home.dart';
+import 'package:money_manager_app/Notification/notifications.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_widgets.dart';
+import 'package:money_manager_app/customs/utilities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenProfile extends StatefulWidget {
@@ -59,6 +61,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
   DateTime? timeBackButton;
   @override
   Widget build(BuildContext context) {
+    systemUi(context);
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -95,13 +98,11 @@ class _ScreenProfileState extends State<ScreenProfile> {
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Text(
+            title: const Text(
               'Create Profile',
-              style: customTextStyleOne(fontSize: 20),
             ),
             centerTitle: true,
           ),
@@ -112,10 +113,9 @@ class _ScreenProfileState extends State<ScreenProfile> {
                   physics: const BouncingScrollPhysics(),
                   child: Form(
                     key: formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 30),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 25.w, vertical: 30.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -177,6 +177,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                                 'Add a profile photo',
                                 style: customTextStyleOne(
                                   fontSize: 18,
+                                  color: MediaQuery.of(context).platformBrightness == Brightness.dark ? firstWhite : firstBlack
                                 ),
                               ),
                             ],
@@ -224,6 +225,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                                   nameofUser: userName,
                                   initialWalletBalance: initialBalance,
                                   imageUrl: imagePath));
+                          scheduledNotificationEveryday(userName);
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (ctx) => const ScreenHome(),

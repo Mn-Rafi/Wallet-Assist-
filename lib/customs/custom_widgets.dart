@@ -65,7 +65,7 @@ class AddImageContainerOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return imagePath != null
         ? CircleAvatar(
-            radius: 90.r,
+            radius: 70.r,
             backgroundImage: FileImage(
               File(
                 imagePath!,
@@ -74,7 +74,7 @@ class AddImageContainerOne extends StatelessWidget {
           )
         : CircleAvatar(
           backgroundColor: walletPink,
-            radius: 90.r,
+            radius: 70.r,
             child: const Icon(
               Icons.add,
               size: 70,

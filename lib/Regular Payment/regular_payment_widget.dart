@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -71,10 +72,17 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: MediaQuery.of(context).platformBrightness ==
+                          Brightness.dark
+                      ? firstGrey
+                      : firstWhite,
                   prefixIcon: const Icon(Icons.title),
                   labelText: 'Enter title',
-                  labelStyle: customTextStyleOne(),
+                  labelStyle: customTextStyleOne(
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? firstWhite
+                          : firstBlack),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
@@ -94,6 +102,13 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                 },
                 prefixIcon: const Icon(Icons.calendar_month),
                 hint: getText(),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Text(
+                'Add your regular payment details here. You will be notified on date ${Emojis.smile_face_with_open_mouth}',
+                style: customTextStyleOne(),
               ),
               SizedBox(
                 height: 20.h,

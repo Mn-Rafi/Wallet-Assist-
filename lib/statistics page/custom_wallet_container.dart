@@ -26,7 +26,9 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: walletPink,
+        color: MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? walletDark
+            : walletPink,
       ),
       child: ListView.builder(
           physics: const BouncingScrollPhysics(),

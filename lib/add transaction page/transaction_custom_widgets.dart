@@ -51,7 +51,12 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
             children: [
               Text(
                 'Select category',
-                style: customTextStyleOne(fontSize: 18.sp),
+                style: customTextStyleOne(
+                    fontSize: 18.sp,
+                    color: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? firstWhite
+                        : firstBlack),
               ),
               SizedBox(
                 height: 10.w,
@@ -59,8 +64,11 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 0.2),
+                    color: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? firstGrey
+                        : firstWhite,
+                    border: Border.all(width: 0.5),
                     borderRadius: BorderRadius.circular(10)),
                 child: ValueListenableBuilder(
                     valueListenable:
@@ -71,7 +79,12 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                         underline: const SizedBox(),
                         hint: Text(
                           widget.listHint,
-                          style: customTextStyleOne(color: firstGrey),
+                          style: customTextStyleOne(
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.dark
+                                      ? firstWhite
+                                      : firstGrey),
                         ),
                         value: dropdownvalue,
                         icon: const Icon(Icons.keyboard_arrow_down),
@@ -98,7 +111,12 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                 children: [
                   Text(
                     'or ',
-                    style: customTextStyleOne(fontSize: 20.sp),
+                    style: customTextStyleOne(
+                        fontSize: 20.sp,
+                        color: MediaQuery.of(context).platformBrightness ==
+                                Brightness.dark
+                            ? firstWhite
+                            : firstBlack),
                   ),
                   TextButton.icon(
                       onPressed: () => showDialog(
@@ -150,7 +168,12 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
               ),
               Text(
                 'Add Notes',
-                style: customTextStyleOne(fontSize: 18.sp),
+                style: customTextStyleOne(
+                    fontSize: 18.sp,
+                    color: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? firstWhite
+                        : firstBlack),
               ),
               SizedBox(
                 height: 10.w,
@@ -166,7 +189,10 @@ class _CustomAddCatogoryIncomeState extends State<CustomAddCatogoryIncome> {
                 maxLines: 4,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: MediaQuery.of(context).platformBrightness ==
+                          Brightness.dark
+                      ? firstGrey
+                      : firstWhite,
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
