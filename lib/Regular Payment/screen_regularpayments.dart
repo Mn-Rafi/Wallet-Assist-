@@ -74,7 +74,9 @@ class _RegularPaymentState extends State<RegularPayment> {
             ),
             centerTitle: true,
           ),
-          body: Column(
+          body: ListView(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
             children: [
               SizedBox(
                 height: 10.h,
@@ -233,6 +235,9 @@ class _RegularPaymentState extends State<RegularPayment> {
                             itemCount: regList.length,
                           );
                   }),
+                  SizedBox(
+                height: 150.h,
+              ),
             ],
           ),
           floatingActionButton: Padding(

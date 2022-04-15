@@ -189,6 +189,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                                   userName = value;
                                 });
                               },
+                              
                               keyboardType: TextInputType.name,
                               labelText: 'Enter your name',
                               prefixIcon:

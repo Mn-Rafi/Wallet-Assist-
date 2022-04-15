@@ -45,8 +45,8 @@ class CustomTotalExpenseContainer extends StatelessWidget {
             shrinkWrap: true,
             children: [
               DelayedWidget(
-                delayDuration: const Duration(milliseconds: 200),
-                animationDuration: const Duration(milliseconds: 100),
+                delayDuration: const Duration(milliseconds: 300),
+                animationDuration: const Duration(milliseconds: 200),
                 animation: DelayedAnimations.SLIDE_FROM_TOP,
                 child: Text(
                   headText,
@@ -57,8 +57,8 @@ class CustomTotalExpenseContainer extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 children: [
                   DelayedWidget(
-                    delayDuration: const Duration(milliseconds: 200),
-                    animationDuration: const Duration(milliseconds: 100),
+                    delayDuration: const Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 200),
                     animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
                     child: Text(
                       '₹$totalExpenseAmount',
@@ -67,8 +67,8 @@ class CustomTotalExpenseContainer extends StatelessWidget {
                     ),
                   ),
                   DelayedWidget(
-                    delayDuration: const Duration(milliseconds: 200),
-                    animationDuration: const Duration(milliseconds: 100),
+                    delayDuration: const Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 200),
                     animation: DelayedAnimations.SLIDE_FROM_RIGHT,
                     child: Text(
                       '+₹$lastExpenseAmount',

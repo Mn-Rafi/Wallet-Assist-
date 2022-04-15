@@ -39,7 +39,7 @@ class _AddCategoryState extends State<AddCategory> {
               child: TextFormField(
                 style: customTextStyleOne(),
                 validator: (value) {
-                  if (value!.trim() == '' || value.length < 3) {
+                  if (value!.trim().length < 3) {
                     return 'Enter valid category name';
                   } else {
                     return null;
@@ -234,7 +234,7 @@ class _AddExpenseCategory extends State<AddExpenseCategory> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: TextFormField(
                 validator: (value) {
-                  if (value!.trim() == '' || value.length < 3) {
+                  if (value!.trim().length < 3) {
                     return 'Enter valid category name';
                   } else {
                     return null;

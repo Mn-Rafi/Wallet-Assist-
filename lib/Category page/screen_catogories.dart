@@ -23,7 +23,6 @@ class _ScreenCategoriesState extends State<ScreenCategories>
   void initState() {
     categories = Hive.box<Categories>('categories');
     box1 = Hive.box<Transactions>('transactions');
-
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -233,11 +232,12 @@ class _ScreenCategoriesState extends State<ScreenCategories>
                                         itemCount: expenseCategories.length,
                                         itemBuilder:
                                             (context, index) => ListTile(
-                                              iconColor: MediaQuery.of(context)
-                                                      .platformBrightness ==
-                                                  Brightness.dark
-                                              ? firstWhite
-                                              : firstBlack,
+                                                  iconColor: MediaQuery.of(
+                                                                  context)
+                                                              .platformBrightness ==
+                                                          Brightness.dark
+                                                      ? firstWhite
+                                                      : firstBlack,
                                                   trailing: PopupMenuButton(
                                                       itemBuilder:
                                                           (context) => [

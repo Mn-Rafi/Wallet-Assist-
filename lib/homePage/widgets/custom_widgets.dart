@@ -61,8 +61,8 @@ class CustomContainerForCatogories extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 8),
             child: DelayedWidget(
-              delayDuration: const Duration(milliseconds: 220),
-              animationDuration: const Duration(microseconds: 100),
+              delayDuration: const Duration(milliseconds: 300),
+              animationDuration: const Duration(microseconds: 200),
               animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
               child: Text(
                 title,

@@ -183,6 +183,60 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                         height: 20.h,
                       ),
                       SwitchListTile(
+                        activeColor:
+                            MediaQuery.of(context).platformBrightness ==
+                                    Brightness.dark
+                                ? walletDark
+                                : walletPink,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0.0, horizontal: 16.0),
+                        dense: true,
+                        secondary: Icon(
+                          notiValue == true ? 
+                          Icons.notifications_active  : Icons.notifications_off,
+                          size: 22.w,
+                          color: MediaQuery.of(context).platformBrightness ==
+                                  Brightness.dark
+                              ? firstWhite
+                              : firstBlack,
+                        ),
+                        title: Text(
+                          'Notifications',
+                          style: customTextStyleOne(
+                              fontSize: 17.sp,
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.dark
+                                      ? firstWhite
+                                      : firstBlack),
+                        ),
+                        value: notiValue,
+                        onChanged: (value) {
+                          Hive.box<LockAuthentication>('lockAuth').putAt(
+                              0,
+                              LockAuthentication(
+                                  enableAuth: notificationValue,
+                                  enableNoti: value));
+                          setState(() {
+                            notiValue = Hive.box<LockAuthentication>('lockAuth')
+                                .values
+                                .toList()[0]
+                                .enableNoti;
+                          });
+                          if (notiValue) {
+                            scheduledNotificationEveryday(
+                                Hive.box<ProfileDetails>('profiledetails')
+                                    .values
+                                    .toList()[0]
+                                    .nameofUser);
+                          } else {
+                            cancelScheduledNotificationsOne(10111);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBarNoti);
+                          }
+                        },
+                      ),
+                      SwitchListTile(
                           activeColor:
                               MediaQuery.of(context).platformBrightness ==
                                       Brightness.dark
@@ -192,7 +246,8 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                               vertical: 0.0, horizontal: 16.0),
                           dense: true,
                           secondary: Icon(
-                            Icons.lock,
+                            notificationValue == false ?
+                            Icons.lock_open : Icons.lock,
                             size: 22.w,
                             color: MediaQuery.of(context).platformBrightness ==
                                     Brightness.dark
@@ -232,58 +287,6 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                   .showSnackBar(snackBarError);
                             }
                           }),
-                      SwitchListTile(
-                        activeColor:
-                            MediaQuery.of(context).platformBrightness ==
-                                    Brightness.dark
-                                ? walletDark
-                                : walletPink,
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0.0, horizontal: 16.0),
-                        dense: true,
-                        secondary: Icon(
-                          Icons.lock,
-                          size: 22.w,
-                          color: MediaQuery.of(context).platformBrightness ==
-                                  Brightness.dark
-                              ? firstWhite
-                              : firstBlack,
-                        ),
-                        title: Text(
-                          'Notifications',
-                          style: customTextStyleOne(
-                              fontSize: 17.sp,
-                              color:
-                                  MediaQuery.of(context).platformBrightness ==
-                                          Brightness.dark
-                                      ? firstWhite
-                                      : firstBlack),
-                        ),
-                        value: notiValue,
-                        onChanged: (value) {
-                          Hive.box<LockAuthentication>('lockAuth').putAt(
-                              0,
-                              LockAuthentication(
-                                  enableAuth: notificationValue, enableNoti: value));
-                          setState(() {
-                            notiValue = Hive.box<LockAuthentication>('lockAuth')
-                                .values
-                                .toList()[0]
-                                .enableNoti;
-                          });
-                          if (notiValue) {
-                            scheduledNotificationEveryday(
-                                Hive.box<ProfileDetails>('profiledetails')
-                                    .values
-                                    .toList()[0]
-                                    .nameofUser);
-                          } else {
-                            cancelScheduledNotificationsOne(10111);
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBarNoti);
-                          }
-                        },
-                      ),
                       GestureDetector(
                         onTap: () => Navigator.push(
                             context,

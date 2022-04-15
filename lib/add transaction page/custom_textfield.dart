@@ -23,6 +23,7 @@ class CustomTextFieldTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textInputAction: TextInputAction.next,
       style: customTextStyleOne(),
       validator: (value) {
         if (value != null && value.length < 3) {
@@ -139,6 +140,7 @@ class CustomTextFieldFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textInputAction: TextInputAction.done,
       style: customTextStyleOne(),
       initialValue: initialValue != 0 ? '$initialValue' : '',
       inputFormatters: [
