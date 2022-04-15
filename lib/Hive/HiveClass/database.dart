@@ -75,7 +75,12 @@ class RegularPayments extends HiveObject {
 class LockAuthentication extends HiveObject {
   @HiveField(0)
   final bool enableAuth;
+
+  @HiveField(1)
+  final bool enableNoti;
+
   LockAuthentication({
     required this.enableAuth,
+    required this.enableNoti,
   });
 }

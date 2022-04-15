@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -59,9 +60,14 @@ class CustomContainerForCatogories extends StatelessWidget {
           Expanded(child: Image.asset(imagePath)),
           Padding(
             padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 8),
-            child: Text(
-              title,
-              style: customTextStyleOne(fontSize: 16.sp, color: Colors.white),
+            child: DelayedWidget(
+              delayDuration: const Duration(milliseconds: 220),
+              animationDuration: const Duration(microseconds: 100),
+              animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
+              child: Text(
+                title,
+                style: customTextStyleOne(fontSize: 16.sp, color: Colors.white),
+              ),
             ),
           )
         ],

@@ -94,7 +94,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
       }
     } else {
       Hive.box<LockAuthentication>('lockAuth')
-          .add(LockAuthentication(enableAuth: false));
+          .add(LockAuthentication(enableAuth: false, enableNoti: true));
       _navigate();
     }
   }

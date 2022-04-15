@@ -30,6 +30,7 @@ dependencies:
   animated_text_kit: ^4.2.1
   awesome_notifications: ^0.6.21
   cupertino_icons: ^1.0.2
+  delayed_widget: ^1.1.1
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.3.1
@@ -41,6 +42,7 @@ dependencies:
   image_picker: ^0.8.4+11
   intl: ^0.17.0
   local_auth: ^1.1.11
+  marquee: ^2.2.1
   month_year_picker: ^0.1.0+1
   share_plus: ^4.0.4
   shared_preferences: ^2.0.13
@@ -59,7 +61,6 @@ flutter_icons:
   android: true
   ios: true
   image_path: assets/app_icon.png
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

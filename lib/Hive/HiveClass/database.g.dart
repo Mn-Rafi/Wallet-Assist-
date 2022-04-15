@@ -181,15 +181,18 @@ class LockAuthenticationAdapter extends TypeAdapter<LockAuthentication> {
     };
     return LockAuthentication(
       enableAuth: fields[0] as bool,
+      enableNoti: fields[1] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, LockAuthentication obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.enableAuth);
+      ..write(obj.enableAuth)
+      ..writeByte(1)
+      ..write(obj.enableNoti);
   }
 
   @override

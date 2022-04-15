@@ -1,3 +1,4 @@
+import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
@@ -43,22 +44,37 @@ class CustomTotalExpenseContainer extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text(
-                headText,
-                style: customTextStyleOne(color: Colors.white, fontSize: 15),
+              DelayedWidget(
+                delayDuration: const Duration(milliseconds: 200),
+                animationDuration: const Duration(milliseconds: 100),
+                animation: DelayedAnimations.SLIDE_FROM_TOP,
+                child: Text(
+                  headText,
+                  style: customTextStyleOne(color: Colors.white, fontSize: 15),
+                ),
               ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '₹$totalExpenseAmount',
-                    style:
-                        customTextStyleOne(fontSize: 25, color: Colors.white),
+                  DelayedWidget(
+                    delayDuration: const Duration(milliseconds: 200),
+                    animationDuration: const Duration(milliseconds: 100),
+                    animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
+                    child: Text(
+                      '₹$totalExpenseAmount',
+                      style:
+                          customTextStyleOne(fontSize: 25, color: Colors.white),
+                    ),
                   ),
-                  Text(
-                    '+₹$lastExpenseAmount',
-                    style:
-                        customTextStyleOne(fontSize: 16, color: Colors.white),
+                  DelayedWidget(
+                    delayDuration: const Duration(milliseconds: 200),
+                    animationDuration: const Duration(milliseconds: 100),
+                    animation: DelayedAnimations.SLIDE_FROM_RIGHT,
+                    child: Text(
+                      '+₹$lastExpenseAmount',
+                      style:
+                          customTextStyleOne(fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ],
               ),

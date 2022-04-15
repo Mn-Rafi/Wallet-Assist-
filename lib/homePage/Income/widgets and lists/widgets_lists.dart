@@ -1,3 +1,4 @@
+import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,12 +19,12 @@ Icon arrowNext = Icon(
 Icon arrowNextOne = Icon(
   Icons.arrow_forward_ios_rounded,
   size: 18.w,
-  color: Color.fromARGB(255, 0, 0, 0),
+  color: const Color.fromARGB(255, 0, 0, 0),
 );
 Icon arrowPrev =
     Icon(Icons.arrow_back_ios_new_rounded, size: 18.w, color: firstBlack);
 Icon arrowPrevOne = Icon(Icons.arrow_back_ios_new_rounded,
-    size: 18.w, color: Color.fromARGB(255, 0, 0, 0));
+    size: 18.w, color: const Color.fromARGB(255, 0, 0, 0));
 
 class CustomTotalIncomeContainer extends StatelessWidget {
   final String headText;
@@ -55,22 +56,37 @@ class CustomTotalIncomeContainer extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text(
-                headText,
-                style: customTextStyleOne(color: Colors.white, fontSize: 15),
+              DelayedWidget(
+                delayDuration: const Duration(milliseconds: 200),
+                animationDuration: const Duration(milliseconds: 100),
+                animation: DelayedAnimations.SLIDE_FROM_TOP,
+                child: Text(
+                  headText,
+                  style: customTextStyleOne(color: Colors.white, fontSize: 15),
+                ),
               ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '₹$totalIncomeAmount',
-                    style:
-                        customTextStyleOne(fontSize: 25, color: Colors.white),
+                  DelayedWidget(
+                    delayDuration: const Duration(milliseconds: 200),
+                    animationDuration: const Duration(milliseconds: 100),
+                    animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
+                    child: Text(
+                      '₹$totalIncomeAmount',
+                      style:
+                          customTextStyleOne(fontSize: 25, color: Colors.white),
+                    ),
                   ),
-                  Text(
-                    '+₹$lastIncomeAmount',
-                    style:
-                        customTextStyleOne(fontSize: 16, color: Colors.white),
+                  DelayedWidget(
+                    delayDuration: const Duration(milliseconds: 200),
+                    animationDuration: const Duration(milliseconds: 100),
+                    animation: DelayedAnimations.SLIDE_FROM_RIGHT,
+                    child: Text(
+                      '+₹$lastIncomeAmount',
+                      style:
+                          customTextStyleOne(fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ],
               ),

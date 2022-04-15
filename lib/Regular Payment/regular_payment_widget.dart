@@ -103,13 +103,7 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                 prefixIcon: const Icon(Icons.calendar_month),
                 hint: getText(),
               ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Text(
-                'Add your regular payment details here. You will be notified on date ${Emojis.smile_face_with_open_mouth}',
-                style: customTextStyleOne(),
-              ),
+              
               SizedBox(
                 height: 20.h,
               ),

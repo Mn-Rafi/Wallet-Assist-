@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:money_manager_app/Category%20page/custom_category_widget.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
-import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/customs/custom_widgets.dart';
@@ -21,6 +19,8 @@ class ScreenIncome extends StatefulWidget {
   @override
   State<ScreenIncome> createState() => _ScreenIncomeState();
 }
+
+
 
 class _ScreenIncomeState extends State<ScreenIncome> {
   DateTime _selected = DateTime.now();
@@ -355,6 +355,7 @@ class _ScreenIncomeState extends State<ScreenIncome> {
                       ),
                       transactionList.isEmpty
                           ? const CustomTotalIncomeContainer(
+                  
                               containerColor: incomeGreen,
                               headText: 'Your total income',
                               totalIncomeAmount: 0,

@@ -25,6 +25,8 @@ const String _url = 'https://mn-rafi.github.io/My-Personal-Website/';
 class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
   bool notificationValue =
       Hive.box<LockAuthentication>('lockAuth').values.toList()[0].enableAuth;
+  bool notiValue =
+      Hive.box<LockAuthentication>('lockAuth').values.toList()[0].enableNoti;
   final LocalAuthentication auth = LocalAuthentication();
 
   @override
@@ -214,7 +216,9 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                             if (_canCheckBiometrics!) {
                               if (await _authenticate()) {
                                 Hive.box<LockAuthentication>('lockAuth').putAt(
-                                    0, LockAuthentication(enableAuth: value));
+                                    0,
+                                    LockAuthentication(
+                                        enableAuth: value, enableNoti: true));
                                 setState(() {
                                   notificationValue =
                                       Hive.box<LockAuthentication>('lockAuth')
@@ -228,6 +232,58 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                   .showSnackBar(snackBarError);
                             }
                           }),
+                      SwitchListTile(
+                        activeColor:
+                            MediaQuery.of(context).platformBrightness ==
+                                    Brightness.dark
+                                ? walletDark
+                                : walletPink,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0.0, horizontal: 16.0),
+                        dense: true,
+                        secondary: Icon(
+                          Icons.lock,
+                          size: 22.w,
+                          color: MediaQuery.of(context).platformBrightness ==
+                                  Brightness.dark
+                              ? firstWhite
+                              : firstBlack,
+                        ),
+                        title: Text(
+                          'Notifications',
+                          style: customTextStyleOne(
+                              fontSize: 17.sp,
+                              color:
+                                  MediaQuery.of(context).platformBrightness ==
+                                          Brightness.dark
+                                      ? firstWhite
+                                      : firstBlack),
+                        ),
+                        value: notiValue,
+                        onChanged: (value) {
+                          Hive.box<LockAuthentication>('lockAuth').putAt(
+                              0,
+                              LockAuthentication(
+                                  enableAuth: notificationValue, enableNoti: value));
+                          setState(() {
+                            notiValue = Hive.box<LockAuthentication>('lockAuth')
+                                .values
+                                .toList()[0]
+                                .enableNoti;
+                          });
+                          if (notiValue) {
+                            scheduledNotificationEveryday(
+                                Hive.box<ProfileDetails>('profiledetails')
+                                    .values
+                                    .toList()[0]
+                                    .nameofUser);
+                          } else {
+                            cancelScheduledNotificationsOne(10111);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBarNoti);
+                          }
+                        },
+                      ),
                       GestureDetector(
                         onTap: () => Navigator.push(
                             context,
@@ -293,7 +349,8 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                               Hive.box<LockAuthentication>(
                                                       'lockAuth')
                                                   .add(LockAuthentication(
-                                                      enableAuth: false));
+                                                      enableAuth: false,
+                                                      enableNoti: true));
                                               cancelScheduledNotifications();
                                               Navigator.of(context)
                                                   .pushAndRemoveUntil(
@@ -342,6 +399,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                                             Hive.box<LockAuthentication>(
                                                     'lockAuth')
                                                 .add(LockAuthentication(
+                                                    enableNoti: true,
                                                     enableAuth: false));
                                             cancelScheduledNotifications();
                                             Navigator.of(context)
@@ -430,6 +488,28 @@ final snackBarError = SnackBar(
       padding: const EdgeInsets.all(12.0),
       child: Text(
         'Your device do not support biometric authentication ${Emojis.emotion_broken_heart}',
+        textAlign: TextAlign.center,
+        style: customTextStyleOne(color: firstBlack),
+      ),
+    ),
+  ),
+  backgroundColor: Colors.transparent,
+  elevation: 10000,
+  behavior: SnackBarBehavior.floating,
+);
+
+final snackBarNoti = SnackBar(
+  duration: const Duration(seconds: 1),
+  content: Container(
+    decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 0.2, color: Colors.black),
+        borderRadius: BorderRadius.circular(20)),
+    margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text(
+        'Daily notifications are removed ',
         textAlign: TextAlign.center,
         style: customTextStyleOne(color: firstBlack),
       ),
