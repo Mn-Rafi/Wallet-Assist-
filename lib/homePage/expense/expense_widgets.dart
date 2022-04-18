@@ -19,11 +19,11 @@ Icon arrowPrev =
     Icon(Icons.arrow_back_ios_new_rounded, size: 18.w, color: firstBlack);
 
 class CustomTotalExpenseContainer extends StatelessWidget {
-  String headText;
-  double totalExpenseAmount;
-  double lastExpenseAmount;
+  final String headText;
+  final double totalExpenseAmount;
+  final double lastExpenseAmount;
 
-  CustomTotalExpenseContainer({
+  const CustomTotalExpenseContainer({
     Key? key,
     required this.headText,
     required this.totalExpenseAmount,
@@ -87,11 +87,11 @@ class CustomTotalExpenseContainer extends StatelessWidget {
 }
 
 class CustomExpenseContainer extends StatelessWidget {
-  String headText;
-  double totalExpenseAmount;
-  DateTime expenseDate;
+  final String headText;
+  final double totalExpenseAmount;
+  final DateTime expenseDate;
 
-  CustomExpenseContainer({
+  const CustomExpenseContainer({
     Key? key,
     required this.headText,
     required this.totalExpenseAmount,
@@ -139,10 +139,3 @@ class CustomExpenseContainer extends StatelessWidget {
   }
 }
 
-List<PopupMenuEntry<dynamic>> popUpMenuActions = [
-  PopupMenuItem(
-    onTap: () {},
-    child: GestureDetector(child: Text('Edit')),
-  ),
-  PopupMenuItem(child: Text('Delete')),
-];

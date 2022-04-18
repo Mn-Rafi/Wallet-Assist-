@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomGridContainer extends StatefulWidget {
-  String categoryName;
-  double amount;
-  String imagePath;
-  CustomGridContainer({
+  final String categoryName;
+  final double amount;
+  final String imagePath;
+  const CustomGridContainer({
     Key? key,
     required this.categoryName,
     required this.amount,

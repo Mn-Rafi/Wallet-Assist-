@@ -6,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/Splash Screen/screen_splash.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:money_manager_app/customs/utilities.dart';
 import 'package:money_manager_app/themedata.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 

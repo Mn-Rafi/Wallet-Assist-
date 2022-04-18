@@ -12,6 +12,7 @@ import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/profile%20page/wifgets_of_profile.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:launch_review/launch_review.dart';
 
 class ScreenProfileDetails extends StatefulWidget {
   const ScreenProfileDetails({Key? key}) : super(key: key);
@@ -68,9 +69,8 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
       late bool canCheckBiometrics;
       try {
         canCheckBiometrics = await auth.canCheckBiometrics;
-      } on PlatformException catch (e) {
+      } on PlatformException {
         canCheckBiometrics = false;
-        print(canCheckBiometrics);
       }
       if (!mounted) {
         return;
@@ -91,8 +91,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
         );
         if (authenticated) {}
         return authenticated;
-      } on PlatformException catch (e) {
-        print(e);
+      } on PlatformException {
         return authenticated;
       }
     }
@@ -192,8 +191,9 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                             vertical: 0.0, horizontal: 16.0),
                         dense: true,
                         secondary: Icon(
-                          notiValue == true ? 
-                          Icons.notifications_active  : Icons.notifications_off,
+                          notiValue == true
+                              ? Icons.notifications_active
+                              : Icons.notifications_off,
                           size: 22.w,
                           color: MediaQuery.of(context).platformBrightness ==
                                   Brightness.dark
@@ -246,8 +246,9 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                               vertical: 0.0, horizontal: 16.0),
                           dense: true,
                           secondary: Icon(
-                            notificationValue == false ?
-                            Icons.lock_open : Icons.lock,
+                            notificationValue == false
+                                ? Icons.lock_open
+                                : Icons.lock,
                             size: 22.w,
                             color: MediaQuery.of(context).platformBrightness ==
                                     Brightness.dark
@@ -435,7 +436,7 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                       ),
                       GestureDetector(
                         onTap: () => Share.share(
-                            'MONZUMA, your smart ledger - Hai.. 👋👋 As this is the first update of the app in playstore, I can\'t provide you the shareable link. It will be fixed in few days. Thank you in advance. 💖',
+                            'MONZUMA, your smart ledger - Hai.. 👋👋 Download the simple and user friendly money manager app. https://play.google.com/store/apps/details?id=in.brototype.monzuma',
                             subject: 'Look what I made!'),
                         child: CustomRowofprofile(
                           leadingIcon: Icon(
@@ -445,9 +446,14 @@ class _ScreenProfileDetailsState extends State<ScreenProfileDetails> {
                           title: 'Share with friends',
                         ),
                       ),
-                      CustomRowofprofile(
-                        leadingIcon: Icon(Icons.star_outlined, size: 22.w),
-                        title: 'Rate this app',
+                      GestureDetector(
+                        onTap: () {
+                          LaunchReview.launch();
+                        },
+                        child: CustomRowofprofile(
+                          leadingIcon: Icon(Icons.star_outlined, size: 22.w),
+                          title: 'Rate this app',
+                        ),
                       ),
                       GestureDetector(
                         onTap: () => Utils.openEmail(

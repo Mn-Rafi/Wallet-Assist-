@@ -1,8 +1,6 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/Notification/notifications.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
@@ -103,7 +101,6 @@ class _RegularPaymentAddState extends State<RegularPaymentAdd> {
                 prefixIcon: const Icon(Icons.calendar_month),
                 hint: getText(),
               ),
-              
               SizedBox(
                 height: 20.h,
               ),

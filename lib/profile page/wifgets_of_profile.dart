@@ -74,7 +74,7 @@ class EditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,11 +118,11 @@ class EditProfile extends StatelessWidget {
 }
 
 class EditProfileDetails extends StatefulWidget {
-  String initialName;
-  String? initialUrl;
-  String initialBalance;
+  final String initialName;
+  final String? initialUrl;
+  final String initialBalance;
 
-  EditProfileDetails({
+  const EditProfileDetails({
     Key? key,
     required this.initialName,
     required this.initialUrl,

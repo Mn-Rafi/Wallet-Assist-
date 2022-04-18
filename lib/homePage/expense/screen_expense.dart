@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,7 +8,6 @@ import 'package:money_manager_app/Hive/HiveClass/database.dart';
 import 'package:money_manager_app/customs/add_category.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 import 'package:money_manager_app/customs/custom_widgets.dart';
-import 'package:money_manager_app/customs/utilities.dart';
 import 'package:money_manager_app/homePage/expense/expense_details.dart';
 import 'package:money_manager_app/homePage/expense/expense_widgets.dart';
 import 'package:money_manager_app/homePage/widgets/custom_widgets.dart';
@@ -365,7 +363,7 @@ class _ScreenExpenseState extends State<ScreenExpense> {
                         height: 20.h,
                       ),
                       transactionList.isEmpty
-                          ? CustomTotalExpenseContainer(
+                          ? const CustomTotalExpenseContainer(
                               headText: 'Your total Expense',
                               lastExpenseAmount: 0,
                               totalExpenseAmount: 0,

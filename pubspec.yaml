@@ -41,6 +41,7 @@ dependencies:
   image_cropper: ^1.5.1
   image_picker: ^0.8.4+11
   intl: ^0.17.0
+  launch_review: ^3.0.1
   local_auth: ^1.1.11
   marquee: ^2.2.1
   month_year_picker: ^0.1.0+1

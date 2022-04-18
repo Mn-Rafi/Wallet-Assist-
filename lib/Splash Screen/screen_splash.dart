@@ -41,8 +41,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
       } else {
         _authenticate();
       }
-    } on PlatformException catch (e) {
-      print(e);
+    } on PlatformException {
       return;
     }
     if (!mounted) {

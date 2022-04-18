@@ -186,12 +186,12 @@ class _CustomWalletContainerState extends State<CustomWalletContainer> {
 }
 
 class CustomWalletTransactionContainer extends StatelessWidget {
-  String transactionAmount;
-  DateTime transactionDate;
-  String previousTransactionAmaount;
-  Color bgColor;
+  final String transactionAmount;
+  final DateTime transactionDate;
+  final String previousTransactionAmaount;
+  final Color bgColor;
 
-  CustomWalletTransactionContainer({
+  const CustomWalletTransactionContainer({
     Key? key,
     required this.transactionAmount,
     required this.transactionDate,

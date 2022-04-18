@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 
 class CustomTextFieldTwo extends StatelessWidget {
-  String? labelText;
-  Icon prefixIcon;
-  TextInputType keyboardType;
-  Function(String) onChanged;
-  String initialValue;
+  final String? labelText;
+  final Icon prefixIcon;
+  final TextInputType keyboardType;
+  final Function(String) onChanged;
+  final String initialValue;
 
-  CustomTextFieldTwo({
+  const CustomTextFieldTwo({
     Key? key,
     this.labelText,
     required this.prefixIcon,
@@ -59,11 +59,11 @@ class CustomTextFieldTwo extends StatelessWidget {
               : firstBlack,
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.5),
+          borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.5),
+          borderSide: const BorderSide(width: 0.5),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
@@ -72,12 +72,12 @@ class CustomTextFieldTwo extends StatelessWidget {
 }
 
 class CustomTextFieldForDate extends StatelessWidget {
-  String? hint;
-  Icon prefixIcon;
-  Function() onTap;
-  String? labelText;
+  final String? hint;
+  final Icon prefixIcon;
+  final Function() onTap;
+  final String? labelText;
 
-  CustomTextFieldForDate({
+  const CustomTextFieldForDate({
     Key? key,
     this.hint,
     required this.prefixIcon,

@@ -7,7 +7,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:money_manager_app/Category%20page/screen_catogories.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
-import 'package:money_manager_app/MainScreen/screen_home.dart';
 import 'package:money_manager_app/add%20transaction%20page/custom_textfield.dart';
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
 

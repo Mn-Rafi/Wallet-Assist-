@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -92,7 +91,8 @@ class _RegularPaymentState extends State<RegularPayment> {
                   blankSpace: 50.w,
                   text:
                       'Add your regular payment details here. You will be notified on time 🤩‼️',
-                  style: customTextStyleOne(fontSize: 16,
+                  style: customTextStyleOne(
+                      fontSize: 16,
                       color: MediaQuery.of(context).platformBrightness ==
                               Brightness.dark
                           ? firstOrange
@@ -235,7 +235,7 @@ class _RegularPaymentState extends State<RegularPayment> {
                             itemCount: regList.length,
                           );
                   }),
-                  SizedBox(
+              SizedBox(
                 height: 150.h,
               ),
             ],

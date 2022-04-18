@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:money_manager_app/Hive/HiveClass/database.dart';
 
 import 'package:money_manager_app/customs/custom_text_and_color.dart';
