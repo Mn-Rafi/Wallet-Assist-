@@ -684,7 +684,7 @@ class _ScreenStatisticsState extends State<ScreenStatistics>
                                               box.values.toList())[1],
                                           dateRange);
                           return transactionList.isEmpty ||
-                                  !isCategoryEmpty(true)
+                                  !isCategoryEmpty(false)
                               ? Center(
                                   child: Text(
                                     'No Expense Transactions Found',
